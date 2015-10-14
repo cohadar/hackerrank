@@ -43,7 +43,7 @@ int solve_contiguous(int n)
 	R[0] = max2(0, A[0]);
 	for (int i = 1; i < n; i++) {
 		R[i] = max2(A[i], R[i - 1] + A[i]);
-		M[i] = max2(M[i - 1], R[i - 1] + A[i]);
+		M[i] = max3(A[i], M[i - 1], R[i - 1] + A[i]);
 	}
 	return M[n - 1];
 }
