@@ -6,8 +6,6 @@
 
 #define MAX_LEN 100000
 static int A[MAX_LEN];
-static int R[MAX_LEN];
-static int M[MAX_LEN];
 
 int solve_non_contiguous(int n)
 {
@@ -39,13 +37,14 @@ int max3(int a, int b, int c)
 
 int solve_contiguous(int n)
 {
-	M[0] = A[0];
-	R[0] = max2(0, A[0]);
+	int m = A[0];
+	int r = max2(0, A[0]);
 	for (int i = 1; i < n; i++) {
-		R[i] = max2(A[i], R[i - 1] + A[i]);
-		M[i] = max3(A[i], M[i - 1], R[i - 1] + A[i]);
+		int temp = r + A[i];
+		r = max2(A[i], temp);
+		m = max3(A[i], m, temp);
 	}
-	return M[n - 1];
+	return m;
 }
 
 void solve(FILE *in)
@@ -60,8 +59,6 @@ void solve(FILE *in)
 			for (int i = 0; i < N; i++) {
 				fscanf(in, "%d", A + i);
 			}
-			memset(R, 0, MAX_LEN * sizeof(*R));
-			memset(M, 0, MAX_LEN * sizeof(*M));
 			int cont = solve_contiguous(N);
 			int ncont = solve_non_contiguous(N);
 			printf("%d %d\n", cont, ncont);

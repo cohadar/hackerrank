@@ -18,3 +18,6 @@ PROBLEM: the-maximum-subarray (.c)
 	23:44 - I think I finally got it.
 	23:54 - lol, time is good now since it is O(n), but one case fails with wrong answer...?
 	23:58 - All CORRECT, amazing algorithms, tons of edge cases, and I have stumbled on every one :)
+	00:10 - and finally I failed to notice O(n) space got reduced to O(1) space.
+	        I started with dynamic programming O(n^2) time and space solution.
+	        It took me a ton of time but at least I deduced Kadane's algorithm from scratch.
