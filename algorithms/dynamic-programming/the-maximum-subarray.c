@@ -32,9 +32,9 @@ int max2(int a, int b)
 	return (a >= b) ? a : b;
 }
 
-int max4(int a, int b, int c, int d)
+int max3(int a, int b, int c)
 {
-	return max2(max2(a, b), max2(c, d));
+	return max2(max2(a, b), c);
 }
 
 int solve_contiguous(int n)
@@ -45,7 +45,7 @@ int solve_contiguous(int n)
 		M[ir][r] = A[r];
 		for (int l = r - 1; l >= 0; l--) {
 			S[ir][l] = S[ir][l + 1] + A[l];
-			M[ir][l] = max4(S[ir][l], S[ir][l + 1], S[1 - ir][l], S[1 - ir][l + 1]);
+			M[ir][l] = max3(S[ir][l], M[ir][l + 1], M[1 - ir][l]);
 		}
 	}
 	return M[(n-1)%2][0];
@@ -63,6 +63,8 @@ void solve(FILE *in)
 			for (int i = 0; i < N; i++) {
 				fscanf(in, "%d", A + i);
 			}
+			memset(M, 0, (MAX_LEN + 1) * sizeof(**M) * 2);
+			memset(S, 0, (MAX_LEN + 1) * sizeof(**S) * 2);
 			int cont = solve_contiguous(N);
 			int ncont = solve_non_contiguous(N);
 			printf("%d %d\n", cont, ncont);

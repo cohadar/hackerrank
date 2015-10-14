@@ -10,3 +10,7 @@ PROBLEM: the-maximum-subarray (.c)
 	        Fucking hackerrank, anyways, 2 test cases ok, 1 failed, one timed out.
 	        If it turns out my algo was asymptotically correct I am going to get angry about that timeout fail.
 	10:46 - Using static arrays did not fix timeout, need to check algorithm.
+	11:10 - pause
+	22:11 - resume
+	22:41 - better paper algo
+	22:49 - coded and passed on hackerrank, one test still times out.
