@@ -4,15 +4,20 @@
 #include <assert.h>
 #include <stdbool.h>
 
-int solve_non_contiguous(int *arr, int n)
+#define MAX_LEN 100000
+static int A[MAX_LEN];
+static int S[2][MAX_LEN + 1];
+static int M[2][MAX_LEN + 1];
+
+int solve_non_contiguous(int n)
 {
 	int ncont = 0;
-	int max = arr[0];
+	int max = A[0];
 	bool hasone = false;
 	for (int i = 0; i < n; i++) {
-		max = (arr[i] > max) ? arr[i] : max;
-		if (ncont + arr[i] > ncont) {
-			ncont = ncont + arr[i];
+		max = (A[i] > max) ? A[i] : max;
+		if (ncont + A[i] > ncont) {
+			ncont = ncont + A[i];
 			hasone = true;
 		}
 	}
@@ -22,29 +27,45 @@ int solve_non_contiguous(int *arr, int n)
 	return ncont;
 }
 
-int solve_contiguous(int *arr, int n)
+int max2(int a, int b)
 {
-	return 0;
+	return (a >= b) ? a : b;
+}
+
+int max4(int a, int b, int c, int d)
+{
+	return max2(max2(a, b), max2(c, d));
+}
+
+int solve_contiguous(int n)
+{
+	for (int r = 0; r < n; r++) {
+		int ir = r % 2;
+		S[ir][r] = A[r];
+		M[ir][r] = A[r];
+		for (int l = r - 1; l >= 0; l--) {
+			S[ir][l] = S[ir][l + 1] + A[l];
+			M[ir][l] = max4(S[ir][l], S[ir][l + 1], S[1 - ir][l], S[1 - ir][l + 1]);
+		}
+	}
+	return M[(n-1)%2][0];
 }
 
 void solve(FILE *in)
 {
 	int T;
 	int N;
-	int *arr;
 
 	fscanf(in, "%d\n", &T);
 	for (int i = 0; i < T; i++) {
 		fscanf(in, "%d\n", &N);
 		if (N > 0) {
-			arr = malloc(N * sizeof(*arr));
 			for (int i = 0; i < N; i++) {
-				fscanf(in, "%d", arr + i);
+				fscanf(in, "%d", A + i);
 			}
-			int cont = solve_contiguous(arr, N);
-			int ncont = solve_non_contiguous(arr, N);
+			int cont = solve_contiguous(N);
+			int ncont = solve_non_contiguous(N);
 			printf("%d %d\n", cont, ncont);
-			free(arr);
 		}
 	}
 }

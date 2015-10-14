@@ -3,3 +3,10 @@ PROBLEM: the-maximum-subarray (.c)
 	09:01 - read and understood the problem
 	09:08 - input done
 	09:20 - done non-contiguous
+	09:29 - repo work
+	10:10 - broke algorithm on paper
+	10:29 - examp CORRECT
+	10:33 - Do you wish to purchase test case #0 of The Maximum Subarray for 5 hackos?  WHAT!!!!
+	        Fucking hackerrank, anyways, 2 test cases ok, 1 failed, one timed out.
+	        If it turns out my algo was asymptotically correct I am going to get angry about that timeout fail.
+	10:46 - Using static arrays did not fix timeout, need to check algorithm.
