@@ -14,3 +14,6 @@ PROBLEM: the-maximum-subarray (.c)
 	22:11 - resume
 	22:41 - better paper algo
 	22:49 - coded and passed on hackerrank, one test still times out.
+	22:52 - started video, saw there is O(n) solution, will try to find it myself.
+	23:44 - I think I finally got it.
+	23:54 - lol, time is good now since it is O(n), but one case fails with wrong answer...?

@@ -6,8 +6,8 @@
 
 #define MAX_LEN 100000
 static int A[MAX_LEN];
-static int S[2][MAX_LEN + 1];
-static int M[2][MAX_LEN + 1];
+static int R[MAX_LEN];
+static int M[MAX_LEN];
 
 int solve_non_contiguous(int n)
 {
@@ -39,16 +39,13 @@ int max3(int a, int b, int c)
 
 int solve_contiguous(int n)
 {
-	for (int r = 0; r < n; r++) {
-		int ir = r % 2;
-		S[ir][r] = A[r];
-		M[ir][r] = A[r];
-		for (int l = r - 1; l >= 0; l--) {
-			S[ir][l] = S[ir][l + 1] + A[l];
-			M[ir][l] = max3(S[ir][l], M[ir][l + 1], M[1 - ir][l]);
-		}
+	M[0] = A[0];
+	R[0] = max2(0, A[0]);
+	for (int i = 1; i < n; i++) {
+		R[i] = max2(A[i], R[i - 1] + A[i]);
+		M[i] = max2(M[i - 1], R[i - 1] + A[i]);
 	}
-	return M[(n-1)%2][0];
+	return M[n - 1];
 }
 
 void solve(FILE *in)
@@ -63,8 +60,8 @@ void solve(FILE *in)
 			for (int i = 0; i < N; i++) {
 				fscanf(in, "%d", A + i);
 			}
-			memset(M, 0, (MAX_LEN + 1) * sizeof(**M) * 2);
-			memset(S, 0, (MAX_LEN + 1) * sizeof(**S) * 2);
+			memset(R, 0, MAX_LEN * sizeof(*R));
+			memset(M, 0, MAX_LEN * sizeof(*M));
 			int cont = solve_contiguous(N);
 			int ncont = solve_non_contiguous(N);
 			printf("%d %d\n", cont, ncont);
