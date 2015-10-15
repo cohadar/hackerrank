@@ -31,3 +31,6 @@
 
 # Debug files
 *.dSYM/
+*.gcda
+*.gcno
+*.gcov
