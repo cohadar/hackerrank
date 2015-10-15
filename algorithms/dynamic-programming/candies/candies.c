@@ -12,7 +12,11 @@ long long solve(int N)
 	long long b = 0;
 	for (int i = 1; i < N; i++) {
 		if (R[i - 1] < R[i]) {
-			b += 1;
+			if (b <= 0) {
+				b = 1;
+			} else {
+				b += 1;
+			}
 		} else if (R[i - 1] > R[i]) {
 			if (b > 0) {
 				b = 0;
