@@ -1,0 +1,9 @@
+PROBLEM: candies (.c)
+	21:03 - started
+	21:18 - paper solution
+	21:31 - done code
+	21:32 - segfailt on most of tests!? lol, I used 10000 instead of 100000 for array size
+			now I know why tourist uses 12345
+			also my algo is bad
+	22:06 - ofc algo was again simpler than I thought, space dimension was O(1) not O(N)
+	22:12 - 2 out of 10!?
