@@ -8,3 +8,5 @@ PROBLEM: candies (.c)
 	22:06 - ofc algo was again simpler than I thought, space dimension was O(1) not O(N)
 	22:12 - 2 out of 10!?
 	22:32 - argh, it took me 20 min to find stupid edgecase.
+	23:19 - found the flaw finally, no algo yet.
+	23:24 - calling DEFEAT in this match.

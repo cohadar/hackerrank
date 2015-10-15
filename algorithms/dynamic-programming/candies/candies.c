@@ -8,31 +8,34 @@ static long long R[MAX_CHILDREN]; // ratings
 
 long long solve(int N)
 {
-	long long s = 0;
-	long long b = 0;
+	long long l = 1; // length of subarray without eq elements
+	long long b = 0; // base shift
+	long long m = 0; // min base in subarray
+	long long s = 0; // unshifted sum in subarray
+	long long total = 0; // total sum
 	for (int i = 1; i < N; i++) {
 		if (R[i - 1] < R[i]) {
-			if (b <= 0) {
-				b = 1;
-			} else {
-				b += 1;
-			}
-		} else if (R[i - 1] > R[i]) {
-			if (b > 0) {
-				b = 0;
-			} else {
-				b -= 1;
-			}
-		} else {
-			b = 0;
-		}
-		if (b >= 0) {
+			l += 1;
+			b += 1;
 			s += b;
+		} else if (R[i - 1] > R[i]) {
+			l += 1;
+			b -= 1;
+			s += b;
+			if (b < m) {
+				m = b;
+			}
 		} else {
-			s += -b;
+			total += s + l * (-m);
+			l = 1;
+			b = 0;
+			m = 0;
+			s = 0;
 		}
+		printf("l=%lld, b=%lld, m=%lld, s=%lld, total=%lld\n", l, b, m, s, total);
 	}
-	return N + s;
+	total += s + l * (-m);
+	return N + total;
 }
 
 void load(FILE * in)
