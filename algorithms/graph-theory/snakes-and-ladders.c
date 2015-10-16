@@ -4,7 +4,6 @@
 #include <assert.h>
 #include <limits.h>
 
-
 static int D[100][100];
 static int dist[100];
 static int prev[100];
@@ -31,7 +30,7 @@ void init_D()
 int popmindist_Q()
 {
 	int m = INT_MAX;
-	int im = 0;
+	int im = -1;
 	for (int iq = 0; iq < Q.len; iq++) {
 		int a = Q.data[iq];
 		if (dist[a] >= 0) {
@@ -41,6 +40,7 @@ int popmindist_Q()
 			}
 		}
 	}
+	assert(0 <= im && im < 100);
 	int ret = Q.data[im];
 	Q.data[im] = Q.data[--Q.len];
 	return ret;
@@ -48,28 +48,37 @@ int popmindist_Q()
 
 int solve()
 {
+	Q.len = 0;
 	for (int a = 0; a < 100; a++) {
 		dist[a] = -1;
 		prev[a] = -1;
 		Q.data[Q.len++] = a; // append
 	}
 	dist[0] = 0; // source node
-	int c = 100;
 	while (Q.len) {
-		c--;
-		if (c < 0) break;
 		int a = popmindist_Q();
 		for (int b = 0; b < 100; b++) {
-			if (D[a][b] >= 0) {
+			if ((a != b) && (D[a][b] >= 0)) {
 				int db = dist[a] + D[a][b];
-				if (db < dist[b]) {
+				if (db < dist[b] || dist[b] < 0) {
 					dist[b] = db;
 					prev[b] = a;
 				}
 			}
 		}
 	}
-	return 0;
+	int hops = 0;
+	int curr = 99;
+	while (curr > 0) {
+		if (prev[curr] < 0) {
+			return -1;
+		}
+		if (D[prev[curr]][curr] > 0) {
+			hops++;
+		}
+		curr = prev[curr];
+	}
+	return hops;
 }
 
 void load(FILE * in)
@@ -78,7 +87,6 @@ void load(FILE * in)
 	fscanf(in, "%d\n", &T);
 	for (int i = 0; i < T; i++) {
 		init_D();
-		Q.len = 0;
 		fscanf(in, "%d\n", &NL);
 		for (int l = 0; l < NL; l++) {
 			int a, b;

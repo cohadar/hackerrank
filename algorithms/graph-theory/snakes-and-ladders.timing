@@ -4,3 +4,9 @@ PROBLEM: snakes-and-ladders (.c)
 	08:44 - I internalized the simple version of Dijkstra's algo.
 	08:58 - done input
 	09:24 - done Dijkstra
+	09:33 - done hop count, but I get -1 results
+	09:37 - forgot "NULL" values compare as INF: if (db < dist[b] || dist[b] < 0)
+	09:38 - now I get results larger by 1 than test case.
+	09:49 - I printed my hop path and it turned out same as in challenge.
+	        Than I realized ladders do not count as hops because of graph distance zero.
+	09:51 - tests: 2/7, probably did not take snakes seriously :)
