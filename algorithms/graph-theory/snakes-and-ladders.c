@@ -3,8 +3,11 @@
 #include <string.h>
 #include <assert.h>
 #include <limits.h>
+#include <stdbool.h>
+
 
 static int D[100][100];
+static bool M[100];
 static int dist[100];
 static int prev[100];
 
@@ -15,22 +18,40 @@ typedef struct {
 
 static QS Q;
 
-void init_D()
+void init_DM()
 {
 	for (int i = 0; i < 100; i++) {
-	for (int j = 0; j < 100; j++) {
-		D[i][j] = -1;
-		if (i <= j && (j - i) <= 6) {
-			D[i][j] = j - i;
+		M[i] = false;
+		for (int j = 0; j < 100; j++) {
+			D[i][j] = -1;
 		}
 	}
+}
+
+void connect_D()
+{
+	for (int b = 99; b > 0; b--) {
+		D[b][b] = 0;
+		for (int d = 1; d <= 6; d++) {
+			int a = b - d;
+			if (a < 0 || M[a]) {
+				continue;
+			}
+			D[a][b] = 1;
+		}
 	}
+}
+
+void portal_D(int a, int b)
+{
+	D[a][b] = 0;
+	M[a] = true;
 }
 
 int popmindist_Q()
 {
 	int m = INT_MAX;
-	int im = -1;
+	int im = 0;
 	for (int iq = 0; iq < Q.len; iq++) {
 		int a = Q.data[iq];
 		if (dist[a] >= 0) {
@@ -40,7 +61,6 @@ int popmindist_Q()
 			}
 		}
 	}
-	assert(0 <= im && im < 100);
 	int ret = Q.data[im];
 	Q.data[im] = Q.data[--Q.len];
 	return ret;
@@ -86,19 +106,20 @@ void load(FILE * in)
 	int T, NL, NS;
 	fscanf(in, "%d\n", &T);
 	for (int i = 0; i < T; i++) {
-		init_D();
+		init_DM();
 		fscanf(in, "%d\n", &NL);
 		for (int l = 0; l < NL; l++) {
 			int a, b;
 			fscanf(in, "%d %d\n", &a, &b);
-			D[a - 1][b - 1] = 0;
+			portal_D(a - 1, b - 1);
 		}
 		fscanf(in, "%d\n", &NS);
 		for (int s = 0; s < NS; s++) {
 			int a, b;
 			fscanf(in, "%d %d\n", &a, &b);
-			D[a - 1][b - 1] = 0;
+			portal_D(a - 1, b - 1);
 		}
+		connect_D();
 		printf("%d\n", solve());
 	}
 }
