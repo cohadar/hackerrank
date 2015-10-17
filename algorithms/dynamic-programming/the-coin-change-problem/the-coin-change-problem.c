@@ -5,9 +5,9 @@
 
 static int N, M;
 static int C[50 + 1];
-static int V[50 + 1][250 + 1]; // V[coin][value]
+static long long V[50 + 1][250 + 1]; // V[coin][value]
 
-int solve()
+long long solve()
 {
 	for (int ic = 0; ic <= M; ic++) {
 		V[ic][0] = 1;
@@ -30,7 +30,7 @@ void load(FILE * in)
 	for (int i = 1; i <= M; i++) {
 		fscanf(in, "%d", &C[i]);
 	}
-	printf("%d\n", solve());
+	printf("%lld\n", solve());
 }
 
 int main(int argc, char const *argv[])

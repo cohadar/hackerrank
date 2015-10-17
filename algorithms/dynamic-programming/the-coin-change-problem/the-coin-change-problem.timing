@@ -7,3 +7,6 @@ FIRST: (.c)
 	08:53 - Nope, I had bad algo after all, 14/17 now.
 	09:14 - I cannot find the edge cases that are failing.
 	09:34 - Ok I failed reason reason it out, lets try brute force code check.
+	10:04 - coding recursive solution for verification revealed an edge case.
+	10:11 - nope the recursive solution was bad. Ok I give up, lets see that testcase.
+	10:15 - I had an integer overflow. But ofc combinations are a factorial based function you idiot.
