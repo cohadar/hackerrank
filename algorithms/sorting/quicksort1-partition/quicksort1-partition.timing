@@ -1,0 +1,4 @@
+## quicksort1-partition
+FIRST: (.c)
+	17:47 - started
+	18:22 - done. Stupid test failed for Hoare partition so I had to use Lomuto one.
