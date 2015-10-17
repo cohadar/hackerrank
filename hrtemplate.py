@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os
 import sys
+import time
 
 template_py = """#!/usr/bin/python
 import sys
@@ -92,6 +93,11 @@ template_in = """3
 5 6
 """
 
+template_timing = """## template-name
+FIRST: (.c)
+	00:00 - started
+"""
+
 def c_to_upper(name):
 	ret = name[0].upper()
 	next = False
@@ -123,10 +129,11 @@ def make_all(name):
 		os.mkdir(name)
 	else:
 		print "exists:", name
-	make_file(name, ".in", template_in)
 	make_file(name, ".py", template_py)
 	make_file(name, ".c", template_c)
 	make_file(name, ".java", template_java)
+	make_file(name, ".in", template_in)
+	make_file(name, ".timing", template_timing.replace("00:00", time.strftime("%H:%M")))
 
 if __name__ == '__main__':
 	if len(sys.argv) == 2:
