@@ -4,5 +4,6 @@
 2015-10-15 | Rank: 52875 Score: 165.00 | ★
 2015-10-15 | Rank: 52949 Score: 165.00 | ★  // damn inflation in one day is almost 100 places
 2015-10-15 | Rank: 42343 Score: 215.00 | ★  // But you can jump 10000 places with 5-6 problems solved :)
+2015-10-16 | Rank: 37327 Score: 245.00 | *
 
 

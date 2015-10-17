@@ -2,40 +2,70 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <stdbool.h>
 
 #define MAX_CHILDREN 102345
 static long long R[MAX_CHILDREN]; // ratings
 
+enum Stage {CONTINUE_ASC = 3, CONTINUE_DESC = 0, BOTTOM = 1, PEAK_BREAK = 2};
+
 long long solve(int N)
 {
-	long long l = 1; // length of subarray without eq elements
-	long long b = 0; // base shift
-	long long m = 0; // min base in subarray
-	long long s = 0; // unshifted sum in subarray
-	long long total = 0; // total sum
+	long long total = 0;
+	long long partial = 0;
+	bool asc = false;
+	long long d = 0;
+	long long m = 0;
+	long long len = 1;
 	for (int i = 1; i < N; i++) {
-		if (R[i - 1] < R[i]) {
-			l += 1;
-			b += 1;
-			s += b;
-		} else if (R[i - 1] > R[i]) {
-			l += 1;
-			b -= 1;
-			s += b;
-			if (b < m) {
-				m = b;
-			}
-		} else {
-			total += s + l * (-m);
-			l = 1;
-			b = 0;
+		if (R[i - 1] == R[i]) {
+			total += partial + len * (-m);
+			d = 0;
+			partial = 0;
 			m = 0;
-			s = 0;
+			len = 1;
+			asc = false;
+			continue;
 		}
-		printf("l=%lld, b=%lld, m=%lld, s=%lld, total=%lld\n", l, b, m, s, total);
+		enum Stage stage = (asc << 1) + (R[i - 1] < R[i]);
+		switch (stage) {
+			case CONTINUE_ASC:
+				d += 1;
+				partial += d;
+				len++;
+				break;
+			case CONTINUE_DESC:
+				d -= 1;
+				partial += d;
+				len++;
+				if (d < m) { m = d; }
+				break;
+			case BOTTOM:
+				d += 1;
+				partial += d;
+				len++;
+				asc = true;
+				break;
+			case PEAK_BREAK:
+				if (m >= 0) {
+					total += partial + len * (-m);
+				} else {
+					total += partial + i * (-m);
+				}
+				d = d - m - 1;
+				partial = d;
+				m = d;
+				len = 1;
+				asc = false;
+				break;
+			default:
+				assert(0);
+		}
 	}
-	total += s + l * (-m);
-	return N + total;
+	if (len > 0) {
+		total += partial + len * (-m);
+	}
+	return total + N;
 }
 
 void load(FILE * in)
