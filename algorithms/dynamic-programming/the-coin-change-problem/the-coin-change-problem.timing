@@ -1,0 +1,9 @@
+## the-coin-change-problem
+FIRST: (.c)
+	07:38 - started
+	07:40 - read and understood
+	07:53 - solved? 2/17, guess not, I got cocky and did not run besic test to verify.
+	08:40 - I know I have a good recursive formula, but code just ignores me...
+	08:53 - Nope, I had bad algo after all, 14/17 now.
+	09:14 - I cannot find the edge cases that are failing.
+	09:34 - Ok I failed reason reason it out, lets try brute force code check.
