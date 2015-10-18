@@ -25,7 +25,6 @@ void Segment_init(Segment *o)
 	o->len = 1;
 	o->delta = 0;
 	o->min = 0;
-	o->peak = false;
 }
 
 void Segment_delta(Segment *o, int delta)
@@ -47,7 +46,7 @@ void Segment_shift(Segment *o, int shift)
 
 void Segment_print(Segment s)
 {
-	printf("[l=%d, s=%d, m=%d, d=%d, %c]", s.len, s.sum, s.min, s.delta, (s.peak) ? '^' : '=');
+	printf("[l=%d, s=%d, m=%d, d=%d]", s.len, s.sum, s.min, s.delta);
 }
 
 static int R[MAX_CHILDREN]; // ratings
@@ -72,7 +71,6 @@ int scan_segments(int a, int b)
 				Segment_delta(&segment, +1);
 			} else {
 				// peak
-				segment.peak = true;
 				S[n_segments++] = segment;
 				Segment_init(&segment);
 				asc = false;
@@ -106,35 +104,26 @@ int solve_slope(int a, int b)
 {
 	assert(a <= b);
 	if (a == b) {
-		return 1;
+		return 0;
 	}
 	int total = 0;
 	int n_segments = scan_segments(a, b);
 	if (PRINT) print_segments(n_segments);
-	bool prev_peak = false;
-	int zlen = 0;
-	int zdelta = 0;
+	int total_min = 0;
+	int prev_delta = 1;
 	for (int i = 0; i < n_segments; i++) {
-		if (prev_peak) {
-			zlen += S[i].len;
-			Segment_shift(&S[i], zdelta - 1);
-			if (S[i].min >= 0) {
-				Segment_shift(&S[i], -S[i].min);
-				total += S[i].sum;
-			} else {
-				total += S[i].sum;
-				total += zlen * -S[i].min;
-			}
-		} else {
-			zlen = S[i].len;
+		Segment_shift(&S[i], prev_delta - 1);
+		if (S[i].min > 0) {
 			Segment_shift(&S[i], -S[i].min);
-			total += S[i].sum;
 		}
-		if (PRINT) printf("zlen=%d, total=%d\n", zlen, total);
-		zdelta = S[i].delta;
-		prev_peak = S[i].peak;
+		total += S[i].sum;
+		if (S[i].min < total_min) {
+			total_min = S[i].min;
+		}
+		if (PRINT) printf("total=%d\n", total);
+		prev_delta = S[i].delta;
 	}
-	return total + (b - a + 1);
+	return total + (b - a + 1) * (-total_min);
 }
 
 int solve(int N)
@@ -155,7 +144,7 @@ int solve(int N)
 		}
 	}
 	total += solve_slope(a, b);
-	return total;
+	return total + N;
 }
 
 void load_single(FILE *in, bool cohadar, int test_case)
