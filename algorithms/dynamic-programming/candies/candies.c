@@ -16,7 +16,6 @@ typedef struct {
 	int len;
 	int delta;
 	int min;
-	bool peak;
 } Segment;
 
 void Segment_init(Segment *o)
@@ -42,6 +41,20 @@ void Segment_shift(Segment *o, int shift)
 	o->sum += o->len * shift;
 	o->delta += shift;
 	o->min += shift;
+}
+
+void Segment_add(Segment *a, Segment *b)
+{
+	Segment_shift(a, -a->min);
+	int b_left = -b->min;
+	Segment_shift(b, -b->min);
+	if (a->delta <= b_left) {
+		Segment_shift(a, b_left + 1 - a->delta);
+	}
+	a->sum += b->sum;
+	a->len += b->len;
+	a->delta = b->delta;
+	a->min = 0;
 }
 
 void Segment_print(Segment s)
@@ -106,23 +119,17 @@ int solve_slope(int a, int b)
 	if (a == b) {
 		return 0;
 	}
-	int total = 0;
 	int n_segments = scan_segments(a, b);
 	if (PRINT) print_segments(n_segments);
-	int total_min = 0;
-	int prev_delta = 1;
-	for (int i = 0; i < n_segments; i++) {
-		Segment_shift(&S[i], prev_delta - 1);
-		if (S[i].min > 0) {
-			Segment_shift(&S[i], -S[i].min);
-		}
-		total += S[i].sum;
-		if (S[i].min < total_min) {
-			total_min = S[i].min;
-		}
-		prev_delta = S[i].delta;
+	if (n_segments == 0) {
+		return 0;
 	}
-	return total + (b - a + 1) * (-total_min);
+	Segment njak = S[0];
+	for (int i = 1; i < n_segments; i++) {
+		Segment_add(&njak, &S[i]);
+	}
+	Segment_shift(&njak, -njak.min);
+	return njak.sum;
 }
 
 int solve(int N)
