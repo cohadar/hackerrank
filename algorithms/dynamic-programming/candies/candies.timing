@@ -52,3 +52,4 @@ PROBLEM: candies (.c)
 	20:09 - local tests ok after refactor
 	20:27 - still can't find failing test case
 	20:47 - local tests pass with new logic
+	20:56 - ok, lets try with Python
