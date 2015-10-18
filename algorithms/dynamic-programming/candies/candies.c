@@ -8,133 +8,59 @@
 #define MIN(a,b) ((a)<(b)?(a):(b))
 
 #define MAX_CHILDREN 102345
-static long long R[MAX_CHILDREN]; // ratings
 
-enum Stage {CONTINUE_ASC = 3, CONTINUE_DESC = 0, BOTTOM = 1, PEAK_BREAK = 2};
+typedef long long ll;
 
 typedef struct {
-	long long left;
-	long long right;
-	long long sum;
-	long long len;
-	bool eq;
+	int len;
+	bool peak;
 } Segment;
 
-typedef struct {
-	long long partial;
-	bool asc;
-	long long d;
-	long long m;
-	long long len;
-} State;
-
-void State_print(State *o)
+void Segment_init(Segment *o)
 {
-	// printf("l=%lld, asc=%d, m=%lld, d=%lld, part=%lld\n", o->len, o->asc, o->m, o->d, o->partial);
-}
-
-void State_init(State *o)
-{
-	o->partial = 0;
-	o->asc = false;
-	o->d = 0;
-	o->m = 0;
 	o->len = 1;
+	o->peak = false;
 }
 
-void State_continue_asc(State *o)
-{
-	o->d += 1;
-	o->partial += o->d;
-	o->len++;
-}
+static ll R[MAX_CHILDREN]; // ratings
+static Segment S[MAX_CHILDREN]; // segments
 
-void State_continue_desc(State *o)
+int scan_segments(int N)
 {
-	o->d -= 1;
-	o->partial += o->d;
-	o->len++;
-	if (o->d < o->m) { o->m = o->d; }
-}
-
-void State_bottom(State *o)
-{
-	o->d += 1;
-	o->partial += o->d;
-	o->len++;
-	o->asc = true;
-}
-
-Segment State_peak(State *o)
-{
-	Segment ret;
-	State_init(o);
-	return ret;
-}
-
-Segment State_even(State *o)
-{
-	Segment ret;
-	State_init(o);
-	return ret;
-}
-
-long long Result_add(Segment prev, Segment curr)
-{
-	return 1;
-}
-
-long long solve(int N)
-{
-	long long total = 0;
-	Segment prev;
-	Segment curr;
-	State state;
-	State_init(&state);
-	State_print(&state);
-	bool segment_end = false;
+	assert(N > 1);
+	int n_segments = 0;
+	Segment segment;
+	Segment_init(&segment);
 	for (int i = 1; i < N; i++) {
-		segment_end = false;
-		if (R[i - 1] == R[i]) {
-			curr = State_even(&state);
-			total += Result_add(prev, curr);
-			prev = curr;
-			State_print(&state);
-			segment_end = true;
-			continue;
-		}
-		enum Stage stage = (state.asc << 1) + (R[i - 1] < R[i]);
-		switch (stage) {
-			case CONTINUE_ASC:
-				State_continue_asc(&state);
-				State_print(&state);
-				break;
-			case CONTINUE_DESC:
-				State_continue_desc(&state);
-				State_print(&state);
-				break;
-			case BOTTOM:
-				State_bottom(&state);
-				State_print(&state);
-				break;
-			case PEAK_BREAK:
-				curr = State_peak(&state);
-				total += Result_add(prev, curr);
-				prev = curr;
-				State_print(&state);
-				segment_end = true;
-				break;
-			default:
-				assert(0);
+		if (R[i - 1] < R[i]) {
+			segment.len++;
+		} else if (R[i - 1] > R[i]) {
+			segment.peak = true;
+			S[n_segments++] = segment;
+			Segment_init(&segment);
+		} else {
+			segment.peak = false;
+			S[n_segments++] = segment;
+			Segment_init(&segment);
 		}
 	}
-	if (!segment_end) {
-		curr = State_even(&state);
-		total += Result_add(prev, curr);
-		prev = curr;
-		State_print(&state);
+	if (segment.len == 1) {
+		S[n_segments++] = segment;
 	}
-	State_print(&state);
+	return n_segments;
+}
+
+ll solve(int N)
+{
+	assert(N > 0);
+	if (N == 1) {
+		return 1;
+	}
+	ll total = 0;
+	int n_segments = scan_segments(N);
+	for (int i = 0; i < n_segments; i++) {
+		total += S[i].sum;
+	}
 	return total + N;
 }
 

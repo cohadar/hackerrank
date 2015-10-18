@@ -34,3 +34,5 @@ PROBLEM: candies (.c)
 	        First phase is goint to precompute convex segments (5 variables)
 	        Second phase is going to sum segments according to shift rules.
 	15:39 - checkpoint, lets see if segment_end can fix the previous algo.
+	15:47 - nope, it did not.
+	16:27 - forced pause
