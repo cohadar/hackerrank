@@ -13,31 +13,33 @@ static long long R[MAX_CHILDREN]; // ratings
 enum Stage {CONTINUE_ASC = 3, CONTINUE_DESC = 0, BOTTOM = 1, PEAK_BREAK = 2};
 
 typedef struct {
-	long long total;
+	long long left;
+	long long right;
+	long long sum;
+	long long len;
+	bool eq;
+} Segment;
+
+typedef struct {
 	long long partial;
 	bool asc;
 	long long d;
 	long long m;
 	long long len;
-	long long seglen;
-	long long prev_d;
 } State;
 
 void State_print(State *o)
 {
-	//printf("sl=%lld, l=%lld, asc=%d, m=%lld, d=%lld, prev_d=%lld, part=%lld, total=%lld\n", o->seglen, o->len, o->asc, o->m, o->d, o->prev_d, o->partial, o->total);
+	// printf("l=%lld, asc=%d, m=%lld, d=%lld, part=%lld\n", o->len, o->asc, o->m, o->d, o->partial);
 }
 
 void State_init(State *o)
 {
-	o->total = 0;
 	o->partial = 0;
 	o->asc = false;
 	o->d = 0;
 	o->m = 0;
 	o->len = 1;
-	o->seglen = 1;
-	o->prev_d = 1;
 }
 
 void State_continue_asc(State *o)
@@ -45,7 +47,6 @@ void State_continue_asc(State *o)
 	o->d += 1;
 	o->partial += o->d;
 	o->len++;
-	o->seglen++;
 }
 
 void State_continue_desc(State *o)
@@ -53,7 +54,6 @@ void State_continue_desc(State *o)
 	o->d -= 1;
 	o->partial += o->d;
 	o->len++;
-	o->seglen++;
 	if (o->d < o->m) { o->m = o->d; }
 }
 
@@ -62,48 +62,45 @@ void State_bottom(State *o)
 	o->d += 1;
 	o->partial += o->d;
 	o->len++;
-	o->seglen++;
 	o->asc = true;
 }
 
-void State_peak(State *o)
+Segment State_peak(State *o)
 {
-	long long shift = o->prev_d - 1;
-	if (o->m < 0 && -o->m < shift) {
-		shift = -o->m;
-	}
-	o->d += shift;
-	o->m += shift;
-	o->total += o->partial + o->len * (shift);
-	o->partial = 0;
-	o->prev_d = o->d;
-	o->d = 0;
-	if (o->m < 0) {
-		o->total += o->seglen * (-o->m);
-		o->prev_d += -o->m;
-	}
-	o->m = 0;
-	o->len = 1;
-	o->seglen++;
-	o->asc = false;
+	Segment ret;
+	State_init(o);
+	return ret;
 }
 
-void State_even(State *o)
+Segment State_even(State *o)
 {
-	State_peak(o);
-	o->seglen = 1;
-	o->prev_d = 1;
+	Segment ret;
+	State_init(o);
+	return ret;
+}
+
+long long Result_add(Segment prev, Segment curr)
+{
+	return 1;
 }
 
 long long solve(int N)
 {
+	long long total = 0;
+	Segment prev;
+	Segment curr;
 	State state;
 	State_init(&state);
 	State_print(&state);
+	bool segment_end = false;
 	for (int i = 1; i < N; i++) {
+		segment_end = false;
 		if (R[i - 1] == R[i]) {
-			State_even(&state);
+			curr = State_even(&state);
+			total += Result_add(prev, curr);
+			prev = curr;
 			State_print(&state);
+			segment_end = true;
 			continue;
 		}
 		enum Stage stage = (state.asc << 1) + (R[i - 1] < R[i]);
@@ -121,16 +118,24 @@ long long solve(int N)
 				State_print(&state);
 				break;
 			case PEAK_BREAK:
-				State_peak(&state);
+				curr = State_peak(&state);
+				total += Result_add(prev, curr);
+				prev = curr;
 				State_print(&state);
+				segment_end = true;
 				break;
 			default:
 				assert(0);
 		}
 	}
-	State_even(&state);
+	if (!segment_end) {
+		curr = State_even(&state);
+		total += Result_add(prev, curr);
+		prev = curr;
+		State_print(&state);
+	}
 	State_print(&state);
-	return state.total + N;
+	return total + N;
 }
 
 void load_single(FILE *in, bool cohadar, int test_case)

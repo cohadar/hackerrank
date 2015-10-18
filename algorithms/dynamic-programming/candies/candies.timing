@@ -33,3 +33,4 @@ PROBLEM: candies (.c)
 	        Now I will recode whole thing in 2 phases.
 	        First phase is goint to precompute convex segments (5 variables)
 	        Second phase is going to sum segments according to shift rules.
+	15:39 - checkpoint, lets see if segment_end can fix the previous algo.
