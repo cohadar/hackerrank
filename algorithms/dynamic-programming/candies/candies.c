@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#define MIN(a,b) ((a)<(b)?(a):(b))
 
 #define MAX_CHILDREN 102345
 static long long R[MAX_CHILDREN]; // ratings
@@ -21,6 +22,11 @@ typedef struct {
 	long long seglen;
 	long long prev_d;
 } State;
+
+void State_print(State *o)
+{
+	//printf("sl=%lld, l=%lld, asc=%d, m=%lld, d=%lld, prev_d=%lld, part=%lld, total=%lld\n", o->seglen, o->len, o->asc, o->m, o->d, o->prev_d, o->partial, o->total);
+}
 
 void State_init(State *o)
 {
@@ -62,9 +68,13 @@ void State_bottom(State *o)
 
 void State_peak(State *o)
 {
-	o->d += o->prev_d - 1;
-	o->m += o->prev_d - 1;
-	o->total += o->partial + o->len * (o->prev_d - 1);
+	long long shift = o->prev_d - 1;
+	if (o->m < 0 && -o->m < shift) {
+		shift = -o->m;
+	}
+	o->d += shift;
+	o->m += shift;
+	o->total += o->partial + o->len * (shift);
 	o->partial = 0;
 	o->prev_d = o->d;
 	o->d = 0;
@@ -89,30 +99,37 @@ long long solve(int N)
 {
 	State state;
 	State_init(&state);
+	State_print(&state);
 	for (int i = 1; i < N; i++) {
 		if (R[i - 1] == R[i]) {
 			State_even(&state);
+			State_print(&state);
 			continue;
 		}
 		enum Stage stage = (state.asc << 1) + (R[i - 1] < R[i]);
 		switch (stage) {
 			case CONTINUE_ASC:
 				State_continue_asc(&state);
+				State_print(&state);
 				break;
 			case CONTINUE_DESC:
 				State_continue_desc(&state);
+				State_print(&state);
 				break;
 			case BOTTOM:
 				State_bottom(&state);
+				State_print(&state);
 				break;
 			case PEAK_BREAK:
 				State_peak(&state);
+				State_print(&state);
 				break;
 			default:
 				assert(0);
 		}
 	}
 	State_even(&state);
+	State_print(&state);
 	return state.total + N;
 }
 

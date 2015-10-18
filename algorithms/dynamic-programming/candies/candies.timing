@@ -27,3 +27,9 @@ PROBLEM: candies (.c)
 	12:56 - resume
 	14:17 - converted to explicit state struct, all my tests pass.
 	14:20 - onsite testcase 1 fails.
+	14:44 - found and fixed edge-case. 2/11. This is instane.
+	15:03 - ok I made a new paper algo. It was a mistake to try to do all at once.
+	        I ended up with algo that has 8 state variables and does not work.
+	        Now I will recode whole thing in 2 phases.
+	        First phase is goint to precompute convex segments (5 variables)
+	        Second phase is going to sum segments according to shift rules.
