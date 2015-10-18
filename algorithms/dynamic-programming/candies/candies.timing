@@ -53,3 +53,6 @@ PROBLEM: candies (.c)
 	20:27 - still can't find failing test case
 	20:47 - local tests pass with new logic
 	20:56 - ok, lets try with Python
+	21:16 - working split_on_even
+	23:40 - why do I try to be smart, just write damn unit tests
+
