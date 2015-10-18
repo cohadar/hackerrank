@@ -53,23 +53,18 @@ void Segment_print(Segment s)
 static int R[MAX_CHILDREN]; // ratings
 static Segment S[MAX_CHILDREN]; // segments
 
-int scan_segments(int N)
+int scan_segments(int a, int b)
 {
-	assert(N > 1);
+	assert(a < b);
 	int n_segments = 0;
 	Segment segment;
 	Segment_init(&segment);
 	bool asc = false;
 	bool one_left = false;
-	for (int i = 1; i < N; i++) {
+	for (int i = a + 1; i <= b; i++) {
 		one_left = true;
 		if (R[i - 1] == R[i]) {
-			segment.peak = false;
-			S[n_segments++] = segment;
-			Segment_init(&segment);
-			asc = false;
-			one_left = false;
-			continue;
+			assert(0);
 		}
 		if (asc) {
 			if (R[i - 1] < R[i]) {
@@ -107,14 +102,14 @@ void print_segments(n_segments)
 	printf("\n");
 }
 
-int solve(int N)
+int solve_slope(int a, int b)
 {
-	assert(N > 0);
-	if (N == 1) {
+	assert(a <= b);
+	if (a == b) {
 		return 1;
 	}
 	int total = 0;
-	int n_segments = scan_segments(N);
+	int n_segments = scan_segments(a, b);
 	if (PRINT) print_segments(n_segments);
 	bool prev_peak = false;
 	int zlen = 0;
@@ -139,7 +134,28 @@ int solve(int N)
 		zdelta = S[i].delta;
 		prev_peak = S[i].peak;
 	}
-	return total + N;
+	return total + (b - a + 1);
+}
+
+int solve(int N)
+{
+	assert(N > 0);
+	if (N == 1) {
+		return 1;
+	}
+	int total = 0;
+	int a = 0, b = 0;
+	for (int i = 1; i < N; i++) {
+		if (R[i - 1] == R[i]) {
+			total += solve_slope(a, b);
+			a = i;
+			b = i;
+		} else {
+			b++;
+		}
+	}
+	total += solve_slope(a, b);
+	return total;
 }
 
 void load_single(FILE *in, bool cohadar, int test_case)

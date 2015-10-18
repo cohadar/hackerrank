@@ -45,4 +45,8 @@ PROBLEM: candies (.c)
 	18:15 - resume
 	18:29 - omg array was not loaded properly!!!
 	18:38 - one_left variable was shadowed and gcc said nothing...
-	19:27 - calling DEFEAT again. unbelievable I made 11 local tests with edge cases and there are still more..
+	19:27 - unbelievable I made 11 local tests with edge cases and there are still more..
+	19:35 - lets try more d&c
+	19:49 - added -Wshadow to gcc because for some reason it is not part of -Wall
+	19:54 - local tests ok after refactor
+
