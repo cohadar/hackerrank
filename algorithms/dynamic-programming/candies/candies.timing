@@ -55,4 +55,4 @@ PROBLEM: candies (.c)
 	20:56 - ok, lets try with Python
 	21:16 - working split_on_even
 	23:40 - why do I try to be smart, just write damn unit tests
-
+	00:12 - Python solution passes local tests

@@ -59,7 +59,6 @@ def test_split_on_peak():
 	assert(split_on_peak([1, 2, 3]) == [[1, 2, 3]])
 	assert(split_on_peak([3, 2, 1]) == [[3, 2, 1]])
 	assert(split_on_peak([3, 2, 1, 2, 3]) == [[3, 2, 1, 2, 3]])
-	print split_on_peak([1, 2, 1, 2, 1])
 	assert(split_on_peak([1, 2, 1, 2, 1]) == [[1, 2], [1, 2], [1]])
 	assert(split_on_peak([2, 1, 2, 1, 2, 3]) == [[2, 1, 2], [1, 2, 3]])
 
@@ -79,23 +78,46 @@ def convex_tuple(convex):
 		if delta < m:
 			m = delta
 		prev = v
-	return (-m, suma + len(convex) * (-m), delta - m)
+	return (-m, len(convex), suma + len(convex) * (-m), delta - m)
 
 def test_convex_tuple():
-	# left, sum ,right
-	assert(convex_tuple([11, 22, 33]) == (0, 3, 2))
-	assert(convex_tuple([33, 22, 11]) == (2, 3, 0))
-	assert(convex_tuple([33, 22, 11, 22, 33, 44]) == (2, 9, 3))
-	assert(convex_tuple([44, 33, 22, 11, 22, 33]) == (3, 9, 2))
+	# left, len, sum ,right
+	assert(convex_tuple([11, 22, 33]) == (0, 3, 3, 2))
+	assert(convex_tuple([33, 22, 11]) == (2, 3, 3, 0))
+	assert(convex_tuple([33, 22, 11, 22, 33, 44]) == (2, 6, 9, 3))
+	assert(convex_tuple([44, 33, 22, 11, 22, 33]) == (3, 6, 9, 2))
+
+def solve_r(ctuz):
+	if len(ctuz) == 1:
+		return ctuz[0]
+	if len(ctuz) == 2:
+		a = ctuz[0]
+		b = ctuz[1]
+	else:
+		a = ctuz[0]
+		b = solve_r(ctuz[1:])
+	a_left, a_len, a_sum, a_right = a
+	b_left, b_len, b_sum, b_right = b
+	if a_right <= b_left:
+		shift = b_left + 1 - a_right
+		a_left += shift
+		a_right += shift
+		a_sum += shift * a_len
+	# a_left stays the same
+	a_len += b_len
+	a_sum += b_sum
+	a_right = b_right
+	return (a_left, a_len, a_sum, a_right)
 
 def solve_segment(segment):
 	convexz = split_on_peak(segment)
-	ctu = map(convex_tuple, convexz)
-	return len(segment)
+	ctuz = map(convex_tuple, convexz)
+	ctu = solve_r(ctuz)
+	return ctu[2] #sum
 
 def solve(ar):
 	arz = split_on_even(ar)
-	return sum([solve_segment(s) for s in arz])
+	return len(ar) + sum([solve_segment(s) for s in arz])
 
 def load_single(stdin, cohadar, test_case):
 	N = int(stdin.readline())
