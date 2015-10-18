@@ -36,3 +36,11 @@ PROBLEM: candies (.c)
 	15:39 - checkpoint, lets see if segment_end can fix the previous algo.
 	15:47 - nope, it did not.
 	16:27 - forced pause
+	16:39 - resume
+	16:45 - forced pause
+	17:10 - resume
+	17:30 - done segment scan
+	18:00 - printing midstates is insanely important.
+	18:01 - forced pause
+	18:15 - resume
+	18:29 - omg array was not loaded properly!!!
