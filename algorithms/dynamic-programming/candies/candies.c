@@ -3,91 +3,146 @@
 #include <string.h>
 #include <assert.h>
 #include <stdbool.h>
+#include <stdint.h>
+
 
 #define MAX_CHILDREN 102345
 static long long R[MAX_CHILDREN]; // ratings
 
 enum Stage {CONTINUE_ASC = 3, CONTINUE_DESC = 0, BOTTOM = 1, PEAK_BREAK = 2};
 
+typedef struct {
+	long long total;
+	long long partial;
+	bool asc;
+	long long d;
+	long long m;
+	long long len;
+	long long seglen;
+	long long prev_d;
+} State;
+
+void State_init(State *o)
+{
+	o->total = 0;
+	o->partial = 0;
+	o->asc = false;
+	o->d = 0;
+	o->m = 0;
+	o->len = 1;
+	o->seglen = 1;
+	o->prev_d = 1;
+}
+
+void State_continue_asc(State *o)
+{
+	o->d += 1;
+	o->partial += o->d;
+	o->len++;
+	o->seglen++;
+}
+
+void State_continue_desc(State *o)
+{
+	o->d -= 1;
+	o->partial += o->d;
+	o->len++;
+	o->seglen++;
+	if (o->d < o->m) { o->m = o->d; }
+}
+
+void State_bottom(State *o)
+{
+	o->d += 1;
+	o->partial += o->d;
+	o->len++;
+	o->seglen++;
+	o->asc = true;
+}
+
+void State_peak(State *o)
+{
+	o->d += o->prev_d - 1;
+	o->m += o->prev_d - 1;
+	o->total += o->partial + o->len * (o->prev_d - 1);
+	o->partial = 0;
+	o->prev_d = o->d;
+	o->d = 0;
+	if (o->m < 0) {
+		o->total += o->seglen * (-o->m);
+		o->prev_d += -o->m;
+	}
+	o->m = 0;
+	o->len = 1;
+	o->seglen++;
+	o->asc = false;
+}
+
+void State_even(State *o)
+{
+	State_peak(o);
+	o->seglen = 1;
+	o->prev_d = 1;
+}
+
 long long solve(int N)
 {
-	long long total = 0;
-	long long partial = 0;
-	bool asc = false;
-	long long d = 0;
-	long long m = 0;
-	long long len = 1;
+	State state;
+	State_init(&state);
 	for (int i = 1; i < N; i++) {
 		if (R[i - 1] == R[i]) {
-			total += partial + len * (-m);
-			d = 0;
-			partial = 0;
-			m = 0;
-			len = 1;
-			asc = false;
+			State_even(&state);
 			continue;
 		}
-		enum Stage stage = (asc << 1) + (R[i - 1] < R[i]);
+		enum Stage stage = (state.asc << 1) + (R[i - 1] < R[i]);
 		switch (stage) {
 			case CONTINUE_ASC:
-				d += 1;
-				partial += d;
-				len++;
+				State_continue_asc(&state);
 				break;
 			case CONTINUE_DESC:
-				d -= 1;
-				partial += d;
-				len++;
-				if (d < m) { m = d; }
+				State_continue_desc(&state);
 				break;
 			case BOTTOM:
-				d += 1;
-				partial += d;
-				len++;
-				asc = true;
+				State_bottom(&state);
 				break;
 			case PEAK_BREAK:
-				if (m >= 0) {
-					total += partial + len * (-m);
-				} else {
-					total += partial + i * (-m);
-				}
-				d = d - m - 1;
-				partial = d;
-				m = d;
-				len = 1;
-				asc = false;
+				State_peak(&state);
 				break;
 			default:
 				assert(0);
 		}
 	}
-	if (len > 0) {
-		total += partial + len * (-m);
-	}
-	return total + N;
+	State_even(&state);
+	return state.total + N;
 }
 
-void load(FILE * in)
+void load_single(FILE *in, bool cohadar, int test_case)
 {
 	int N;
 	fscanf(in, "%d\n", &N);
 	for (int i = 0; i < N; i++) {
-		fscanf(in, "%lld\n", &R[i]);
+		fscanf(in, "%lld", &R[i]);
 	}
 	printf("%lld\n", solve(N));
 }
 
+void load_multi(FILE *in, bool cohadar) {
+	int T;
+	fscanf(in, "%d\n", &T);
+	for (int t = 1; t <= T; t++) {
+		load_single(in, cohadar, t);
+	}
+}
+
 int main(int argc, char const *argv[])
 {
-	FILE *in;
 	if (argc == 2 && strcmp(argv[1], "COHADAR") == 0) {
-		in = fopen("candies.in", "r");
+		FILE *in = fopen("candies.in", "r");
 		assert(in);
+		load_multi(in, true);
 	} else {
-		in = stdin;
+		load_single(stdin, false, 0);
 	}
-	load(in);
 	return 0;
 }
 

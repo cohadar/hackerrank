@@ -17,3 +17,13 @@ PROBLEM: candies (.c)
 	11:55 - finally a visual breakthrough, reversed coordinate system.
 	13:00 - I had to use enums and switch to make code managable, and I only got 2/11.
 	13:04 - calling DEFEAT again, just can't figure out what am I doing wrong. TODO again tommorow.
+
+	11:30 - restarted
+	11:42 - multi-test support
+	12:02 - made a failing test case
+	12:26 - all this time to find one character error...
+	12:31 - made another failing test case
+	12:39 - forced pause
+	12:56 - resume
+	14:17 - converted to explicit state struct, all my tests pass.
+	14:20 - onsite testcase 1 fails.
