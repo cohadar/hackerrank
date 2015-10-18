@@ -63,8 +63,34 @@ def test_split_on_peak():
 	assert(split_on_peak([1, 2, 1, 2, 1]) == [[1, 2], [1, 2], [1]])
 	assert(split_on_peak([2, 1, 2, 1, 2, 3]) == [[2, 1, 2], [1, 2, 3]])
 
+def convex_tuple(convex):
+	left = 0
+	right = 0
+	suma = 0
+	m = 0
+	delta = -1
+	prev = -1000000
+	for v in convex:
+		if prev < v:
+			delta += 1
+		else:
+			delta -= 1
+		suma += delta
+		if delta < m:
+			m = delta
+		prev = v
+	return (-m, suma + len(convex) * (-m), delta - m)
+
+def test_convex_tuple():
+	# left, sum ,right
+	assert(convex_tuple([11, 22, 33]) == (0, 3, 2))
+	assert(convex_tuple([33, 22, 11]) == (2, 3, 0))
+	assert(convex_tuple([33, 22, 11, 22, 33, 44]) == (2, 9, 3))
+	assert(convex_tuple([44, 33, 22, 11, 22, 33]) == (3, 9, 2))
+
 def solve_segment(segment):
-	#segment = extract(segment)
+	convexz = split_on_peak(segment)
+	ctu = map(convex_tuple, convexz)
 	return len(segment)
 
 def solve(ar):
@@ -90,6 +116,7 @@ def load_multi(stdin, cohadar):
 if __name__ == '__main__':
 	test_split_on_even()
 	test_split_on_peak()
+	test_convex_tuple()
 	if len(sys.argv) == 2 and sys.argv[1] == "COHADAR":
 		#load_single(open("candies.in", "r"), False, 0)
 		load_multi(open("candies.in", "r"), True)
