@@ -50,3 +50,5 @@ PROBLEM: candies (.c)
 	19:49 - added -Wshadow to gcc because for some reason it is not part of -Wall
 	19:54 - local tests ok after refactor
 	20:09 - local tests ok after refactor
+	20:27 - still can't find failing test case
+

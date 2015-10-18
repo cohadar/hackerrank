@@ -120,7 +120,6 @@ int solve_slope(int a, int b)
 		if (S[i].min < total_min) {
 			total_min = S[i].min;
 		}
-		if (PRINT) printf("total=%d\n", total);
 		prev_delta = S[i].delta;
 	}
 	return total + (b - a + 1) * (-total_min);
