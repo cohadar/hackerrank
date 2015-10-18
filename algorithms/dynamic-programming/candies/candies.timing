@@ -16,7 +16,7 @@ PROBLEM: candies (.c)
 	11:51 - started coding too early, must finish paper fully first.
 	11:55 - finally a visual breakthrough, reversed coordinate system.
 	13:00 - I had to use enums and switch to make code managable, and I only got 2/11.
-	13:04 - calling DEFEAT again, just can't figure out what am I doing wrong. TODO again tommorow.
+	13:04 - calling DEFEAT again, just can't figure out what am I doing wrong.
 
 	11:30 - restarted
 	11:42 - multi-test support
@@ -44,3 +44,5 @@ PROBLEM: candies (.c)
 	18:01 - forced pause
 	18:15 - resume
 	18:29 - omg array was not loaded properly!!!
+	18:38 - one_left variable was shadowed and gcc said nothing...
+	19:27 - calling DEFEAT again. unbelievable I made 11 local tests with edge cases and there are still more..

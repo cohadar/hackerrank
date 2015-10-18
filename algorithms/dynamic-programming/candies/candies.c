@@ -9,13 +9,13 @@
 
 #define MAX_CHILDREN 102345
 
-typedef long long ll;
+#define PRINT 0
 
 typedef struct {
-	ll sum;
-	ll len;
-	ll delta;
-	ll min;
+	int sum;
+	int len;
+	int delta;
+	int min;
 	bool peak;
 } Segment;
 
@@ -38,7 +38,7 @@ void Segment_delta(Segment *o, int delta)
 	}
 }
 
-void Segment_shift(Segment *o, ll shift)
+void Segment_shift(Segment *o, int shift)
 {
 	o->sum += o->len * shift;
 	o->delta += shift;
@@ -47,10 +47,10 @@ void Segment_shift(Segment *o, ll shift)
 
 void Segment_print(Segment s)
 {
-	printf("[l=%lld, s=%lld, m=%lld, d=%lld, %c]", s.len, s.sum, s.min, s.delta, (s.peak) ? '^' : '=');
+	printf("[l=%d, s=%d, m=%d, d=%d, %c]", s.len, s.sum, s.min, s.delta, (s.peak) ? '^' : '=');
 }
 
-static ll R[MAX_CHILDREN]; // ratings
+static int R[MAX_CHILDREN]; // ratings
 static Segment S[MAX_CHILDREN]; // segments
 
 int scan_segments(int N)
@@ -61,14 +61,14 @@ int scan_segments(int N)
 	Segment_init(&segment);
 	bool asc = false;
 	bool one_left = false;
-	for (int i = 1; i <= N; i++) {
-		bool one_left = false;
+	for (int i = 1; i < N; i++) {
+		one_left = true;
 		if (R[i - 1] == R[i]) {
 			segment.peak = false;
 			S[n_segments++] = segment;
 			Segment_init(&segment);
 			asc = false;
-			one_left = true;
+			one_left = false;
 			continue;
 		}
 		if (asc) {
@@ -81,12 +81,13 @@ int scan_segments(int N)
 				S[n_segments++] = segment;
 				Segment_init(&segment);
 				asc = false;
-				one_left = true;
+				one_left = false;
 			}
 		} else {
 			if (R[i - 1] > R[i]) {
 				// continue descending
 				Segment_delta(&segment, -1);
+				if (PRINT) printf("%d > %d, len=%d, i=%d\n", R[i - 1], R[i], segment.len, i);
 			} else {
 				// curve bottom
 				Segment_delta(&segment, +1);
@@ -106,36 +107,35 @@ void print_segments(n_segments)
 	printf("\n");
 }
 
-ll solve(int N)
+int solve(int N)
 {
-	for (int i = 0; i < N; i++) {
-		printf("%lld ", R[N]);
-	}
-	printf("\n");
 	assert(N > 0);
 	if (N == 1) {
 		return 1;
 	}
-	ll total = 0;
+	int total = 0;
 	int n_segments = scan_segments(N);
-	print_segments(n_segments);
+	if (PRINT) print_segments(n_segments);
 	bool prev_peak = false;
 	int zlen = 0;
-	ll zdelta = 0;
+	int zdelta = 0;
 	for (int i = 0; i < n_segments; i++) {
 		if (prev_peak) {
+			zlen += S[i].len;
 			Segment_shift(&S[i], zdelta - 1);
 			if (S[i].min >= 0) {
+				Segment_shift(&S[i], -S[i].min);
 				total += S[i].sum;
 			} else {
 				total += S[i].sum;
 				total += zlen * -S[i].min;
 			}
 		} else {
+			zlen = S[i].len;
 			Segment_shift(&S[i], -S[i].min);
 			total += S[i].sum;
 		}
-		zlen = S[i].len;
+		if (PRINT) printf("zlen=%d, total=%d\n", zlen, total);
 		zdelta = S[i].delta;
 		prev_peak = S[i].peak;
 	}
@@ -146,15 +146,19 @@ void load_single(FILE *in, bool cohadar, int test_case)
 {
 	int N;
 	fscanf(in, "%d\n", &N);
+	if (PRINT) printf("N=%d\n[", N);
 	for (int i = 0; i < N; i++) {
-		fscanf(in, "%lld", &R[i]);
+		fscanf(in, "%d", &R[i]);
+		if (PRINT) printf("%d ", R[i]);
 	}
-	printf("%lld\n", solve(N));
+	if (PRINT) printf("\n");
+	printf("%d\n", solve(N));
 }
 
 void load_multi(FILE *in, bool cohadar) {
 	int T;
 	fscanf(in, "%d\n", &T);
+	if (PRINT) printf("T=%d\n", T);
 	for (int t = 1; t <= T; t++) {
 		load_single(in, cohadar, t);
 	}
