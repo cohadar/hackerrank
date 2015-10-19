@@ -132,6 +132,46 @@ int solve_slope(int a, int b)
 	return njak.sum;
 }
 
+static int B[MAX_CHILDREN]; // brute force ratings
+
+void fixback(int r) {
+	for (int i = r; i > 0; i--) {
+		if (R[i - 1] > R[i] && B[i - 1] <= B[i]) {
+			B[i - 1] = B[i] + 1;
+		} else if (R[i - 1] < R[i] && B[i - 1] >= B[i]) {
+			B[i - 1] = B[i] - 1;
+			if (B[i - 1] < 1) {
+				int delta = 1 - B[i - 1];
+				for (int j = i - 1; j <= r; j++) {
+				 	B[j] += delta;
+				}
+			}
+		}
+	}
+}
+
+int barbarian(int N)
+{
+	assert(N > 0);
+	if (N == 1) {
+		return 1;
+	}
+	B[0] = 1;
+	for (int i = 1; i < N; i++) {
+		if (R[i - 1] < R[i]) {
+			B[i] = B[i - 1] + 1;
+		} else {
+			B[i] = 1;
+		}
+		fixback(i);
+	}
+	int total = 0;
+	for (int i = 0; i < N; i++) {
+		total += B[i];
+	}
+	return total;
+}
+
 int solve(int N)
 {
 	assert(N > 0);
@@ -163,7 +203,7 @@ void load_single(FILE *in, bool cohadar, int test_case)
 		if (PRINT) printf("%d ", R[i]);
 	}
 	if (PRINT) printf("\n");
-	printf("%d\n", solve(N));
+	printf("%d\n", barbarian(N));
 }
 
 void load_multi(FILE *in, bool cohadar) {
@@ -186,4 +226,5 @@ int main(int argc, char const *argv[])
 	}
 	return 0;
 }
+
 
