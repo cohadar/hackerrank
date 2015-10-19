@@ -4,3 +4,8 @@ FIRST: (.c)
 	23:35 - done, and timeout???
 	00:00 - outputting million elements takes too long
 	00:08 - eliminating Pair "struct" reduced sorting time from 1.6s to 1.4s
+	00:12 - replacing Integer[] with int[] reduced sorting time from 1.4s to 1.3s
+	00:14 - 1.3s is all in loading and parsing input!!
+	01:01 - Ok the solution for this was clever.
+	        I thought it was not possible because iTerm2 took 12.7s to print it out, standard terminal takes 1.3s
+	        Ok iTerm2 is bye bye.

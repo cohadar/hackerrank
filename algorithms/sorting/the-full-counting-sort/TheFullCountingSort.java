@@ -3,30 +3,22 @@ import java.io.*;
 
 public class TheFullCountingSort {
 
-	void solve(Integer[] A, String[] S) {
-		Integer[] C = new Integer[100];
-		Arrays.fill(C, 0);
-		for (int i = 0; i < A.length; i++) {
-			C[A[i]]++;
-		}
-		int cumul = 0;
+	void solve(int[] A, String[] S) {
+		StringBuilder[] C = new StringBuilder[100];
 		for (int i = 0; i < C.length; i++) {
-			cumul += C[i];
-			C[i] = cumul - C[i];
+			C[i] = new StringBuilder();
 		}
-		String[] sorted = new String[S.length];
-		for (int i = 0; i < S.length; i++) {
-			sorted[C[A[i]]++] = S[i];
+		for (int i = 0; i < A.length; i++) {
+			C[A[i]].append(S[i]).append(" ");
 		}
-		// for (int i = 0; i < sorted.length; i++) {
-		// 	System.out.print(sorted[i] + " ");
-		// }
-		//System.out.println(String.join(" ", sorted));
+		for (int i = 0; i < C.length; i++) {
+			System.out.print(C[i]);
+		}
 	}
 
 	static void load(Scanner scanner) {
 		int n = Integer.valueOf(scanner.nextLine());
-		Integer[] A = new Integer[n];
+		int[] A = new int[n];
 		String[] S = new String[n];
 		for (int i = 0; i < n; i++) {
 			String temp[] = scanner.nextLine().split(" ");
