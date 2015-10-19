@@ -1,0 +1,6 @@
+## the-full-counting-sort
+FIRST: (.c)
+	23:11 - started
+	23:35 - done, and timeout???
+	00:00 - outputting million elements takes too long
+	00:08 - eliminating Pair "struct" reduced sorting time from 1.6s to 1.4s
