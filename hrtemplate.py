@@ -69,7 +69,7 @@ public class TemplateName {
 	static void load(Scanner scanner) {
 		int n = scanner.nextInt();
 		int[] A = new int[n];
-		for (int i = 0; i < n; i++) {
+		for (int i = 0; i < A.length; i++) {
 			A[i] =  scanner.nextInt();
 		}
 		new TemplateName().solve(A);
