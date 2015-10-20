@@ -24,17 +24,21 @@ public class AlmostSorted {
 		boolean used = false;
 		for (int i = 1; i < A.length; i++) {
 			if (A[i - 1] > A[i]) {
-				if (!used) {
-					used = true;
-					indexL = i - 1;
-					indexR = i;
-					swap(A, indexL, indexR);
-				} else {
-					return false;
-				}
+				indexL = i;
 			}
 		}
-		return true;
+		for (int i = A.length - 1; i > 0; i--) {
+			if (A[i - 1] > A[i]) {
+				indexR = i - 1;
+			}
+		}
+		if (indexL > indexR) {
+			int temp = indexL;
+			indexL = indexR;
+			indexR = temp;
+		}
+		swap(A, indexL, indexR);
+		return isSorted(A);
 	}
 
 	boolean canReverse(int[] A) {
@@ -47,11 +51,16 @@ public class AlmostSorted {
 		}
 		assert indexL != -1;
 		indexR = indexL + 1;
-		while (A[indexR - 1] >= A[indexR] && indexR < A.length) {
+		while (indexR < A.length && A[indexR - 1] >= A[indexR]) {
 			indexR++;
 		}
 		indexR--;
 		swap(A, indexL, indexR);
+		if (indexL > 0) {
+			if (A[indexL - 1] > A[indexL]) {
+				return false;
+			}
+		}
 		for (int i = indexR + 1; i < A.length; i++) {
 			if (A[i - 1] > A[i]) {
 				return false;

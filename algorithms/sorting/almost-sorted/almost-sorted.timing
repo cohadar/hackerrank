@@ -1,4 +1,9 @@
 ## almost-sorted
 FIRST: (.c)
 	21:42 - started
-	22:17 - 15/23 - fucking edge cases.
+	22:17 - 15/23, fucking edge cases.
+	22:25 - && is not a symmetric operator! especially if one factor has side effects.
+	22:34 - I made an bad assumption about swap being of consecutive elements... READ MORE CAREFULLY.
+	22:52 - finally, so many edges, all CORRECT.
+	22:57 - after reading editorial I realized I was yet again trying to hard to find optimal solutions,
+			while this is great for flexing the brain, when competing it is sometimes better to "kill the fly with a cannot"
