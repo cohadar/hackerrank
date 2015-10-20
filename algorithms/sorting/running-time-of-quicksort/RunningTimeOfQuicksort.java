@@ -51,6 +51,7 @@ public class RunningTimeOfQuicksort {
 		Integer[] br = Arrays.copyOf(ar, ar.length);
 		quicksort(ar, 0, ar.length - 1);
 		insertionsort(br);
+		System.out.printf("%d %d\n", isort_count, qsort_count);
 		return isort_count - qsort_count;
 	}
 
