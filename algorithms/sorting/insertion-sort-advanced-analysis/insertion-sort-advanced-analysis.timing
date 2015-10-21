@@ -1,0 +1,12 @@
+## insertion-sort-advanced-analysis
+FIRST: (.c)
+	06:48 - started
+	07:34 - 2/14, grrrrrr
+	08:44 - I underestimated the complexity of the problem, found a solutions that use AVL Tree, but since Java does not have them in stdlib I will try to think of something smarter. pause.
+	10:20 - resume.
+	10:40 - I figured it out, AVL is nice but since this problem is categorized as "sorting" we should use a cusom merge sort.
+			The trick is to realize that merge sort also pushes out-of-order elements to the left, like insertion sort.
+			So on each swap(a, b) operation we increse counter for element b, plus some adding in merge phase.
+			No time to code now, later.
+	22:38 - let's do this.
+	23:19 - All CORRECT :)
