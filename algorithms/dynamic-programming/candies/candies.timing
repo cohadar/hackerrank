@@ -60,7 +60,15 @@ PROBLEM: candies (.c)
 			Both Python recursive version and C greedy version agree on local tests.
 			Both fail online test with different results.
 			Have no idea where is the edge case that I am missing, will compare with brute force solution tommorow.
+
 	07:10 - Crush your enemies.
 	07:40 - Done barbarian, hmm it fails some local tests
 	07:45 - Also it passed 4/11 online, others were timedout
 
+	06:52 - restarted, let's do this by-the-book
+	08:29 - done paper algo.
+	09:07 - something got bad in C code, deleting everything, let's do this in Java
+	09:27 - All CORRECT. Fresh start was a good idea.
+			All the trouble I had was because of complexity I created myself. Even in last "clean" version,
+			I use one more variable than I should, and of course bug was in there.
+			Keep it simple stupid!
