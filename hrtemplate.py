@@ -62,17 +62,26 @@ import java.io.*;
 
 public class TemplateName {
 
-	void solve(int[] A) {
+	void solve(int[] A, int k) {
 		/***/
 	}
 
-	static void load(Scanner scanner) {
-		int n = scanner.nextInt();
+	static int[] loadArray(Scanner scanner, int n) {
 		int[] A = new int[n];
 		for (int i = 0; i < A.length; i++) {
-			A[i] =  scanner.nextInt();
+			A[i] = scanner.nextInt();
 		}
-		new TemplateName().solve(A);
+		return A;
+	}
+
+	static void load(Scanner scanner) {
+		int t = scanner.nextInt();
+		for (int i = 0; i < t; i++) {
+			int n = scanner.nextInt();
+			int k = scanner.nextInt();
+			int[] A = loadArray(scanner, n);
+			new TemplateName().solve(A, k);
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
