@@ -28,19 +28,19 @@ public class AlgoMatrixRotation {
 	void solve(int[][] M, int r) {
 		int nY = M.length;
 		int nX = M[0].length;
+		nY = 21;
+		nX = 14;
 		int[][] L = new int[nY][nX];
 		int[][] I = new int[nY][nX];
 		System.out.printf("nY=%d, nX=%d\n", nY, nX);
-		nY = 21;
-		nX = 14;
 		for (int y = 0; y < nY; y++) {
 			for (int x = 0; x < nX; x++) {
-				int l = layer(y, x, nY, nX);
-				int i = index(y, x, nY, nX, l);
-				if (i < 0) {
-					System.out.printf("(%d,   )", l);
+				L[y][x] = layer(y, x, nY, nX);
+				I[y][x] = index(y, x, nY, nX, L[y][x]);
+				if (I[y][x] < 0) {
+					System.out.printf("(%d,   )", L[y][x]);
 				} else {
-					System.out.printf("(%d, %02d)", l, i);
+					System.out.printf("(%d, %02d)", L[y][x], I[y][x]);
 				}
 			}
 			System.out.println();

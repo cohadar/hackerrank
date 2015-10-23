@@ -6,3 +6,4 @@ FIRST: (.c)
 	10:04 - forced pause
 	20:23 - resume
 	21:00 - done index function
+	21:16 - tried to make reverse functions for layer and index and gave up, will use translation matrix
