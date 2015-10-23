@@ -28,20 +28,37 @@ public class AlgoMatrixRotation {
 	void solve(int[][] M, int r) {
 		int nY = M.length;
 		int nX = M[0].length;
-		nY = 21;
-		nX = 14;
-		int[][] L = new int[nY][nX];
-		int[][] I = new int[nY][nX];
-		System.out.printf("nY=%d, nX=%d\n", nY, nX);
+		int[][] X = new int[(nX + nY)][(nX + nY) * 5];
+		int[][] Y = new int[(nX + nY)][(nX + nY) * 5];
+		int[][] R = new int[nY][nX];
+		// System.out.printf("nY=%d, nX=%d\n", nY, nX);
 		for (int y = 0; y < nY; y++) {
 			for (int x = 0; x < nX; x++) {
-				L[y][x] = layer(y, x, nY, nX);
-				I[y][x] = index(y, x, nY, nX, L[y][x]);
-				if (I[y][x] < 0) {
-					System.out.printf("(%d,   )", L[y][x]);
-				} else {
-					System.out.printf("(%d, %02d)", L[y][x], I[y][x]);
-				}
+				int l = layer(y, x, nY, nX);
+				int i = index(y, x, nY, nX, l);
+				// if (i < 0) {
+				// 	System.out.printf("(%d,   )", l);
+				// } else {
+				// 	System.out.printf("(%d, %02d)", l, i);
+				// }
+				X[l][i] = x;
+				Y[l][i] = y;
+			}
+			// System.out.println();
+		}
+		for (int y = 0; y < nY; y++) {
+			for (int x = 0; x < nX; x++) {
+				int l = layer(y, x, nY, nX);
+				int q = (nY - 1 + nX - 1) * 2 - 8 * l;
+				int i = (index(y, x, nY, nX, l) + r) % q;
+				int ry = Y[l][i];
+				int rx = X[l][i];
+				R[ry][rx] = M[y][x];
+			}
+		}
+		for (int y = 0; y < nY; y++) {
+			for (int x = 0; x < nX; x++) {
+				System.out.printf("%d ", R[y][x]);
 			}
 			System.out.println();
 		}

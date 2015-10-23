@@ -7,3 +7,9 @@ FIRST: (.c)
 	20:23 - resume
 	21:00 - done index function
 	21:16 - tried to make reverse functions for layer and index and gave up, will use translation matrix
+	21:37 - all CORRECT.
+
+	Here is a better solution than mine:
+	https://www.hackerrank.com/rest/contests/master/challenges/matrix-rotation-algo/hackers/zbsGuy/download_solution
+	The trick is as usual to merge multiple stages and avoid complex index calculations.
+	However this challenge is worth doing "the hard way" for practice, just remember not to do it in competition.
