@@ -96,6 +96,16 @@ public class TemplateName {
 }
 """
 
+template_go = """
+"""
+
+template = {
+	"c" : template_c,
+	"go" : template_go,
+	"py" : template_py,
+	"java" : template_java,
+}
+
 template_in = """3
 1 2
 3 4
@@ -133,14 +143,13 @@ def make_file(name, ext, template):
 		print "exists:", filename
 
 def make_all(name):
+	name, ext = name.split(".")
 	if not os.path.exists(name):
 		print "making:", name
 		os.mkdir(name)
 	else:
 		print "exists:", name
-	make_file(name, ".py", template_py)
-	make_file(name, ".c", template_c)
-	make_file(name, ".java", template_java)
+	make_file(name, "." + ext, template[ext])
 	make_file(name, ".in", template_in)
 	make_file(name, ".timing", template_timing.replace("00:00", time.strftime("%H:%M")))
 
