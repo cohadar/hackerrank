@@ -113,7 +113,7 @@ template_in = """3
 """
 
 template_timing = """## template-name
-FIRST: (.c)
+FIRST: (.lang)
 	00:00 - started
 """
 
@@ -151,7 +151,7 @@ def make_all(name):
 		print "exists:", name
 	make_file(name, "." + ext, template[ext])
 	make_file(name, ".in", template_in)
-	make_file(name, ".timing", template_timing.replace("00:00", time.strftime("%H:%M")))
+	make_file(name, ".timing", template_timing.replace("lang", ext).replace("00:00", time.strftime("%H:%M")))
 
 if __name__ == '__main__':
 	if len(sys.argv) == 2:
