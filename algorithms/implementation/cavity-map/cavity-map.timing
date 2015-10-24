@@ -1,0 +1,7 @@
+## cavity-map
+FIRST: (.go)
+	19:00 - started
+	19:38 - done. read the problem statement more carefully.
+
+	theAmateur avoided extra boundary checks by doing loops over an inner matrix
+	pakso generated adjecent coordinates with two for -1..1 and filter
