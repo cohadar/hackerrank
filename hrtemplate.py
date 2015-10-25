@@ -62,32 +62,14 @@ import java.io.*;
 
 public class TemplateName {
 
-	void solve(int[] A, int k) {
-		/***/
-	}
-
-	static int[] loadArray(Scanner scanner, int n) {
-		int[] A = new int[n];
-		for (int i = 0; i < A.length; i++) {
-			A[i] = scanner.nextInt();
-		}
-		return A;
-	}
-
 	static void load(Scanner scanner) {
-		int t = scanner.nextInt();
-		for (int i = 0; i < t; i++) {
-			int n = scanner.nextInt();
-			int k = scanner.nextInt();
-			int[] A = loadArray(scanner, n);
-			new TemplateName().solve(A, k);
-		}
+		/* scan input file */
 	}
 
 	public static void main(String[] args) throws Exception {
 		Scanner scanner;
 		if (args.length == 1 && "COHADAR".equals(args[0])) {
-			scanner = new Scanner(new File("template-name.in"));
+			scanner = new Scanner(new File("TemplateName.in"));
 		} else {
 			scanner = new Scanner(System.in);
 		}
@@ -117,28 +99,12 @@ FIRST: (.lang)
 	00:00 - started
 """
 
-def c_to_upper(name):
-	ret = name[0].upper()
-	next = False
-	for c in name[1:]:
-		if c in  '-_':
-			next = True
-		else:
-			if next:
-				ret += c.upper()
-			else:
-				ret += c
-			next = False
-	return ret
-
 def make_file(name, ext, template):
-	uname = c_to_upper(name)
-	basename = uname if ext == ".java" else name
-	filename = os.path.join(name, basename + ext)
+	filename = os.path.join(name, name + ext)
 	if not os.path.exists(filename):
 		print "making:", filename
 		with open(filename, "w") as f:
-			f.write(template.replace("template-name", name).replace("TemplateName", uname))
+			f.write(template.replace("TemplateName", name))
 	else:
 		print "exists:", filename
 
