@@ -3,6 +3,8 @@ import java.io.*;
 
 public class DeletionGame {
 
+	// I got only half points on this challenge because I forgot modulo is a signed operation.
+	// I was behaving like an idiot, did not make a single test for a negative K.
 	boolean solve(long n, long k) {
 		if (n == 2) {
 			if (k == 3 || k == 1 || k == -1) {
@@ -11,7 +13,7 @@ public class DeletionGame {
 			return false;
 		}
 		long s = n * (n + 1) / 2;
-		if (k % 2 != s % 2) {
+		if (Math.abs(k % 2) != s % 2) {
 			return false;
 		}
 		if (-s + 2 <= k && k <= s) {
