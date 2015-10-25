@@ -29,27 +29,6 @@ public class DeletionGame {
 		}
 	}
 
-	static void generate(int n) {
-		int[] A = new int[n];
-		for (int i = 0; i < n; i++) {
-			A[i] = i + 1;
-		}
-		int p = (int)Math.pow(2, n);
-		for (int i = 1; i <= p; i++) {
-			int sum = 0;
-			for (int j = 0; j < n; j++) {
-				int index = 1 << j;
-				if ((i & index) == 0) {
-					sum += A[j];
-				} else {
-					sum -= A[j];
-				}
-			}
-			int s = n * (n + 1) / 2;
-			System.out.printf("%03d\n", s + sum);
-		}
-	}
-
 	public static void main(String[] args) throws Exception {
 		Scanner scanner;
 		if (args.length == 1 && "COHADAR".equals(args[0])) {
@@ -57,7 +36,6 @@ public class DeletionGame {
 		} else {
 			scanner = new Scanner(System.in);
 		}
-		//load(scanner);
-		generate(13);
+		load(scanner);
 	}
 }
