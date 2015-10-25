@@ -75,6 +75,10 @@ public class TemplateName {
 		}
 		load(scanner);
 	}
+
+	static void debug(Object...os) {
+		System.err.println(Arrays.deepToString(os));
+	}
 }
 """
 
