@@ -12,10 +12,6 @@ public class IntegralPoints {
 			this.y = y;
 		}
 
-		double distance(Point that) {
-			return Math.hypot(this.x - that.x, this.y - that.y);
-		}
-
 		long integralPointsOnALine(Point that) {
 			long dx = Math.abs(that.x - this.x);
 			long dy = Math.abs(that.y - this.y);
@@ -35,19 +31,16 @@ public class IntegralPoints {
 	}
 
 	long solve(Point a, Point b, Point c) {
-		double sa = b.distance(c);
-		double sb = c.distance(a);
-		double sc = a.distance(b);
-		double s = (sa + sb + sc) / 2;
-		double area = Math.sqrt(s * (s  - sa) * (s  - sb) * (s  - sc));
-		long area_x2 = Math.round(area * 2);
-		// System.out.printf("area=%g\n", area);
+		// Because 10^9 * 10^9 cannot fit in a double without loss of precision,
+		// we must not use Heron's formula for triangle surface.
+		// In fact, no doubles allowed.
+		long area_x2 = Math.abs(a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y));
+		// System.out.printf("area_x2=%d\n", area);
 		long boundaryPoints = -3;
 		boundaryPoints += a.integralPointsOnALine(b);
 		boundaryPoints += b.integralPointsOnALine(c);
 		boundaryPoints += c.integralPointsOnALine(a);
 		// System.out.printf("boundaryPoints=%d\n", boundaryPoints);
-		// System.out.printf("ret=%g\n", area - boundaryPoints / 2.0 + 1.0);
 		return (area_x2 - boundaryPoints + 2) / 2;
 	}
 
