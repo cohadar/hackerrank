@@ -4,10 +4,10 @@ import java.io.*;
 public class IntegralPoints {
 
 	static class Point {
-		final double x;
-		final double y;
+		final long x;
+		final long y;
 
-		Point(double x, double y) {
+		Point(long x, long y) {
 			this.x = x;
 			this.y = y;
 		}
@@ -17,16 +17,17 @@ public class IntegralPoints {
 		}
 
 		long integralPointsOnALine(Point that) {
-			long dx = Math.round(Math.abs(that.x - this.x));
-			long dy = Math.round(Math.abs(that.y - this.y));
-			return gcd(dx, dy) + 1;
+			long dx = Math.abs(that.x - this.x);
+			long dy = Math.abs(that.y - this.y);
+			if (dx > dy) {
+				return gcd(dx, dy) + 1;
+			} else {
+				return gcd(dy, dx) + 1;
+			}
 		}
 	}
 
 	static long gcd(long a, long b) {
-		if (a < b) {
-			return gcd(b, a);
-		}
 		if (b == 0) {
 			return a;
 		}
