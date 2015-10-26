@@ -1,0 +1,6 @@
+## template-name
+FIRST: (.java)
+	20:47 - started
+	20:53 - reading done
+	21:11 - 6/7? Why is case #2 failing? Ah invalid range. You forgot special case of the challenge.
+	21:14 - fixed.

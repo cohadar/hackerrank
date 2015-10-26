@@ -1,0 +1,6 @@
+## template-name
+FIRST: (.java)
+	21:17 - started
+	21:50 - 8/9, ofc, this whole challenge is about special cases.
+	22:00 - done, challenges with lots of special cases are nice for unit testing.
+			do not let the order of special cases in a problem statement determine your solution ordering.
