@@ -79,7 +79,9 @@ public class TemplateName {
 	static void debug(Object...os) {
 		System.err.println(Arrays.deepToString(os));
 	}
+
 }
+
 """
 
 template_go = """
