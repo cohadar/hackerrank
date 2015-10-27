@@ -17,7 +17,7 @@ def load(stdin):
 
 if __name__ == '__main__':
 	if len(sys.argv) == 2 and sys.argv[1] == "COHADAR":
-		load(open("template-name.in", "r"))
+		load(open("TemplateName.in", "r"))
 	else:
 		load(sys.stdin)
 """
@@ -47,7 +47,7 @@ int main(int argc, char const *argv[])
 {
 	FILE *in;
 	if (argc == 2 && strcmp(argv[1], "COHADAR") == 0) {
-		in = fopen("template-name.in", "r");
+		in = fopen("TemplateName.in", "r");
 		assert(in);
 	} else {
 		in = stdin;
@@ -100,7 +100,7 @@ template_in = """3
 5 6
 """
 
-template_timing = """## template-name
+template_timing = """## TemplateName
 FIRST: (.lang)
 	00:00 - started
 """
@@ -129,4 +129,4 @@ if __name__ == '__main__':
 	if len(sys.argv) == 2:
 		make_all(sys.argv[1])
 	else:
-		print "usage: hrtemplate.py template-name"
+		print "usage: hrtemplate.py [ TemplateName.java | TemplateName.c | TemplateName.py | TemplateName.go ]"
