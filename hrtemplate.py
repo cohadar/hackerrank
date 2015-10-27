@@ -67,11 +67,9 @@ public class TemplateName {
 	}
 
 	public static void main(String[] args) throws Exception {
-		Scanner scanner;
+		Scanner scanner = new Scanner(System.in);
 		if (args.length == 1 && "COHADAR".equals(args[0])) {
 			scanner = new Scanner(new File("TemplateName.in"));
-		} else {
-			scanner = new Scanner(System.in);
 		}
 		load(scanner);
 	}
