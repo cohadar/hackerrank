@@ -8,20 +8,11 @@ public class Gemstones {
 		Arrays.fill(isgem, true);
 		for (int i = 0; i < rocks.length; i++) {
 			boolean[] present = new boolean[256];
-			for (int j = 0; j < rocks[i].length(); j++) {
-				char e = rocks[i].charAt(j);
-				present[e] = true;
-			}
-			for (int j = 0; j < 256; j++) {
-				isgem[j] &= present[j];
-			}
+			for (int j = 0; j < rocks[i].length(); j++) { present[rocks[i].charAt(j)] = true; }
+			for (int j = 0; j < 256; j++) { isgem[j] &= present[j]; }
 		}
 		int gems = 0;
-		for (int i = 0; i < 256; i++) {
-			if (isgem[i]) {
-				gems++;
-			}
-		}
+		for (int i = 0; i < 256; i++) { if (isgem[i]) { gems++; } }
 		return gems;
 	}
 
