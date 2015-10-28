@@ -1,0 +1,6 @@
+## MaximizeSum
+FIRST: (.java)
+	22:17 - started
+	22:31 - input done
+	23:39 - lol I got timeout on pure data load, need to optimize that.
+	23:47 - loading longest test: 1.81s  
