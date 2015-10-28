@@ -62,7 +62,7 @@ import java.io.*;
 
 public class TemplateName {
 
-	static void load(Scanner scanner) {
+	static void scan(Scanner scanner) {
 		/* scan input file */
 	}
 
@@ -71,7 +71,7 @@ public class TemplateName {
 		if (args.length == 1 && "COHADAR".equals(args[0])) {
 			scanner = new Scanner(new File("TemplateName.in"));
 		}
-		load(scanner);
+		scan(scanner);
 	}
 
 	static void debug(Object...os) {
