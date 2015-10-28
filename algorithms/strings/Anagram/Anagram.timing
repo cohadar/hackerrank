@@ -1,0 +1,9 @@
+## Anagram
+FIRST: (.java)
+	07:46 - started
+	08:04 - 2/15, hmmm, underestimating the problem again.
+	08:26 - done
+
+	After reading a solution by cyon I realized I have made O(n log n) when there is O(n)
+	My algorithms is indeed more general and would work for elements bigger than char, 
+	but that was not required.
