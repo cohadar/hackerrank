@@ -21,44 +21,42 @@ public class CountingTriangles {
 	void count(int ia, int ib) {
 		int a = S[ia];
 		int b = S[ib];
-		int lo = Arrays.binarySearch(S, ib + 1, S.length, b);
-		if (lo < 0) { lo = -lo - 1; };
-		if (lo >= S.length) return;
-		int hi = Arrays.binarySearch(S, lo, S.length, a + b + 1);
-		if (hi < 0) {
-			hi = -hi - 1;
+		int lo = ib + 1;
+		int hi = Arrays.binarySearch(S, lo, S.length, a + b);
+		if (hi < 0) { 
+			hi = -hi - 1; 
 		}
-		if (hi > S.length) {
-			hi = S.length;
-		}
-		while (S[hi - 1] >= a + b) hi--;
+		assert S[hi - 1] < a + b;
+		
+		int dd = a * a + b * b;
 
-		int md = Arrays.binarySearch(S2, lo, hi, a * a + b * b);
-		if (md < 0) {
-			md = -md - 1;
-			obtuse += hi - md;
-			acute += md - lo;
+		if (hi - lo > -10000000) {
+			int md = Arrays.binarySearch(S2, lo, hi, dd);
+			if (md < 0) {
+				md = -md - 1;
+				obtuse += hi - md;
+				acute += md - lo;
+			} else {
+				right += 1;
+				obtuse += hi - md - 1;
+				assert hi - md - 1 >= 0;
+				acute += md - lo;
+			}
+			assert lo <= md;
+			assert md <= hi;
 		} else {
-			right += 1;
-			obtuse += hi - md - 1;
-			acute += md - lo;
+			for (int i = lo; i < hi; i++) {
+				int c = S[i];
+				int cc = c * c;
+				if (cc < dd) {
+					acute++;
+				} else if (cc > dd) {
+					obtuse++;
+				} else {
+					right++;
+				}			
+			}
 		}
-		assert lo <= md;
-		assert md <= hi;
-
-
-		// int dd = a * a + b * b;
-		// for (int i = lo; i < hi; i++) {
-		// 	int c = S[i];
-		// 	int cc = c * c;
-		// 	if (cc < dd) {
-		// 		acute++;
-		// 	} else if (cc > dd) {
-		// 		obtuse++;
-		// 	} else {
-		// 		right++;
-		// 	}			
-		// }
 	}
 
 	void solve() { 
