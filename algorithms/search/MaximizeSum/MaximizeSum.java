@@ -3,19 +3,26 @@ import java.io.*;
 
 public class MaximizeSum {
 
+	static long msum(long[] A, int l, int r, long m) {
+		long max = 0;
+		long sum = 0;
+		for (int k = l; k <= r; k++) {
+			sum = (sum + A[k]) % m;
+			assert sum > 0;
+			if (sum > max) {
+				max = sum;
+			}
+		}		
+		return max;
+	}
+
 	static long brute(long[] A, long m) {
 		int n = A.length;
-		long sum = 0;
 		long max = 0;
 		for (int l = 0; l < n; l++) {
 			for (int r = l; r < n; r++) {
-				for (int k = l; k <= r; k++) {
-					sum += A[k];
-					sum %= m;
-					if (sum > max) {
-						max = sum;
-					}
-				}
+				long msum = msum(A, l, r, m);
+				if (max < msum) max = msum;
 			}
 		}
 		return max;
@@ -23,19 +30,16 @@ public class MaximizeSum {
 
 	static long solve(long[] A, long m) {
 		int n = A.length;
-		long sum = 0;
-		long max[][] = new long[2][n + 1];
-		for (int b = 0; b < n; b++) {
-			int ib = b % 2;
-			sum += A[b];
-			sum %= m;
-			max[ib][b] = sum;
-			for (int a = b - 1; a >= 0; a--) {	
-				long prev = max[1 - ib][a];
-				max[ib][a] = Math.max(prev, (prev + A[b]) % m);
+		long max = 0;
+		for (int l = 0; l < n; l++) {
+			long sum = A[l] % m;
+			if (max < sum) max = sum;
+			for (int r = l + 1; r < n; r++) {
+				sum = (sum + A[r]) % m;
+				if (max < sum) max = sum;
 			}
 		}
-		return max[(n - 1) % 2][0];
+		return max;
 	}
 
 	static void scan(Scanner scanner) {
@@ -56,11 +60,15 @@ public class MaximizeSum {
 		int n = 20 + random.nextInt(20);
 		long[] a = new long[n];
 		for (int i = 0; i < n; i++) {
-			a[i] = 1 + random.nextLong() % 1000000000000000000L;
+			a[i] = 1 + random.nextLong() % 1000000000000000000L; 
+			a[i] = Math.abs(a[i]);
 		}
-		long m = 1 + random.nextLong() % 100000000000000L;
+		long m = (1 + random.nextLong()) % 100000000000000L; 
+		m = Math.abs(m);		
+		System.out.println(m);
 		System.out.println(brute(a, m));
 		System.out.println(solve(a, m));
+		assert brute(a, m) == solve(a, m);
 	}
 
 	public static void main(String[] args) throws Exception {

@@ -4,3 +4,6 @@ FIRST: (.java)
 	22:31 - input done
 	23:39 - lol I got timeout on pure data load, need to optimize that.
 	23:47 - loading longest test: 1.81s  
+	00:00 - zzzzzZZZ
+
+	06:35 - restart, I realized random.nextLong() can return negative values :)
