@@ -3,3 +3,4 @@ FIRST: (.java)
 	18:38 - started
 	18:47 - done input
 	19:13 - 8/17, O(n^2 * log n) was not good enough
+	21:36 - done

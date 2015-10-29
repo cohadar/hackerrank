@@ -18,6 +18,7 @@ public class CountingTriangles {
 		}
 	}
 
+	// a lot of this algorithm is based on the fact that array elements are unique.
 	void count(int ia, int ib) {
 		int a = S[ia];
 		int b = S[ib];
@@ -27,36 +28,20 @@ public class CountingTriangles {
 			hi = -hi - 1; 
 		}
 		assert S[hi - 1] < a + b;
-		
 		int dd = a * a + b * b;
-
-		if (hi - lo > -10000000) {
-			int md = Arrays.binarySearch(S2, lo, hi, dd);
-			if (md < 0) {
-				md = -md - 1;
-				obtuse += hi - md;
-				acute += md - lo;
-			} else {
-				right += 1;
-				obtuse += hi - md - 1;
-				assert hi - md - 1 >= 0;
-				acute += md - lo;
-			}
-			assert lo <= md;
-			assert md <= hi;
+		int md = Arrays.binarySearch(S2, lo, hi, dd);
+		if (md < 0) {
+			md = -md - 1;
+			obtuse += hi - md;
+			acute += md - lo;
 		} else {
-			for (int i = lo; i < hi; i++) {
-				int c = S[i];
-				int cc = c * c;
-				if (cc < dd) {
-					acute++;
-				} else if (cc > dd) {
-					obtuse++;
-				} else {
-					right++;
-				}			
-			}
+			right += 1;
+			obtuse += hi - md - 1;
+			assert hi - md - 1 >= 0;
+			acute += md - lo;
 		}
+		assert lo <= md;
+		assert md <= hi;
 	}
 
 	void solve() { 
