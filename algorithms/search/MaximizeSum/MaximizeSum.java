@@ -72,12 +72,12 @@ public class MaximizeSum {
 	}
 
 	public static void main(String[] args) throws Exception {
-		test();
-		// Scanner scanner = new Scanner(System.in);
-		// if (args.length == 1 && "COHADAR".equals(args[0])) {
-		// 	scanner = new Scanner(new File("MaximizeSum.in"));
-		// }
-		// scan(scanner);
+		// test();
+		Scanner scanner = new Scanner(System.in);
+		if (args.length == 1 && "COHADAR".equals(args[0])) {
+			scanner = new Scanner(new File("MaximizeSum.in"));
+		}
+		scan(scanner);
 	}
 
 	static long[] scanArray(Scanner scanner, int n) {
