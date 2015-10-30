@@ -3,36 +3,50 @@ import java.io.*;
 
 public class GameWithBoomerang {
 
-	static long solve(int n) {
-		assert n > 1;
-		int[] a = new int[n];
-		for (int i = 0; i < n; i++) a[i] = i + 1;
-		int c = 0;
-		int target = 0;
-		while (n > 1) {
-			if (n % 2 == 0) {
-				target = (c + n / 2) % n;
-				if (target > c) {
-					c++;
-				}				
-			} else {
-				target = c;
-			}
-			for (int i = target + 1; i < n; i++) {
-				a[i - 1] = a[i];
-			}
-			n--;
-			c %= n;
+	static final int MEGA = 1024 * 1024;
+	static final int MEMOIZATION = 100 * MEGA;
+
+	int[] PN = new int[MEMOIZATION];
+	int lastKnown = 3;
+
+	public GameWithBoomerang() {
+		PN[2] = 1;
+		PN[3] = 2;
+	}
+
+	int aleph(int odd, int index) {
+		int ret = index + 1;
+		if (index > odd / 2) {
+			ret++;
 		}
-		return a[0];
+		if (index == odd) {
+			ret = 1;
+		}
+		return ret;
+	}
+
+	long solve(int n) {
+		for (int i = lastKnown + 1; i <= n; i++) {
+			if (i % 2 == 0) {
+				PN[i] = aleph(i - 1, PN[i - 1]);
+			} else {
+				PN[i] = PN[i - 1] + 1;
+			}			
+		}
+		lastKnown = n;
+		return PN[n];
 	}
 
 	static void scan(Scanner scanner) {
+		GameWithBoomerang o = new GameWithBoomerang();
 		int t = scanner.nextInt();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < t; i++) {
 			long n = scanner.nextLong();
-			System.out.println(solve((int)n)); // <<-------<< INT!!!
+			sb.append(o.solve((int)n));
+			sb.append('\n');
 		}
+		System.out.println(sb);
 	}
 
 	public static void main(String[] args) throws Exception {
