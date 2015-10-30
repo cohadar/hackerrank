@@ -4,3 +4,4 @@ FIRST: (.java)
 	00:13 - 3/8, idiot solution
 	01:28 - 5/8, recursive/linear solution
 	01:39 - 5/8, increasing memory did not help
+	03:23 - done, found closed formula, thank you Knuth, thank you OEIS.

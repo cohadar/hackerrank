@@ -3,9 +3,6 @@ import java.io.*;
 
 public class GameWithBoomerang {
 
-	static final int MEGA = 1024 * 1024;
-	static final int MEMOIZATION = 100 * MEGA;
-
 	// BS(n) = (4^n - 1) / 3 * 4
 	long[] BS = new long[] {
 		0L,
@@ -42,37 +39,6 @@ public class GameWithBoomerang {
 		6148914691236517204L,
 	};
 
-	int[] PN = new int[MEMOIZATION];
-	int lastKnown = 3;
-
-	public GameWithBoomerang() {
-		PN[2] = 1;
-		PN[3] = 2;
-	}
-
-	int aleph(int odd, int index) {
-		int ret = index + 1;
-		if (index > odd / 2) {
-			ret++;
-		}
-		if (index == odd) {
-			ret = 1;
-		}
-		return ret;
-	}
-
-	long solve(int n) {
-		for (int i = lastKnown + 1; i <= n; i++) {
-			if (i % 2 == 0) {
-				PN[i] = aleph(i - 1, PN[i - 1]);
-			} else {
-				PN[i] = PN[i - 1] + 1;
-			}			
-		}
-		lastKnown = n;
-		return PN[n];
-	}
-
 	long findBase(long n) {
 		for (int i = 0; i < BS.length; i++) {
 			if (n < BS[i]) {
@@ -96,7 +62,6 @@ public class GameWithBoomerang {
 			return 3 * k - 1 - split;
 		}
 	}
-
 	
 	static void printBaseSeries() {
 		long pow4n = 4;
@@ -110,23 +75,14 @@ public class GameWithBoomerang {
 
 	static void scan(Scanner scanner) {
 		GameWithBoomerang o = new GameWithBoomerang();
-		// int t = scanner.nextInt();
-		// StringBuilder sb = new StringBuilder();
-		// for (int i = 0; i < t; i++) {
-		// 	long n = scanner.nextLong();
-		// 	sb.append(o.solve((int)n));
-		// 	sb.append('\n');
-		// }
-		// System.out.println(sb);
-
-		int lastBase = 0;
-		int k = 0;
-		for (int i = 2; i < 1000; i+=1) {
-			int r = (int)o.solve(i);
-			long c = o.closedFormula(i);
-			assert r == c;
-			debug(i, r, c);
+		int t = scanner.nextInt();
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < t; i++) {
+			long n = scanner.nextLong();
+			sb.append(o.closedFormula(n));
+			sb.append('\n');
 		}
+		System.out.println(sb);
 	}
 
 	public static void main(String[] args) throws Exception {
