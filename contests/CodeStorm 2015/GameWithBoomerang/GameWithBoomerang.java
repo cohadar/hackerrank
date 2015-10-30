@@ -73,18 +73,39 @@ public class GameWithBoomerang {
 		return PN[n];
 	}
 
-	
-	static void baseSeries() {
+	long findBase(long n) {
+		for (int i = 0; i < BS.length; i++) {
+			if (n < BS[i]) {
+				return BS[i - 1];
+			}
+		}
+		return BS[BS.length - 1];
+	}
 
+	long closedFormula(long n) {
+		if (n % 2 == 1) {
+			return 1 + closedFormula(n - 1);
+		}
+		long base = findBase(n);
+		if (base == n) return n;
+		long k = (n - base) / 2;
+		long split = base / 2 + 1;
+		if (k < split) {
+			return 2 * k - 1;
+		} else {
+			return 3 * k - 1 - split;
+		}
+	}
+
+	
+	static void printBaseSeries() {
 		long pow4n = 4;
 		long an = 4;
-		while (an > 0) {
-			pow4n *= 4;
+		while (an > 0) {			
 			an = (pow4n - 1) / 3 * 4;
+			pow4n *= 4;
 			System.out.println(an);
 		}
-		
-
 	}
 
 	static void scan(Scanner scanner) {
@@ -100,23 +121,12 @@ public class GameWithBoomerang {
 
 		int lastBase = 0;
 		int k = 0;
-		for (int i = 2; i < 1000; i+=2) {
+		for (int i = 2; i < 1000; i+=1) {
 			int r = (int)o.solve(i);
-			if (i == r) {
-				lastBase = i;
-				k = 0;
-			}
-			int split = lastBase / 2 + 1;
-			if (k <= split) {
-				debug(i, r, 2 * k - 1, k);
-			} else {
-				debug(i, r, 2 * split - 1 + 3 * (k - split), k);
-			}
-			
-			k++;
+			long c = o.closedFormula(i);
+			assert r == c;
+			debug(i, r, c);
 		}
-
-
 	}
 
 	public static void main(String[] args) throws Exception {
