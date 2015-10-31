@@ -68,7 +68,7 @@ public class TemplateName {
 	}
 
 	static void debug(Object...os) {
-		System.err.printf("%.65536s\n", Arrays.deepToString(os));
+		System.err.printf("%.65536s\\n", Arrays.deepToString(os));
 	}
 
 }
