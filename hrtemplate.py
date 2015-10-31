@@ -62,16 +62,9 @@ import java.io.*;
 
 public class TemplateName {
 
-	static void scan(Scanner scanner) {
-		/* scan input file */
-	}
-
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		if (args.length == 1 && "COHADAR".equals(args[0])) {
-			scanner = new Scanner(new File("TemplateName.in"));
-		}
-		scan(scanner);
+
 	}
 
 	static void debug(Object...os) {
@@ -91,12 +84,6 @@ template = {
 	"py" : template_py,
 	"java" : template_java,
 }
-
-template_in = """3
-1 2
-3 4
-5 6
-"""
 
 template_timing = """## TemplateName
 FIRST: (.lang)
@@ -120,7 +107,9 @@ def make_all(name):
 	else:
 		print "exists:", name
 	make_file(name, "." + ext, template[ext])
-	make_file(name, ".in", template_in)
+	make_file(name, ".examp.in", "")
+	make_file(name, ".small.in", "")
+	make_file(name, ".large.in", "")
 	make_file(name, ".timing", template_timing.replace("lang", ext).replace("00:00", time.strftime("%H:%M")))
 
 if __name__ == '__main__':

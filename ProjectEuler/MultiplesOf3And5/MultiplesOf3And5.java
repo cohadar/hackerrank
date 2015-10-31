@@ -22,14 +22,16 @@ public class MultiplesOf3And5 {
 		System.out.println(sb);
 	}
 
-	public static void main(String[] args) throws Exception {
-		Scanner scanner;
-		if (args.length == 1 && "COHADAR".equals(args[0])) {
-			scanner = new Scanner(new File("MultiplesOf3And5.in"));
-		} else {
-			scanner = new Scanner(System.in);
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		StringBuilder sb = new StringBuilder();
+		int t = Integer.valueOf(scanner.nextLine());
+		for (int i = 0; i < t; i++) {
+			int n = Integer.valueOf(scanner.nextLine());
+			sb.append(solve(n - 1));
+			sb.append('\n');
 		}
-		load(scanner);
+		System.out.println(sb);
 	}
 
 	static void debug(Object...os) {
