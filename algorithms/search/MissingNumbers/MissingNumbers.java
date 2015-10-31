@@ -25,8 +25,8 @@ public class MissingNumbers {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		int[] A = scanIntArray(scanner);
-		int[] B = scanIntArray(scanner);
+		int[] A = scanIntArray(scanner, scanner.nextInt());
+		int[] B = scanIntArray(scanner, scanner.nextInt());
 		debug(A);
 		debug(B);
 		List<Integer> M = findMissing(A, B);
@@ -34,8 +34,7 @@ public class MissingNumbers {
 		System.out.println(join(M, ' '));
 	}
 
-	static int[] scanIntArray(Scanner scanner) {
-		int n = scanner.nextInt();
+	static int[] scanIntArray(Scanner scanner, int n) {
 		int[] A = new int[n];
 		for (int i = 0; i < A.length; i++) {
 			A[i] = scanner.nextInt();
