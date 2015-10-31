@@ -10,14 +10,14 @@ public class CountLuck {
 	static final char EXIT = '*';
 	static final char BREADCRUMB = '-';
 
-	static enum Direction { RIGHT, DOWN, LEFT, UP }
-
-	static List<Direction> directions = Arrays.asList(
-											Direction.RIGHT, 
-											Direction.DOWN, 
-											Direction.LEFT, 
-											Direction.UP
-										);
+	static enum Direction { 
+		START, RIGHT, DOWN, LEFT, UP, END;
+		private static Direction[] vals = values();
+		public Direction next()
+		{
+			return vals[(this.ordinal() + 1)];
+		}		
+	}
 
 	static class Point {
 		final int x;
@@ -51,6 +51,7 @@ public class CountLuck {
 	final int nX;
 	final int nY;
 	final Deque<Point> path = new ArrayDeque<>();
+	final Deque<Direction> state = new ArrayDeque<>();
 
 	public CountLuck(char[][] F) {
 		this.F = F;
@@ -95,6 +96,7 @@ public class CountLuck {
 		}
 		F[current.y][current.x] = BREADCRUMB;
 		path.push(current);
+		state.push(d);
 		debug("YES", d, next);
 		return next;
 	}
@@ -105,7 +107,7 @@ public class CountLuck {
 
 	boolean moreThanOneWay(Point current) {
 		int ways = 0;
-		for (Direction d : directions) {
+		for (Direction d = Direction.START.next(); d != Direction.END; d = d.next()) {
 			if (lookAhead(current, d) != null) {
 				ways++;
 			}
@@ -113,16 +115,16 @@ public class CountLuck {
 		return ways > 1;
 	}
 
-	boolean isImpressed(int k) {
+	void findPath() {
 		Point current = findStartPoint();
-		if (moreThanOneWay(current)) { k--; }
+		Direction d = Direction.START.next();
 		search:
 		while (isExit(current) == false) {
-			for (Direction d : directions) {
+			for (; d != Direction.END; d = d.next()) {
 				Point next = tryDirection(current, d);
 				if (next != null) {
 					current = next;
-					if (moreThanOneWay(current)) { k--; }
+					d = Direction.START.next();
 					continue search;
 				}
 			}
@@ -130,9 +132,38 @@ public class CountLuck {
 			F[current.y][current.x] = DEAD_END;
 			debug("DEAD_END", current);
 			current = path.pop();
+			d = state.pop();
 			F[current.y][current.x] = GRASS;
 			debug("BACK", current);
+		}		
+	}
+
+	void cleanForest() {
+		for (int y = 0; y < F.length; y++) {
+			for (int x = 0; x < F[0].length; x++) {
+				if (F[y][x] == BREADCRUMB || F[y][x] == DEAD_END) {
+					F[y][x] = GRASS;
+				}
+			}
 		}
+	}
+
+	boolean isImpressed(int k) {
+		findPath();
+		cleanForest();
+		debugMatrix(F);
+		Iterator<Point> it = path.descendingIterator();
+		Point p = null;
+		char c = '0';
+		while (it.hasNext()) {
+			p = it.next();
+			F[p.y][p.x] = BREADCRUMB;
+			if (moreThanOneWay(p)) { 
+				k--; 
+				F[p.y][p.x] = '#';
+			}
+		}
+		debugMatrix(F);
 		return k == 0;
 	}
 
@@ -154,8 +185,22 @@ public class CountLuck {
 		}
 	}
 
+	static boolean DEBUG = false;
+
+	static void debugMatrix(char[][] M) {
+		if (!DEBUG) { return; }
+		for (int y = 0; y < M.length; y++) {
+			for (int x = 0; x < M[0].length; x++) {
+				System.err.print(M[y][x]);
+			}
+			System.err.println();
+		}
+		System.err.println();
+	}
+
 	static void debug(Object...os) {
-		// System.err.printf("%.65536s\n", Arrays.deepToString(os));
+		if (!DEBUG) { return; }
+		System.err.printf("%.65536s\n", Arrays.deepToString(os));
 	}
 
 }

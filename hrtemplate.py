@@ -67,7 +67,10 @@ public class TemplateName {
 
 	}
 
+	static boolean DEBUG = false;
+
 	static void debug(Object...os) {
+		if (!DEBUG) { return; }
 		System.err.printf("%.65536s\\n", Arrays.deepToString(os));
 	}
 
