@@ -47,17 +47,15 @@ public class CountLuck {
 	}
 
 	// forest
-	char[][] F;
-	int nX;
-	int nY;
-	Point current;
-	Deque<Point> path = new ArrayDeque<>();
+	final char[][] F;
+	final int nX;
+	final int nY;
+	final Deque<Point> path = new ArrayDeque<>();
 
 	public CountLuck(char[][] F) {
 		this.F = F;
 		this.nY = F.length;
 		this.nX = F[0].length;
-		current = findStartPoint();
 	}
 
 	Point findStartPoint() {
@@ -89,29 +87,42 @@ public class CountLuck {
 		return null;
 	}
 
-	boolean tryDirection(Direction d) {
+	Point tryDirection(Point current, Direction d) {
 		Point next = lookAhead(current, d);
 		if (next == null) {
 			debug("NO", d);
-			return false;
+			return null;
 		}
 		F[current.y][current.x] = BREADCRUMB;
 		path.push(current);
-		current = next;
-		debug("YES", d, current);
-		return true;
+		debug("YES", d, next);
+		return next;
 	}
 
-	boolean exitFound() {
+	boolean isExit(Point current) {
 		return F[current.y][current.x] == EXIT;
+	}
+
+	boolean moreThanOneWay(Point current) {
+		int ways = 0;
+		for (Direction d : directions) {
+			if (lookAhead(current, d) != null) {
+				ways++;
+			}
+		}
+		return ways > 1;
 	}
 
 	boolean isImpressed(int k) {
 		Point current = findStartPoint();
+		if (moreThanOneWay(current)) { k--; }
 		search:
-		while (!exitFound()) {
+		while (isExit(current) == false) {
 			for (Direction d : directions) {
-				if (tryDirection(d)) {
+				Point next = tryDirection(current, d);
+				if (next != null) {
+					current = next;
+					if (moreThanOneWay(current)) { k--; }
 					continue search;
 				}
 			}
@@ -122,7 +133,7 @@ public class CountLuck {
 			F[current.y][current.x] = GRASS;
 			debug("BACK", current);
 		}
-		return false;
+		return k == 0;
 	}
 
 	public static void main(String[] args) {
@@ -144,7 +155,7 @@ public class CountLuck {
 	}
 
 	static void debug(Object...os) {
-		System.err.printf("%.65536s\n", Arrays.deepToString(os));
+		// System.err.printf("%.65536s\n", Arrays.deepToString(os));
 	}
 
 }
