@@ -1,0 +1,5 @@
+## UtopianIdentificationNumber
+FIRST: (.java)
+	19:01 - started
+	19:11 - done
+	19:12 - [0-9] is more readable than \\d, also pattern is sometimes readable without breaking it into parts

@@ -4,6 +4,7 @@ import sys
 import time
 
 template_py = """#!/usr/bin/python
+/* Mighty Cohadar */
 import sys
 
 def solve(a, b):
@@ -22,7 +23,8 @@ if __name__ == '__main__':
 		load(sys.stdin)
 """
 
-template_c = """#include <stdio.h>
+template_c = """/* Mighty Cohadar */
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
@@ -60,6 +62,7 @@ int main(int argc, char const *argv[])
 template_java = """import java.util.*;
 import java.io.*;
 
+/* Mighty Cohadar */
 public class TemplateName {
 
 	public static void main(String[] args) {
