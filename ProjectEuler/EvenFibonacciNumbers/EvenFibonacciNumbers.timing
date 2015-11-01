@@ -4,4 +4,4 @@ FIRST: (.java)
 	10:32 - done input
 	10:35 - forced pause
 	11:02 - resume
-	
+	11:42 - done, I wrongly assumed I need BigInteger here
