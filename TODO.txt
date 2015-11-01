@@ -1,1 +1,5 @@
-better rand.py with sorted support
+* better rand.py with sorted support
+
+* learn enough sublime scripting to turn hrtemplate into a plugin
+
+* learn sublime template regexps

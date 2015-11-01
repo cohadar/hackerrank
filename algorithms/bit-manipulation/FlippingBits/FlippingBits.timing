@@ -1,0 +1,6 @@
+## FlippingBits
+FIRST: (.java)
+	16:39 - started
+	16:46 - done
+	16:57 - even on something this simple, there was a more proper solution, 
+			remember to use L and << when defining constants, instead of explicit FF-s

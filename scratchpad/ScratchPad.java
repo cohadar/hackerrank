@@ -1,65 +1,22 @@
-import java.io.*;
 import java.util.*;
-import java.text.*;
-import java.math.*;
-import java.util.regex.*;
+import java.io.*;
 
 public class ScratchPad {
 
-    static long winnerIndex(long groupSize)
-        {
-        
-       
-        if (groupSize == 2)
-            {
-            return 1;
-        }
-        
-        if (groupSize %2 == 1)
-            {
-            return winnerIndex(groupSize - 1) + 1;
-        }
-        
-        long winnerHalf = winnerIndex(groupSize/2);
-        long subProblem = groupSize/2;
-       
-        
-        if (winnerHalf <= subProblem/2)
-            {
-            // second half of circle
-            
-            return (groupSize/2 + winnerHalf*2);
-            
-            
-        }
-        else
-            {
-            //first half of circle
-            
-            return (winnerHalf - subProblem/2)*2 - 1;
-            
-        }
-        
+    static int compare(int a, int b) {
+        return a - b;
     }
-    
-    public static void main(String[] args) {
-      
-        
-       BufferedReader inp = new BufferedReader (new InputStreamReader(System.in));
-       try
-       {   
-         int T= Integer.parseInt(inp.readLine());
-            
-         for(int i=0;i<T;i++)
-         {
-            long n= Long.parseLong(inp.readLine());
-            //Your code goes here
-             
-             System.out.println (winnerIndex(n));
-         }
-       }
-         catch(Exception e){}
 
-      
+    static int sign(int x) {
+        return (x < 0) ? -1 : ((x > 0) ? 1 : 0);
     }
+
+    public static void main(String[] args) {
+        int a = 2000000000;
+        int b = -a;
+        if (sign(compare(a, b)) != sign(Integer.compare(a, b))) {
+            System.out.printf("%d %d %d %d\n", a, b, compare(a, b), Integer.compare(a, b));
+        }
+    }
+
 }
