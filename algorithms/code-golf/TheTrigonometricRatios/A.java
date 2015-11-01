@@ -1,0 +1,1 @@
+import java.util.*;public class A{static float z(float x, float d, int l){float s=1,p=d,q=1;for(int i=2;i<10;i+=2){s=-s;p*=x*x; q*=i*(i+l);d+=s*p/q;}return d;}public static void main(String[]r){Scanner s = new Scanner(System.in);int t = s.nextInt();while(t-->0){float d = s.nextFloat();System.out.printf("%.3f\n%.3f\n",z(d,d,1),z(d,1,-1));}}}
