@@ -7,3 +7,6 @@ FIRST: (.java)
 	19:37 - rework did not help.
 	20:00 - done, such a subtle algorithm change
 			on the other hand, if I tried it on paper I would have probably spotted it!
+	20:30 - after watching mimino I see I did not even need sieve.
+	20:43 - mimino did not even care his loop had useless even numbers, 
+			in competitions simplicity is better than optimized coding as long as it is in bounds.
