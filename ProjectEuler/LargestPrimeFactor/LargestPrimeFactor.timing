@@ -1,0 +1,9 @@
+## LargestPrimeFactor
+FIRST: (.java)
+	17:57 - started
+	18:39 - 4/6
+	18:43 - 5/6 after fixing int/long and one logic problem
+	19:00 - Heisenbug, delete all, start over.
+	19:37 - rework did not help.
+	20:00 - done, such a subtle algorithm change
+			on the other hand, if I tried it on paper I would have probably spotted it!
