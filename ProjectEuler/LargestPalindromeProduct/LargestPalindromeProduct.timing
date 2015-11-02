@@ -1,0 +1,6 @@
+## LargestPalindromeProduct
+FIRST: (.java)
+	20:47 - started
+	21:00 - 1/3
+	21:02 - done, again I was overoptimizing, tried to put smart for loop bounds (incorrectly) instead just doing full scan.
+	
