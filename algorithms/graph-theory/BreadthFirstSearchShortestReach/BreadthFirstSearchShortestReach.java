@@ -4,7 +4,15 @@ import java.io.*;
 /* Mighty Cohadar */
 public class BreadthFirstSearchShortestReach {
 
-	static int[] solve(int[][]G, int start) {
+	final int[][] G;
+	final int start;
+
+	BreadthFirstSearchShortestReach(int[][] G, int start) {
+		this.G = G;
+		this.start = start;
+	}
+
+	int[] solve() {
 		int n = G.length;
 		int[] ret = new int[n];
 		boolean[] p = new boolean[n];
@@ -32,23 +40,28 @@ public class BreadthFirstSearchShortestReach {
 		return ret;
 	}
 
+	static BreadthFirstSearchShortestReach load(Scanner scanner) {
+		int nodes = scanner.nextInt();
+		int[][] G = new int [nodes][nodes];
+		int edges = scanner.nextInt();
+		for (int i = 0; i < edges; i++) {
+			int a = scanner.nextInt() - 1;
+			int b = scanner.nextInt() - 1;
+			G[a][b] = 6;
+			G[b][a] = 6;
+		}
+		int start = scanner.nextInt() - 1;	
+		return new BreadthFirstSearchShortestReach(G, start);	
+	}
+
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		int t = scanner.nextInt();
 		while (t-->0) {
-			int nodes = scanner.nextInt();
-			int[][] G = new int [nodes][nodes];
-			int edges = scanner.nextInt();
-			for (int i = 0; i < edges; i++) {
-				int a = scanner.nextInt() - 1;
-				int b = scanner.nextInt() - 1;
-				G[a][b] = 6;
-				G[b][a] = 6;
-			}
-			int start = scanner.nextInt() - 1;
-			int[] result = solve(G, start);
-			for (int i = 0; i < nodes; i++) {
-				if (i != start) {
+			BreadthFirstSearchShortestReach o = BreadthFirstSearchShortestReach.load(scanner);
+			int[] result = o.solve();
+			for (int i = 0; i < result.length; i++) {
+				if (i != o.start) {
 					System.out.printf("%d ", result[i]);
 				}
 			}
