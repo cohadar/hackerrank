@@ -1,0 +1,11 @@
+:syntax on
+:set tabstop=4
+:set shiftwidth=4
+:set noexpandtab
+:set number
+
+set makeprg=javac\ %
+set errorformat=%A:%f:%l:\ %m,%-Z%p^,%-C%.%#
+
+map <F8> :set makeprg=javac\ %<CR>:make<CR>
+map <F9> :!java `basename % .java` < `basename % .java`.examp.in<CR>

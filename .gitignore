@@ -33,3 +33,7 @@
 *.gcda
 *.gcno
 *.gcov
+
+# OS X files
+.DS_Store
+

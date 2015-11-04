@@ -1,0 +1,10 @@
+## BreadthFirstSearchShortestReach
+FIRST: (.java)
+	20:56 - started
+	22:49 - configured vim for basic java development
+	07:20 - ok, let's do the actual problem
+	08:23 - 1/7, brilliant, +vim has no support for system clipboard!!!
+	08:27 - 6/7, used max instead of min
+	08:40 - no idea why last test case fails, pause
+	09:15 - resume, let's learn proper theory
+	09:19 - done, I wrongly assumed I need a stack(LIFO) when I needed a queue(FIFO), theory is important.
