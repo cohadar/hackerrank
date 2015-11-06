@@ -1,3 +1,4 @@
+// union-find: https://en.wikipedia.org/wiki/Disjoint-set_data_structure
 static class UF {
 
 	private int[] parent;  // parent[i] = parent of i
