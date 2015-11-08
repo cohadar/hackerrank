@@ -1,0 +1,10 @@
+## DijkstraShortestReach2
+FIRST: (.java)
+	20:29 - started
+	20:46 - done input & data
+	21:28 - 1/7, plus it needs Java8 for some reason?
+	21:39 - fixed java version problem
+	21:43 - after rereading text I noticed BOLDED mention of multiple edges between same nodes
+	21:55 - 1/7, apparently using adjecency matrix instead of adjecency lists was not enough.
+	22:18 - 2/7, rest timeouts
+	22:22 - 3/7, rest timeouts, will have to revert to adjecency lists
