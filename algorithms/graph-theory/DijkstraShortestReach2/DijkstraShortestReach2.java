@@ -14,13 +14,13 @@ public class DijkstraShortestReach2 {
 			this.w = w;
 		}
 		public String toString() {
-			return String.format("(b=%d, w=%d)", b, w);
+			return String.format("(b=%d, w=%d)", b + 1, w);
 		}	
 	}	
 
 	static class Vertex implements Comparable<Vertex>{
 		final int a;
-		final int w;
+		int w;
 		Vertex(int a, int w) {
 			this.a = a;
 			this.w = w;
@@ -29,27 +29,53 @@ public class DijkstraShortestReach2 {
 			return Integer.compare(this.w, that.w);
 		}
 		public String toString() {
-			return String.format("(a=%d, w=%d)", a, w);
+			return String.format("(a=%d, w=%d)", a + 1, w);
 		}			
 	}
 
+	static Vertex removeMin(List<Vertex> Q) {
+		Vertex min = Q.get(0);
+		for (Vertex v : Q) {
+			if (v.w < min.w) {
+				min = v;
+			}
+		}
+		Q.remove(min);
+		return min;
+	}
+
+	static void decreaseKey(List<Vertex> Q, int a, int w) {
+		for (Vertex v : Q) {
+			if (v.a == a) {
+				v.w = w;
+				return;
+			}
+		}
+		Q.add(new Vertex(a, w));
+	}
+
 	static int[] solve(int n, List<List<Edge>> AL, int s) {
-		boolean[] B = new boolean[n];
+		debug(n, AL, s);
+		boolean[] done = new boolean[n];
 		int[] D = new int[n];
 		Arrays.fill(D, INFINITY);
 		D[s] = 0;
-		Queue<Vertex> Q = new PriorityQueue<Vertex>();
+		// TODO: pairing heap
+		List<Vertex> Q = new ArrayList<Vertex>();
 		Q.add(new Vertex(s, 0));
 		while (!Q.isEmpty()) {
-			Vertex v = Q.remove();
-			System.out.println(v);
+			Vertex v = removeMin(Q);
+			debug(v);
+			done[v.a] = true;
 			List<Edge> al = AL.get(v.a);
 			for (Edge e : al) {
-				if (B[e.b]) continue;
+				if (done[e.b]) continue;
 				D[e.b] = Math.min(D[e.b], D[v.a] + e.w);
-				Q.add(new Vertex(e.b, D[e.b]));
 			}
-			B[v.a] = true;
+			for (Edge e : al) {
+				if (done[e.b]) continue;
+				decreaseKey(Q, e.b, D[e.b]);
+			}
 		}
 		return D;
 	}
@@ -63,10 +89,13 @@ public class DijkstraShortestReach2 {
 			int m = scanner.nextInt();
 			assert 2 <= n && n <= 3000;
 			assert 1 <= m && m <= n * (n - 1) / 2;
-			List<List<Edge>> AL = new ArrayList<>();
+			// adjacency matrix
+			int[][] M = new int[n][n];
 			for (int i = 0; i < n; i++) {
-				AL.add(new ArrayList<Edge>());
-			}
+				for (int j = 0; j < n; j++) {
+					M[i][j] = INFINITY;
+				}
+			}			
 			for (int i = 0; i < m; i++) {
 				int x = scanner.nextInt() - 1;
 				int y = scanner.nextInt() - 1;
@@ -75,11 +104,22 @@ public class DijkstraShortestReach2 {
 				assert 0 <= y && y < n;
 				assert x != y;
 				// handle duplicates
-				AL.get(x).add(new Edge(y, w));
-				AL.get(y).add(new Edge(x, w));
+				M[x][y] = Math.min(M[x][y], w);
+				M[y][x] = Math.min(M[y][x], w);
 			}
 			int s = scanner.nextInt() - 1;
 			assert 0 <= s && s < n;
+			// convert matrix to adjacency lists
+			List<List<Edge>> AL = new ArrayList<>();
+			for (int a = 0; a < n; a++) {
+				List<Edge> l = new ArrayList<Edge>();
+				for (int b = 0; b < n; b++) {
+					if (M[a][b] != INFINITY) {
+						l.add(new Edge(b, M[a][b]));
+					}
+				}
+				AL.add(l);
+			}
 			int[] distances = solve(n, AL, s);
 			System.out.println(join(distances, ' ', s));
 		}
@@ -94,6 +134,13 @@ public class DijkstraShortestReach2 {
 			}
 		}
 		return sb.toString();
+	}
+
+	static boolean DEBUG = false;
+	
+	static void debug(Object...os) {
+		if (!DEBUG) { return; }
+		System.err.printf("%.65536s\n", Arrays.deepToString(os));
 	}
 
 }

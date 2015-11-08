@@ -9,3 +9,5 @@ FIRST: (.java)
 	22:18 - 2/7, rest timeouts
 	22:22 - 3/7, rest timeouts, will have to revert to adjecency lists
 	22:31 - 1/7, rest timeouts, hmmmm, this is duplicated doing.
+	23:16 - 2/7, rest wrong
+	23:35 - done, I can't believe using array list instead of fibonacci heap worked.
