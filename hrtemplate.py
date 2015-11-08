@@ -4,7 +4,10 @@ import sys
 import time
 
 template_py = """#!/usr/bin/python
-/* Mighty Cohadar */
+/**
+  * @author Mighty Cohadar 
+  * @link 
+  */
 import sys
 
 def solve(a, b):
