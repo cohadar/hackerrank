@@ -8,3 +8,4 @@ FIRST: (.java)
 	21:55 - 1/7, apparently using adjecency matrix instead of adjecency lists was not enough.
 	22:18 - 2/7, rest timeouts
 	22:22 - 3/7, rest timeouts, will have to revert to adjecency lists
+	22:31 - 1/7, rest timeouts, hmmmm, this is duplicated doing.
