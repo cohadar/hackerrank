@@ -1,1 +1,2 @@
 2015-10-27 | Rank(Algo): 3449 | Score: 2136.00 | 91.72⁺ | Competitions: 1
+2015-10-29 | Rank(Algo): 837 | Score: 2696.00 | 98.10⁺ | Competitions: 2 | Silver: 1
