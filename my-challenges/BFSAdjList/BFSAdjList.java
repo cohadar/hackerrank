@@ -4,50 +4,68 @@ import java.io.*;
 /* Mighty Cohadar */
 public class BFSAdjList {
 
-	static class Edge {
-		final int a;
-		final int b;
-		final int w;
-		Edge(int a, int b, int w) {
-			this.a = a;
-			this.b = b;
-			this.w = w;
-		}
-		public String toString() {
-			return String.format("(a=%d, b=%d, w=%d)", a, b, w);
-		}	
+	static void pre(int a) {
+		System.out.printf("PRE: %c\n", 'A' + a);
 	}
 
-	static void solve(List<List<Edge>> G) {
-		debug(G);
+	static void post(int a) {
+		System.out.printf("POST: %c\n", 'A' + a);
+	}
+
+	static void edge(int a, int b) {
+		System.out.printf("E: %c -> %c\n", 'A' + a, 'A' + b);
+	}
+
+	static void tree(int a, int b) {
+		System.out.printf("T: %c -> %c\n", 'A' + a, 'A' + b);
+	}	
+
+	static void solve(List<List<Integer>> G, int start) {
+		Queue<Integer> qu = new ArrayDeque<Integer>();
+		boolean[] vi = new boolean[G.size()];
+		qu.add(start);
+		vi[start] = true;
+		while (!qu.isEmpty()) {
+			System.out.println("###############");
+			int a = qu.remove();
+			pre(a);
+			for (int b : G.get(a)) {
+				if (!vi[b]) {
+					vi[b] = true;
+					tree(a, b);
+					qu.add(b);
+				} else {
+					edge(a, b);
+				}
+			}
+			post(a);
+		}
 	}
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		int n = scanner.nextInt();
 		int m = scanner.nextInt();
-		List<List<Edge>> G = scanGraph(scanner, n, m);
-		solve(G);
+		List<List<Integer>> G = scanGraph(scanner, n, m);
+		solve(G, 0);
 	}
 
-	static List<List<Edge>> scanGraph(Scanner scanner, int n, int m) {
-		List<List<Edge>> G = new ArrayList<>();
+	static List<List<Integer>> scanGraph(Scanner scanner, int n, int m) {
+		List<List<Integer>> G = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
-			G.add(new ArrayList<Edge>());
+			G.add(new ArrayList<Integer>());
 		}
 		for (int i = 0; i < m; i++) {
 			int a = scanner.nextInt();
 			int b = scanner.nextInt();
-			int w = scanner.nextInt();
-			Edge e = new Edge(a, b, w);
-			G.get(a).add(e);
-			G.get(b).add(e);
-		}		
+			G.get(a).add(b);
+			// G.get(b).add(a);
+		}
 		return G;
 	}
 
 	static boolean DEBUG = true;
-	
+
 	static void debug(Object...os) {
 		if (!DEBUG) { return; }
 		System.err.printf("%.65536s\n", Arrays.deepToString(os));

@@ -1,0 +1,27 @@
+###############
+PRE: A
+T: A -> B
+T: A -> C
+POST: A
+###############
+PRE: B
+E: B -> C
+T: B -> D
+T: B -> E
+POST: B
+###############
+PRE: C
+E: C -> E
+T: C -> F
+POST: C
+###############
+PRE: D
+E: D -> E
+POST: D
+###############
+PRE: E
+E: E -> F
+POST: E
+###############
+PRE: F
+POST: F
