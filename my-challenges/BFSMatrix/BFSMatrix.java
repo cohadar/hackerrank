@@ -14,23 +14,24 @@ public class BFSMatrix {
 	}
 
 	void preProcessVertex(int a) {
-
+		System.out.printf("pre: %c\n", 'A' + a);
 	}
 
 	void postProcessVertex(int a) {
-		
+		System.out.printf("post: %c\n", 'A' + a);
 	}
 
 	void processEdge(int a, int b) {
 		System.out.printf("%c -> %c\n", a + 'A', b + 'A');
 	}	
 
-	void solve() {
+	void solve(int start) {
 		Queue<Integer> Q = new ArrayDeque<>();
 		boolean[] B = new boolean[G.length];
-		B[0] = true;
-		Q.add(0);
+		B[start] = true;
+		Q.add(start);
 		while (!Q.isEmpty()) {
+			System.out.println("##########");
 			int a = Q.remove();
 			preProcessVertex(a);
 			for (int b = 0; b < G.length; b++) {
@@ -57,22 +58,9 @@ public class BFSMatrix {
 		return new BFSMatrix(G);
 	}	
 
-	static BFSMatrix full(int n) {
-		int[][] G = new int[n][n];
-		for (int y = 0; y < n; y++) {
-			for (int x = 0; x < n; x++) {
-				G[y][x] = 1;
-			}
-		}
-		return new BFSMatrix(G);
-	}
-
 	public static void main(String[] args) {
-		for (int i = 1; i < 20; i++) {
-			BFSMatrix o = BFSMatrix.full(i);
-			System.out.println("########## n=" + i);
-			o.solve();
-		}
+		BFSMatrix o = BFSMatrix.load(new Scanner(System.in));
+		o.solve(0);
 	}
 
 	static boolean DEBUG = true;
