@@ -1,0 +1,36 @@
+################
+PRE: A
+T: A -> B
+################
+PRE: B
+E: B -> A
+T: B -> C
+################
+PRE: C
+E: C -> A
+E: C -> B
+T: C -> E
+################
+PRE: E
+E: E -> B
+T: E -> D
+################
+PRE: D
+E: D -> B
+E: D -> E
+POST: D
+E: E -> C
+T: E -> F
+################
+PRE: F
+E: F -> C
+E: F -> E
+POST: F
+POST: E
+E: C -> F
+POST: C
+E: B -> D
+E: B -> E
+POST: B
+E: A -> C
+POST: A
