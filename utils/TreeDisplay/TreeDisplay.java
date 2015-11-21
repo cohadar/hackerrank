@@ -1,12 +1,15 @@
 import java.util.*;
 import java.io.*;
 
-/* Mighty Cohadar */
+/**
+ * Display graph tree, input: n, m, start 
+ * @author Mighty Cohadar 
+ */
 public class TreeDisplay {
 
 	private final List<List<Integer>> G;
-	private final Deque<Boolean> LC = new ArrayDeque<>();
-	private final boolean[] V;
+	private final Deque<Boolean> LC = new ArrayDeque<>(); // last child
+	private final boolean[] V; // visited
 	
 	public TreeDisplay(List<List<Integer>> G) {
 		this.G = G;
@@ -48,10 +51,48 @@ public class TreeDisplay {
 		int n = scanner.nextInt();
 		int m = scanner.nextInt();
 		assert n == m + 1;
+		int start = scanner.nextInt() - 1;
+		assert 0 <= start && start < n; 
 		List<List<Integer>> G = scanGraph(scanner, n, m);
 		sortChildren(G);
-		TreeDisplay o = new TreeDisplay(G);
-		o.print(0);
+		TreeDisplay o = new TreeDisplay(graphToTree(G, start));
+		o.print(start);
+	}
+
+	static List<List<Integer>> graphToTree(List<List<Integer>> G, int start) {
+		boolean[] V = new boolean[G.size()];
+		int[] P = new int[G.size()];
+		Arrays.fill(P, -1);
+		Deque<Integer> Q = new ArrayDeque<>(); // FIFO
+
+		V[start] = true;
+		Q.add(start);
+		while (!Q.isEmpty()) {
+			int a = Q.remove();
+			for (int b : G.get(a)) {
+				if (!V[b]) {
+					V[b] = true;
+					P[b] = a;
+					Q.add(b);
+				}
+			}
+		}
+
+		List<List<Integer>> T = new ArrayList<>();
+		for (int i = 0; i < G.size(); i++) {
+			T.add(new ArrayList<Integer>());
+		}
+		for (int i = 0; i < P.length; i++) {
+			if (P[i] >= 0) {
+				int a = P[i];
+				int b = i;
+				T.get(a).add(i);
+			}
+		}
+		for (int i = 0; i < T.size(); i++) {
+			Collections.sort(T.get(i));
+		}
+		return T;
 	}
 
 	static void sortChildren(List<List<Integer>> G) {
