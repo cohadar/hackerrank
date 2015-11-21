@@ -1,11 +1,8 @@
 import java.util.*;
 import java.io.*;
 
-/**
-  * Generate random tree 
-  * @author Mighty Cohadar 
-  */
-public class Tree {
+/* Mighty Cohadar */
+public class TreeRandom {
 
 	static class PairWithRandom implements Comparable<PairWithRandom>{
 		final int x;
@@ -52,10 +49,12 @@ public class Tree {
 	static void print_graph(int[] P, boolean one_based) {
 		for (int i = 0; i < P.length; i++) {
 			if (P[i] >= 0) {
-				if (one_based) {
-					System.out.printf("%d %d\n", P[i] + 1, i + 1);
+				int a = (one_based) ? P[i] + 1 : P[i];
+				int b = (one_based) ? i + 1 : i;
+				if (Math.random() < 0.5) {
+					System.out.printf("%d %d\n", a, b);
 				} else {
-					System.out.printf("%d %d\n", P[i], i);
+					System.out.printf("%d %d\n", b, a);
 				}
 			}
 		}
@@ -69,7 +68,9 @@ public class Tree {
 		assert max_spann >= 1;
 		boolean one_based = scanner.nextBoolean();
 		int[] P = generate(n, max_spann);
+		System.out.printf("%d %d\n", n, n - 1);
 		print_graph(P, one_based);
 	}
 
 }
+
