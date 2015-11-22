@@ -13,3 +13,5 @@ FIRST: (.java)
 	14:03 - linearization done, last part was the hardest, there was no gradual transition, I had to make a mental leap,
 			by imagining the linear algorithm from scratch. Mental leap jumped over a gradual labels/goto statement transformation.
 			Recursion always remembers where it was in the previous depth, in this case it was "ib" (child index)
+	14:23 - removed parent array (because parent is the element on the stack under current element)
+	14:27 - converted n_children array into n_children stack variable
