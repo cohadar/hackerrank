@@ -2,4 +2,9 @@
 FIRST: (.java)
 	14:38 - started
 	14:47 - done input, (since input takes this long, snippet strategy is very important!)
-	15:14 - done snippeting
+	15:14 - done snippeting, pause
+	15:53 - resume
+	16:07 - 4/7
+	16:17 - done, the trick was for middle index to be in the outer loop.
+			this is of course Floyd-Warshall algorithm.
+	16:27 - simplified algorithm with use of INF constant.
