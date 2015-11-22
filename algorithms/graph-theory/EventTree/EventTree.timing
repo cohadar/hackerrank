@@ -9,3 +9,7 @@ FIRST: (.java)
 	11:53 - I did not even need an array, if dfs returns num of children.
 	13:11 - let's try to linearize recursion here
 	13:19 - replaced nChildren return value with array
+	13:29 - replaced local variable a with parent array, replaced parameter a with explicit Q, recursive call is now a pure action/jump
+	14:03 - linearization done, last part was the hardest, there was no gradual transition, I had to make a mental leap,
+			by imagining the linear algorithm from scratch. Mental leap jumped over a gradual labels/goto statement transformation.
+			Recursion always remembers where it was in the previous depth, in this case it was "ib" (child index)

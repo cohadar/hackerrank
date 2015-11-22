@@ -8,32 +8,62 @@ public class EventTree {
 	private final int m;
 	private final boolean[] visited; 
 	private final int[] n_children;
+	private final int[] parent;
+	private final Deque<Pair> Q;
 	private int cuts;
 	
+	static class Pair {
+		final int a;
+		int ib;
+		Pair(int a, int ib) {
+			this.a = a;
+			this.ib = ib;
+		}
+		public String toString() {
+			return String.format("(a=%d, ib=%d)", a, ib);
+		}	
+	}
+
 	public EventTree(List<List<Integer>> G, int m) {
 		this.G = G;
 		this.m = m;
 		visited = new boolean[G.size()];
 		n_children = new int[G.size()];
+		Q = new ArrayDeque<>();
+		parent = new int[G.size()];
+		Arrays.fill(parent, -1);
 	}
 
-	void dfs(int a) {
-		for (int b : G.get(a)) {
+	void dfs() {
+		Pair p = Q.element();
+		while (p.ib < G.get(p.a).size()) {
+			int b = G.get(p.a).get(p.ib);
 			if (!visited[b]) {
 				visited[b] = true;
-				dfs(b);
-				if ((1 + n_children[b]) % 2 == 0) {
-					cuts++;
-				} else {
-					n_children[a] += (1 + n_children[b]);
-				}
+				parent[b] = p.a;
+				p = new Pair(b, 0);
+				Q.push(p);
+			} else {
+				p.ib++;
+			}
+		}
+		p = Q.pop();
+		int b = p.a;
+		if (parent[b] >= 0) {
+			if ((1 + n_children[b]) % 2 == 0) {
+				cuts++;
+			} else {
+				n_children[parent[b]] += (1 + n_children[b]);
 			}
 		}
 	}
 	
 	int solve(int start) {
 		visited[start] = true;
-		dfs(start);
+		Q.push(new Pair(start, 0));
+		while (!Q.isEmpty()) {
+			dfs();	
+		}
 		return cuts;
 	}
 
