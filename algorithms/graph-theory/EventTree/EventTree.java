@@ -10,6 +10,7 @@ public class EventTree {
 	private final int[] start_time;
 	private final int[] end_time;
 	private int time;
+	private int cuts;
 	
 	public EventTree(List<List<Integer>> G, int m) {
 		this.G = G;
@@ -20,20 +21,24 @@ public class EventTree {
 	}
 
 	void dfs(int a) {
-		start_time[a] = time++;
 		for (int b : G.get(a)) {
 			if (!visited[b]) {
 				visited[b] = true;
+				start_time[b] = ++time;
 				dfs(b);
+				end_time[b] = ++time;
+				int num_children = (end_time[b] + 1 - start_time[b]) / 2;
+				if (num_children % 2 == 0) {
+					cuts++;
+				}
 			}
 		}
-		end_time[a] = time++;
 	}
 	
 	int solve(int start) {
 		visited[start] = true;
 		dfs(start);
-		return 0;
+		return cuts;
 	}
 
 	public static void main(String[] args) {

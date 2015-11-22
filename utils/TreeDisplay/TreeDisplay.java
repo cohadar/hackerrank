@@ -46,12 +46,15 @@ public class TreeDisplay {
 		}
 	}
 
+	/**
+	*   MAIN
+	*/
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		int n = scanner.nextInt();
 		int m = scanner.nextInt();
 		assert n == m + 1;
-		int start = scanner.nextInt() - 1;
+		int start = 1 - 1;
 		assert 0 <= start && start < n; 
 		List<List<Integer>> G = scanGraph(scanner, n, m);
 		sortChildren(G);
