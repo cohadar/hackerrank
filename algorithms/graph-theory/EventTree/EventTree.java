@@ -7,32 +7,28 @@ public class EventTree {
 	private final List<List<Integer>> G;
 	private final int m;
 	private final boolean[] visited; 
-	private final int[] start_time;
-	private final int[] end_time;
-	private int time;
 	private int cuts;
 	
 	public EventTree(List<List<Integer>> G, int m) {
 		this.G = G;
 		this.m = m;
 		visited = new boolean[G.size()];
-		start_time = new int[G.size()];
-		end_time = new int[G.size()];
 	}
 
-	void dfs(int a) {
+	int dfs(int a) {
+		int nChildren = 0;
 		for (int b : G.get(a)) {
 			if (!visited[b]) {
 				visited[b] = true;
-				start_time[b] = ++time;
-				dfs(b);
-				end_time[b] = ++time;
-				int num_children = (end_time[b] + 1 - start_time[b]) / 2;
-				if (num_children % 2 == 0) {
+				int bChildren = dfs(b);
+				if ((1 + bChildren) % 2 == 0) {
 					cuts++;
+				} else {
+					nChildren += (1 + bChildren);
 				}
 			}
 		}
+		return nChildren;
 	}
 	
 	int solve(int start) {

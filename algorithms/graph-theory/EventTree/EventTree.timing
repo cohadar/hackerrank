@@ -6,3 +6,4 @@ FIRST: (.java)
 	10:30 - resume
 	11:01 - done
 	11:29 - review, people write really ugly code. I did not need matrix of timings, just array.
+	11:53 - I did not even need an array, if dfs returns num of children.
