@@ -3,3 +3,5 @@
 * learn enough sublime scripting to turn hrtemplate into a plugin
 
 * learn sublime template regexps
+
+* Java binarySearch is useless because it is not precise in returning the smallest/largest index, make your own!
