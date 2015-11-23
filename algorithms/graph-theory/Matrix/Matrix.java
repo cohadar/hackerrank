@@ -35,20 +35,14 @@ public class Matrix {
 		this.K = K;
 	}
 
-	boolean leadsToMachines(int start, Edge e) {
-		boolean mb = (start == e.a) ? e.mb : e.ma;
-		if  (mb) {
+	boolean leadsToMachines(boolean mb, int b) {
+		if (mb) {
 			return true;
 		}
-		int b = (start == e.a) ? e.b : e.a;
 		for (Edge f : G.get(b)) {
 			if (!f.destroyed) {
 				f.destroyed = true;
-				if (leadsToMachines(f.a, f)) {
-					f.destroyed = false;
-					return true;
-				}
-				if (leadsToMachines(f.b, f)) {
+				if (leadsToMachines(f.ma, f.a) || leadsToMachines(f.mb, f.b)) {
 					f.destroyed = false;
 					return true;
 				}
@@ -80,8 +74,9 @@ public class Matrix {
 			Edge e = Q.remove();
 			if (!e.destroyed) {
 				e.destroyed = true;
-				if (leadsToMachines(e.a, e) && leadsToMachines(e.b, e)) {
+				if (leadsToMachines(e.ma, e.a) && leadsToMachines(e.mb, e.b)) {
 					time += e.z;
+					// debug(e);
 				} else {
 					e.destroyed = false;
 				}
