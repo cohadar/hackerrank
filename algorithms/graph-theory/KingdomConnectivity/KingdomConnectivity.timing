@@ -5,4 +5,5 @@ FIRST: (.java)
 	08:39 - read 2
 	08:46 - done input
 	09:18 - 3 ok, 1 wrong, 6 timeout
-	
+	09:40 - 4 ok, 6 timeout (trick was in using TreeSet for tracking cycle nodes)
+	09:45 - ok dfs is definitely waaay to slow for counting all paths (which should have been obious to em from the start), FAIL

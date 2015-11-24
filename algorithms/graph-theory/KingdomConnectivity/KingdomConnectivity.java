@@ -7,17 +7,19 @@ public class KingdomConnectivity {
 	static final int MOD = (int)1e9;
 
 	private final List<List<Integer>> G;
-	private final boolean[] V;
+	private final boolean[] V; // visited
+	private final TreeSet<Integer> C; // cycle nodes
 	
 	public KingdomConnectivity(List<List<Integer>> G) {
 		this.G = G;
 		debug(G);
 		this.V = new boolean[G.size()];
+		this.C = new TreeSet<Integer>();
 	}
 
 	static class CycleException extends RuntimeException {};  
 
-	int cycleNode = -1;
+	
 	int target;
 	int sum;
 
@@ -25,10 +27,10 @@ public class KingdomConnectivity {
 		V[a] = true;
 		for (int b : G.get(a)) {
 			if (V[b]) {
-				cycleNode = b; // needs to be array
+				C.add(b);
 			} else if (b == target) {
 				sum = (sum + 1) % MOD;
-				if (cycleNode != -1) {
+				if (!C.isEmpty()) {
 					throw new CycleException();
 				}
 			} else {
@@ -36,6 +38,7 @@ public class KingdomConnectivity {
 			}
 		}
 		V[a] = false;
+		C.remove(a);
 	}
 
 	int solve(int start, int end) {
