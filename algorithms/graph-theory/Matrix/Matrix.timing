@@ -5,4 +5,6 @@ FIRST: (.java)
 	21:48 - bad solution done
 	22:16 - 2 ok, 3 wrong, 5 timeout
 	22:41 - same result, if you are doing the same shit do not expect different results!
-			
+	22:54 - found a counter-example for greedy edge strategy
+	23:29 - I think I have a paper solution
+	00:39 - 3 ok, 7 wrong

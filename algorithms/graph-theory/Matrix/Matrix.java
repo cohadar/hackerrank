@@ -5,19 +5,16 @@ import java.io.*;
 public class Matrix {
 
 	static class Edge implements Comparable<Edge> {
-		final int a;
 		final int b;
 		final int z;
-		boolean ma;
-		boolean mb;
 		boolean destroyed = false;
-		Edge(int a, int b, int z) {
-			this.a = a;
+		Edge mirror;
+		Edge(int b, int z) {
 			this.b = b;
 			this.z = z;
 		}
 		public String toString() {
-			return String.format("(a=%d, b=%d, z=%d)", a, b, z);
+			return String.format("(b=%d, z=%d)", b, z);
 		}	
 		public int compareTo(Edge that) {
 			return Integer.compare(this.z, that.z);
@@ -25,63 +22,90 @@ public class Matrix {
 	}
 
 	private final List<List<Edge>> G;
-	private final int[] K;
+	private final int[] V;
 	
-	public Matrix(List<List<Edge>> G, int[] K) {
-		Arrays.sort(K);
+	public Matrix(List<List<Edge>> G, int[] V) {
 		debug(G);
-		debug(K);
+		debug(V);
 		this.G = G;
-		this.K = K;
+		this.V = V;
+		markMultis();
 	}
 
-	boolean leadsToMachines(boolean mb, int b) {
-		if (mb) {
-			return true;
-		}
-		for (Edge f : G.get(b)) {
-			if (!f.destroyed) {
-				f.destroyed = true;
-				if (leadsToMachines(f.ma, f.a) || leadsToMachines(f.mb, f.b)) {
-					f.destroyed = false;
-					return true;
+	void markMultis() {
+		for (int a = 0; a < V.length; a++) {
+			if (V[a] < 0) {
+				for (Edge e : G.get(a)) {
+					if (V[e.b] >= 0) {
+						V[e.b]++;
+					}
 				}
-				f.destroyed = false;
 			}
-		}
-		return false;
+		}		
 	}
 
-	void locateMachines() {
-		for (List<Edge> le : G) {
-			for (Edge e : le) {
-				e.ma = Arrays.binarySearch(K, e.a) >= 0;
-				e.mb = Arrays.binarySearch(K, e.b) >= 0;
+	long reduceMultis() {
+		long sum = 0;
+		PriorityQueue<Edge> Q = new PriorityQueue<>();
+		for (int a = 0; a < V.length; a++) {
+			if (V[a] > 1) {
+				for (Edge e : G.get(a)) {
+					if (V[e.b] < 0) {
+						Q.add(e);
+					}
+				}
+				while (Q.size() > 1) {
+					Edge e = Q.remove();
+					if (!e.destroyed) {
+						e.destroyed = true;
+						e.mirror.destroyed = true;
+						sum += e.z;
+						debug("reduceMultis", a, e.b, e.z);
+					}
+					V[a]--;
+				}
+				Q.clear();
+			} 
+		}
+		return sum;
+	}
+
+	Edge destroyMin(int a, int parent) {
+		for (Edge e : G.get(a)) {
+			if (e.destroyed == false && e.b != parent) {
+				if (V[e.b] < 0) {
+					return e;
+				}
+				Edge f = destroyMin(e.b, a); 
+				if (f != null) {
+					return (e.z < f.z) ? e : f;
+				}
 			}
 		}
+		return null;
+	}
+
+	long reduceSingles() {
+		long sum = 0;
+		for (int a = 0; a < V.length; a++) {
+			if (V[a] < 0) {
+				Edge min = destroyMin(a, -7);
+				if (min != null) {
+					min.destroyed = true;
+					min.mirror.destroyed = true;					
+					sum += min.z;
+					debug("reduceSingles", a, min.b, min.z);
+				}
+			}
+		}
+		return sum;
 	}
 
 	long solve() {
-		locateMachines();
-		PriorityQueue<Edge> Q = new PriorityQueue<>();
-		for (int k : K) {
-			for (Edge e : G.get(k)) {
-				Q.add(e);
-			}
-		}
-		long time = 0;
-		while (!Q.isEmpty()) {
-			Edge e = Q.remove();
-			if (!e.destroyed) {
-				e.destroyed = true;
-				if (leadsToMachines(e.ma, e.a) && leadsToMachines(e.mb, e.b)) {
-					time += e.z;
-					// debug(e);
-				} else {
-					e.destroyed = false;
-				}
-			}
-		}
+		debug(V);
+		long time = reduceMultis();
+		debug(V);
+		time += reduceSingles();
 		return time;
 	}
 
@@ -92,8 +116,11 @@ public class Matrix {
 		assert 2 <= n && n <= 1e5 : "out of range, n: " + n;
 		assert 2 <= k && k <= n : "out of range, k: " + k;
 		List<List<Edge>> G = scanGraph(scanner, n, n - 1);
-		int[] K = scanArray(scanner, k);
-		Matrix o = new Matrix(G, K);
+		int[] V = new int[n];
+		for (int i = 0; i < k; i++) {
+			V[scanner.nextInt()] = -1;
+		}
+		Matrix o = new Matrix(G, V);
 		System.out.println(o.solve());
 	}
 
@@ -107,19 +134,14 @@ public class Matrix {
 			int b = scanner.nextInt();
 			int z = scanner.nextInt();
 			assert 1 <= z && z <= 1e6 : "out of range, z: " + z;
-			Edge e = new Edge(a, b, z);
-			G.get(a).add(e);
-			G.get(b).add(e);
+			Edge eab = new Edge(b, z);
+			Edge eba = new Edge(a, z);
+			eab.mirror = eba;
+			eba.mirror = eab;
+			G.get(a).add(eab);
+			G.get(b).add(eba);
 		}		
 		return G;
-	}
-
-	static int[] scanArray(Scanner scanner, int n) {
-		int[] A = new int[n];
-		for (int i = 0; i < n; i++) {
-			A[i] = scanner.nextInt();
-		}
-		return A;
 	}
 
 	static boolean DEBUG = false;
