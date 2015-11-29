@@ -5,3 +5,10 @@
 * learn sublime template regexps
 
 * Java binarySearch is useless because it is not precise in returning the smallest/largest index, make your own!
+
+* Make pure int Deque, same for List
+
+* Write fast nCr function
+
+* Nasty graph generator, using a simple random graph does not reveal algorithm weak points!
+ 

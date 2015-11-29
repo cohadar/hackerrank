@@ -33,4 +33,5 @@
 2015-11-19 | Rank: 936 | Points: 2236.28 | ★ ★ ★ ★ | 92⁺
 2015-11-22 | Rank: 805 | Points: 2361.28 | ★ ★ ★ ★ | 93⁺
 2015-11-24 | Rank: 773 | Points: 2393.08 | ★ ★ ★ ★ | 93⁺
+2015-11-26 | Level: 57 | Points: 2027.18 // site changed scoring strategy again, and I lost point again
 

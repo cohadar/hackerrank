@@ -1,0 +1,5 @@
+## Ghosts
+FIRST: (.java)
+	17:11 - started
+	17:27 - done, long was not needed for sum, but meh.
+			Math.abs was also not needed for (a - b) % 3

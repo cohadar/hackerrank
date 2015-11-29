@@ -1,0 +1,23 @@
+## TwoCenters
+FIRST: (.java)
+	17:02 - started
+	17:07 - read
+	17:09 - done input
+	17:58 - apparently Floyd-Warshall is not good enough for unweighted tree distances.
+	18:04 - aha. an idea!, double BFS instead of Floyd-Warshall.
+	18:33 - double BFS also slow, hmmm.
+	18:51 - using single BFS for calculating distance matrix is fastest so far, now to find O(n^2) for minimum calculation.
+	18:56 - done, the trick was to break out of min-max searching loops asap.
+	-- next day
+	18:28 - timeout on roughly half of tests, my large test case was not representative somehow?
+	18:48 - cannot see way to improve it because I don't know where the bottleneck is, will work on last problem now.
+	-- next day
+	09:18 - what now? 
+	09:29 - ok, the slowest part seems to be BFS
+	09:35 - ok, wtf, inlining a bfs function is 0.3s slower??? This is for real!
+	10:08 - lol, it is still preliminary results until next day
+	11:16 - improved with depth heuristic (probably should do depth reduction search)
+	13:11 - ok, let's do this
+	14:03 - two branch dfs approach failed to give correct answers
+	14:23 - I was using distance matrix as visited array double, bad idea.
+	14:23 - Ok this is the best I can do for now.

@@ -1,0 +1,14 @@
+## GG
+FIRST: (.java)
+	18:42 - started
+	18:46 - input done
+	20:00 - no idea
+	07:00 - let's do this
+	09:29 - almost done slow version
+	09:47 - done slow algo, works up to length 10
+	10:25 - increased to length 12 with some caching
+	11:43 - made optial solution, but need to clean it up for speed
+	12:27 - works up to 1200 now
+	13:17 - made a really lean DP solution, but somehow it is still slow for > 1200
+	13:35 - done, trick was to reduce DP from N^3 to N^2
+	

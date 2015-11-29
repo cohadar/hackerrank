@@ -1,0 +1,51 @@
+## Rhombographs
+FIRST: (.java)
+	18:50 - started
+	19:11 - I understand the problem, but have nowhere to start, let's first generate some rhombographs by brute force.
+	21:45 - done brute force generation.
+	22:10 - ok I will just try to solve this with visual pattern.
+	22:35 - z = n^2 - 2m ; rhombograph: z mod n == 0 
+	23:02 - formula is bad for some combinations of n, r (when r is too small)
+	23:23 - Lx = 2x * (x - 1) ; x = z / n; x >= 3
+	23:47 - assert z / n <= r
+	23:58 - n == a * x + b * (2x - 1)
+	00:25 - z = axx + b2x(x-1)
+	00:36 - I think I have it, now just to code it proper.
+	01:03 - 1/5, baaaad
+	01:28 - I am starting to suspect tests are bad
+	01:33 - nope, I forgot graph needs to be connected.
+	01:53 - nope, they are all connected properly, I am REALLY starting to suspect tests are bad.
+	01:57 - nope, I am an idiot, forgot the special case of r == 2
+	02:08 - ok, I think graph is not connected when a == 0 and b == 1
+	02:43 - I am an idiot, did not read the challenge text carefully. It says EXACTLY two nodes C and D
+	02:48 - ok this time 2 ok, 3 timeout
+	02:57 - This now seems like a brain dead stupid problem.
+	03:13 - Ok how did I miss case n=5, r=2
+	03:56 - done, FINALLY
+			All this happened because:
+			1. I did not read carefully
+			2. I used a wrong brute force algo for designing fast one
+			3. I did not verify small cases on paper
+	04:21 - submitted a cleaned up version.
+	--
+	18:00 - as espected there are bigger solutions I did not find.
+	21:19 - All distances in a graph are either 1 or 2!
+	22:22 - n = 4a / (2a - 1) => n = 4 (only case) which means rhombs must touch each other!
+	22:48 - found the ultimate formula: r = (n - 1) - 4a / n
+			r - degree of each node
+			n - number of nodes
+			a - number of rhombs
+	23:58 - generated a list of complex rhombographs
+	00:50 - next venue of attack, r <= n / 2 for complex rhombos because of exactly one rhombo pair conditions.
+	01:20 - lol, when k == 0, n == 4a, r == n - 2, perfect rhombographs.
+			how the hell did I not see this at once???
+	--
+	21:57 - r <= 1 + (n - 4) / 2
+	00:00 - r <= 2 + (n - 4) / 2
+	01:33 - found perfect rhombograph formula, r == n / 2
+	02:02 - if graph contains a rhomb there are no nodes that are not part of at least one rhomb.
+	02:37 - found melded-rhombs perfect rhombograph 6-3-3
+	02:51 - it seems that non-perfect rhombos also exist, guess it was a bad idea to try to solve by subgraph categories.
+			since we know good n-r-a combinations all that is needed is proper matrix generator from r and a
+
+	
