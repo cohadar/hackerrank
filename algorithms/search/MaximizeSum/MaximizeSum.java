@@ -1,97 +1,51 @@
 import java.util.*;
 import java.io.*;
 
+/**
+  * @author Mighty Cohadar 
+  */
 public class MaximizeSum {
 
-	static long msum(long[] A, int l, int r, long m) {
-		long max = 0;
-		long sum = 0;
-		for (int k = l; k <= r; k++) {
-			sum = (sum + A[k]) % m;
-			assert sum > 0;
-			if (sum > max) {
-				max = sum;
+	static long solve(long m, long[] A) {
+		long max = A[0];
+		long cumul = 0;
+		TreeSet<Long> S = new TreeSet<>();
+		for (int i = 0; i < A.length; i++) {
+			cumul = (cumul + A[i]) % m;
+			if (cumul > max) {
+				max = cumul;
 			}
-		}		
-		return max;
-	}
-
-	static long brute(long[] A, long m) {
-		int n = A.length;
-		long max = 0;
-		for (int l = 0; l < n; l++) {
-			for (int r = l; r < n; r++) {
-				long msum = msum(A, l, r, m);
-				if (max < msum) max = msum;
+			S.add(cumul);
+			Long h = S.higher(cumul);
+			if (h != null) {
+				long d = (m - h) + cumul;
+				if (d > max) {
+					max = d;
+				}
 			}
 		}
 		return max;
 	}
 
-	static long solve(long[] A, long m) {
-		int n = A.length;
-		long max = 0;
-		for (int l = 0; l < n; l++) {
-			long sum = A[l] % m;
-			if (max < sum) max = sum;
-			for (int r = l + 1; r < n; r++) {
-				sum = (sum + A[r]) % m;
-				if (max < sum) max = sum;
-			}
-		}
-		return max;
-	}
-
-	static void scan(Scanner scanner) {
-		int t = scanner.nextInt();
-		for (int _t = 0; _t < t; _t++) {
-			int n = scanner.nextInt();
-			long m = scanner.nextLong();			
-			long[] a = new long[n];
-			for (int i = 0; i < n; i++) {
-				a[i] = scanner.nextLong();
-			}
-			System.out.println(solve(a, m));
-		}
-	}
-
-	static void test() {
-		Random random = new Random();
-		int n = 20 + random.nextInt(20);
-		long[] a = new long[n];
-		for (int i = 0; i < n; i++) {
-			a[i] = 1 + random.nextLong() % 1000000000000000000L; 
-			a[i] = Math.abs(a[i]);
-		}
-		long m = (1 + random.nextLong()) % 100000000000000L; 
-		m = Math.abs(m);		
-		System.out.println(m);
-		System.out.println(brute(a, m));
-		System.out.println(solve(a, m));
-		assert brute(a, m) == solve(a, m);
-	}
-
-	public static void main(String[] args) throws Exception {
-		// test();
+	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		if (args.length == 1 && "COHADAR".equals(args[0])) {
-			scanner = new Scanner(new File("MaximizeSum.in"));
+		int t = scanner.nextInt();
+		while (t-->0) {
+			int n = scanner.nextInt();
+			assert 2 <= n && n <= 1e5 : "out of range, n: " + n;			
+			long m = scanner.nextLong();
+			assert 1 <= m && m <= 1e14 : "out of range, m: " + m;
+			long[] A = scanArray(scanner, n, m);
+			System.out.println(solve(m, A));
 		}
-		scan(scanner);
 	}
 
-	static long[] scanArray(Scanner scanner, int n) {
-		String line = scanner.nextLine();
-		Scanner arrayScanner = new Scanner(line);
-		long[] a = new long[n];
+	static long[] scanArray(Scanner scanner, int n, long m) {
+		long[] A = new long[n];
 		for (int i = 0; i < n; i++) {
-			a[i] = arrayScanner.nextLong();
+			A[i] = scanner.nextLong() % m;
 		}
-		return a;
-	}
-
-	static void debug(Object...os) {
-		System.err.println(Arrays.deepToString(os));
+		return A;
 	}
 
 }

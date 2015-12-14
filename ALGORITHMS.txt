@@ -35,3 +35,7 @@
 2015-11-24 | Rank: 773 | Points: 2393.08 | ★ ★ ★ ★ | 93⁺
 2015-11-26 | Level: 57 | Points: 2027.18 // site changed scoring strategy again, and I lost point again
 
+2015-12-14 | Level: 57 | Points: 2607.18 // Got back my points by admin intervention, it did not trigger level change
+2015-12-14 | Level: 56 | Points: 2647.80 // lol, level actually dropped after I got more points, seems I am lacking in Bit Manipulation category
+
+

@@ -8,3 +8,9 @@ FIRST: (.java)
 
 	06:35 - restart, I realized random.nextLong() can return negative values :)
 	07:31 - 6/17, rest timeout.
+
+	08:26 - restart after a month
+	08:33 - done input
+	09:54 - done the paper math after reading online discussion, frankly I should have figured it out myself.
+	10:03 - 4/17, no timeouts
+	10:05 - done, forgot to modulo the input array.
