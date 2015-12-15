@@ -2,3 +2,12 @@
 FIRST: (.java)
 	09:36 - started
 	10:08 - no idea, need some math insight for this
+
+	21:01 - try again
+	21:59 - I think I have a paper solution, trick is to calculate each of 32 bit levels separately.
+	22:33 - ok, timeout, brain not working
+
+	08:30 - retry
+	09:07 - developed paper algo to the end
+	10:07 - 2/15
+	10:21 - small.out == (120, 1648)
