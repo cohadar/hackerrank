@@ -6,6 +6,7 @@ public class XoringNinja {
 
 	static final int PRIME = (int)1e9 + 7;
 
+	// my solution, correct but a bit complicated
 	static long solve(int[] A) {
 		long sum = 0;
 		for (int i = 0; i < 31; i++) {
@@ -25,41 +26,34 @@ public class XoringNinja {
 		return sum;
 	}
 
+	// solution from editorial
+	static long solve2(int[] A) {
+		int orr = 0;
+		for (int ia = 0; ia < A.length; ia++) {
+			orr |= A[ia];
+		}		
+		return (orr * powmod(A.length - 1)) % PRIME;
+	}	
+
 	static long njak(int zeros, int ones) {
-		// zsum == 2 ** zeros
-		long zsum = 0;
-		long zcumul = 1;
-		for (int i = zeros; i >= 0; i--) {
-			zsum += zcumul;
-			zcumul *= i;
-			zsum %= PRIME;
-			zcumul %= PRIME;
-		}
-		long osum = 0;
-		long ocumul = ones;
-		int j = ones;
-		while (ocumul > 0) {
-			osum += ocumul;
-			osum %= PRIME;
-			ocumul *= (--j);
-			ocumul %= PRIME;
-			ocumul *= (--j);
-			ocumul %= PRIME;
-		}
-		System.out.printf("osum=%d, zsum=%d\n", osum, zsum);
+		long zsum = powmod(zeros);
+		long osum = powmod(ones - 1);
 		return (osum * zsum) % PRIME;
 	}
 
-	static void test_njak() {
-		for (int z = 0; z < 5; z++) {
-			for (int o = 0; o < 5; o++) {
-				System.out.printf("njak(%d, %d) == %d\n", z, o, njak(z, o));
-			}
+	static long powmod(int n) {
+		if (n < 0) {
+			return 0;
 		}
-	}
+		long sum = 1;
+		for (int i = 0; i < n; i++) {
+			sum *= 2;
+			sum %= PRIME;
+		}
+		return sum;
+	}	
 
 	public static void main(String[] args) {
-		test_njak();
 		Scanner scanner = new Scanner(System.in);
 		int t = scanner.nextInt();
 		while (t-->0) {

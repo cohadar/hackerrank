@@ -1,5 +1,4 @@
 2015-11-01 | https://www.hackerrank.com/challenges/basic-algo-quiz-1
-2015-11-19 | https://www.hackerrank.com/challenges/xoring-ninja
 2015-11-22 | https://www.hackerrank.com/challenges/clique
 2015-11-23 | https://www.hackerrank.com/challenges/matrix
 2015-11-24 | https://www.hackerrank.com/challenges/kingdom-connectivity

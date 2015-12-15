@@ -11,3 +11,9 @@ FIRST: (.java)
 	09:07 - developed paper algo to the end
 	10:07 - 2/15
 	10:21 - small.out == (120, 1648)
+
+	21:29 - resume
+	21:46 - all ok, first part was slicing sums per bit levels, second was using binomial coefficient sums.
+			Sum of all binomial coefficients is 2^n
+			Sum of all odd binomial coefficients is 2^(n-1)
+	22:06 - editorial gives simpler formula, that is derived from my formula when you realize algo does not depend on zeros and ones separately.
