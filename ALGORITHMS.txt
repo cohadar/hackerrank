@@ -40,4 +40,7 @@
 2015-12-14 | Level: 56 | Points: 2647.80 // lol, level actually dropped after I got more points, seems I am lacking in Bit Manipulation category
 
 2015-12-15 | Rank: 218 | Points: 2702.80 | Level: 60
+2015-12-16 | Rank: 218 | Points: 2737.80 | Level: 60
+
+
 
