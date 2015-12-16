@@ -3,3 +3,8 @@ FIRST: (.java)
 	09:17 - started
 	09:26 - done input
 	09:49 - correct but too slow
+	21:14 - resume
+	21:28 - done with O(n^2)
+			heh, my "largest substring" method is waaay better than editorial version.
+			a noticed a lot of bad solutions using too many while statements.
+			I thought my solution was complex but it seems pretty sane in comparison.

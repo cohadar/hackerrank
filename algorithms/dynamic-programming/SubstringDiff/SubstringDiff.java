@@ -6,28 +6,45 @@ public class SubstringDiff {
 
 	static final int INF = (int)1e9 + 7;
 
+	static int[] njak(int i, int j, char[] P, char[] Q) {
+		int n = P.length;
+		int m = Math.max(i, j);
+		int[] R = new int[n - m];
+		for (int k = 0; k < R.length; k++) {
+			R[k] = (P[i + k] == Q[j + k]) ? 0 : 1;
+		}
+		return R;
+	}
+
+	static int zrak(int l, int[] A, int s) {
+		if (l >= A.length) {
+			return l;
+		}
+		int k = 0;
+		int c = 0;
+		for (int i = 0; i < A.length; i++) {
+			c += A[i];
+			if (c <= s) {
+				k++;
+			} else {
+				c -= A[i - k];
+			}
+		}
+		return Math.max(l, k);
+	}
+
 	static int solve(int s, char[] P, char[] Q) {
 		assert P.length == Q.length;
 		assert 0 <= s && s <= P.length : "out of range, s: " + s;
 		int n = P.length;
-		int[][] M = new int[n][n];
 		int l = 0;
-		for (int k = 0; k < n; k++) {
-			boolean updated = false;
-			for (int i = 0; i < n - k; i++) {
-				for (int j = 0; j < n - k; j++) {
-					M[i][j] += (P[i + k] == Q[j + k]) ? 0 : 1;
-					if (M[i][j] <= s) {
-						l = k;
-						updated = true;
-					} else {
-						M[i][j] = INF;
-					}
-				}
-			}
-			if (!updated) {
-				return l;
-			}
+		int[] A = njak(0, 0, P, Q);
+		l = zrak(l, A, s);
+		for (int i = 1; i < n; i++) {
+			A = njak(0, i, P, Q);
+			l = zrak(l, A, s);
+			A = njak(i, 0, P, Q);
+			l = zrak(l, A, s);
 		}
 		return l;
 	}
@@ -41,7 +58,7 @@ public class SubstringDiff {
 			int s = Integer.parseInt(temp[0]);
 			char[] P = temp[1].toCharArray();
 			char[] Q = temp[2].toCharArray();
-			System.out.println(solve(s, P, Q) + 1);
+			System.out.println(solve(s, P, Q));
 		}
 	}
 
