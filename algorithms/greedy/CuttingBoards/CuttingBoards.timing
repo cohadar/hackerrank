@@ -1,0 +1,25 @@
+## CuttingBoards
+FIRST: (.java)
+	08:18 - started
+	08:53 - paper solution
+	09:09 - 2/13 - this is the most dangerous options, programs that pass simple tests but fail everything else...
+	09:16 - 2/13 - same result after changing greedy cost function!?
+	09:21 - 2/13 - same result after I fixed modulo PRIME and long problems
+	09:24 - 2/13 - same result after I fixed all possible long problems
+	09:25 - 2/13 - same result after I fixed greedy cost function
+	09:26 - 2/13 - same result after I fixed one missing PRIME location
+	09:32 - 2/13 - same result after I tried one more greedy cost change
+	09:36 - 2/13 - same result after I tried one more greedy cost change
+	09:44 - I fail to see anything wrong with the code, let's try hackos, large expected 84012
+	10:10 - paper analysis showed my greedy function was totally off the mark.
+	
+	12:43 - resume
+	12:58 - 2/31 - same result after I tried one more greedy cost change
+	13:42 - If we assume temporarily that this is a DP problem we can realize that we need to solve it in reverse.
+			Imagine board is already all cut up, and calculate the price of "gluing" it back. 
+			pause
+
+	16:22 - resume
+	16:40 - verified reverse greedy on paper
+	16:51 - 2/13 - after implementing in-reverse greedy
+	17:23 - Why is it so hard to get the greedy cost right? FAILED.
