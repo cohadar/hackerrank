@@ -3,3 +3,7 @@ FIRST: (.java)
 	08:02 - started
 	08:18 - done input
 	08:51 - done a lot of prep for char matrix walk problem (walls & directions)
+	09:16 - made custom big, solution: 2
+	09:43 - I obviously don't know how to solve multidimensional DP yet.
+			hint to self: time distance is fixed here, but cost distance can be optimized.
+			FAILED

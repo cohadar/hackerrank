@@ -4,3 +4,4 @@
 2015-11-24 | https://www.hackerrank.com/challenges/kingdom-connectivity
 2015-12-17 | https://www.hackerrank.com/challenges/board-cutting
 2015-12-17 | https://www.hackerrank.com/challenges/bike-racers
+2015-12-18 | https://www.hackerrank.com/challenges/coin-on-the-table
