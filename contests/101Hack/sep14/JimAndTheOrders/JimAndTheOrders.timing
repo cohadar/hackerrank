@@ -1,0 +1,6 @@
+## JimAndTheOrders
+FIRST: (.java)
+	11:10 - started
+	11:17 - done: 1m7s + 7m8s = 8m15s, best: 2m53s
+	12:22 - done: 4m13s - when using array pair instead of object
+	12:27 - done: 2m55s - pair + array sort comparator
