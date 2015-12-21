@@ -1,3 +1,4 @@
 https://www.hackerrank.com/challenges/matrix
 https://www.hackerrank.com/challenges/maximise-sum // learn to use TreeSet
 https://www.hackerrank.com/challenges/xoring-ninja // bit slicing
+https://www.hackerrank.com/challenges/mr-k-marsh // nested for break optimization

@@ -1,0 +1,6 @@
+## MrKmarsh
+FIRST: (.java)
+	08:29 - started
+	09:31 - 10/15, rest timeout
+	10:27 - done: 28m51s + 31m47s + ... = 1h55m49s
+	editorial: Instead of boolean arrays for wall ranges, should have used integer arrays for max wall distance from point.
