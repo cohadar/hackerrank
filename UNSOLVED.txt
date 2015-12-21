@@ -6,3 +6,4 @@
 2015-12-17 | https://www.hackerrank.com/challenges/bike-racers
 2015-12-18 | https://www.hackerrank.com/challenges/coin-on-the-table
 2015-12-21 | https://www.hackerrank.com/challenges/wet-shark-and-two-subsequences
+2015-12-21 | https://www.hackerrank.com/challenges/cuttree
