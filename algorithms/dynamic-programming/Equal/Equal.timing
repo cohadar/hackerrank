@@ -1,0 +1,7 @@
+## Equal
+FIRST: (.java)
+	09:11 - started
+	09:20 - done paper
+	10:21 - done input generation, this is a task unto itself.
+	10:45 - done, this is not really dynamic, more like greedy.
+	10:47 - 3 fail when I don't use target reduction
