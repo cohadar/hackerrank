@@ -1,0 +1,15 @@
+## AngryChildren2
+FIRST: (.java)
+	08:40 - started
+
+	k1 k2, x1 x2, U22 = |x1 - x2|
+	k1 k2 k3, x1 x2 x3, U33 = U22 + sum(|x3 - xi|)   
+	k1 k2 k3 k4, x1 x2 x3 x4, U44 = U33 + sum(|x4 - xi|)    
+
+	k1 k2, x1 x2 x3, U23 = min {U22, x3 replace x1, x3 replace x2}
+
+	k1 k2, x1 x2 x3 x4 x5 = min {no x5, |x5 - xi| for all i < 5}
+
+	K > N --> INF
+	K == N --> U(K - 1, N - 1) + xn abs diff i - 1
+	K < N --> min {discard xn + U(K, N - 1) , use xn + U(K - 1, N - 1) }
