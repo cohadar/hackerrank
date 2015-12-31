@@ -4,48 +4,15 @@ import java.io.*;
 /* Mighty Cohadar */
 public class SansaAndXOR {
 
-	static boolean isUsed(int n, int k) {
-		boolean oddBinomial = (k & (n - k)) == 0;
-		return (n % 2 == 0) ? oddBinomial : !oddBinomial;
-	}
-
 	static int solve(int[] A) {
+		if (A.length % 2 == 0) {
+			return 0;
+		}
 		int cumul = 0;
-		System.out.println("==");
 		for (int i = 0; i < A.length; i++) {
-			if (isUsed(A.length - 1, i)) {
-				//System.out.println("i = " + i);
+			if (i % 2 == 0) {
 				cumul ^= A[i];
 			}
-		}
-		return cumul;
-	}
-
-	static int brute(int[] A, int len, int start) {
-		int cumul = 0;
-		for (int i = 0; i < len; i++) {
-			cumul ^= A[start + i];
-		}
-		return cumul;
-	}
-
-	static int brute(int[] A, int len) {
-		int current = 0;
-		for (int i = 0; i < len; i++) {
-			current ^= A[i];
-		}
-		int cumul = current;
-		for (int i = 0; i < A.length - len; i++) {
-			current = current ^ A[i] ^ A[i + len];
-			cumul ^= current;
-		}
-		return cumul;
-	}
-
-	static int brute(int[] A) {
-		int cumul = 0;
-		for (int i = 0; i < A.length; i++) {
-			cumul ^= brute(A, i + 1);
 		}
 		return cumul;
 	}
@@ -56,7 +23,7 @@ public class SansaAndXOR {
 		while (t-->0) {
 			int n = scanner.nextInt();
 			int[] A = scanArray(scanner, n);
-			System.out.println(brute(A));
+			System.out.println(solve(A));
 		}
 	}
 
@@ -68,5 +35,11 @@ public class SansaAndXOR {
 		return A;
 	}
 
-}
+	static boolean DEBUG = true;
+	
+	static void debug(Object...os) {
+		if (!DEBUG) { return; }
+		System.err.printf("%.65536s\n", Arrays.deepToString(os));
+	}
 
+}
