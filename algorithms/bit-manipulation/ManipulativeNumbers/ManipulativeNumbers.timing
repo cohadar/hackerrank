@@ -1,0 +1,11 @@
+## ManipulativeNumbers
+FIRST: (.java)
+	16:52 - started
+	16:59 - done paper, pause
+	17:14 - resume, more paper
+	18:05 - Ok I have a general idea for a solution, let's do some code.
+	18:48 - done, I can't believe it actually worked, the code was complex enough to give me doubts.
+			After looking at other people solutions I realized there was slightly easier way to solve second part of challenge.
+			Should have changed my "mental model" from bit-manipulation in first part to int-manipulation in second.
+
+	
