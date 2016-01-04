@@ -16,6 +16,18 @@ public class NewYearPresent {
 		}	
 	}
 
+	static class Pair {
+		final int ic;
+		final int id;
+		Pair(int ic, int id) {
+			this.ic = ic;
+			this.id = id;
+		}
+		public String toString() {
+			return String.format("(ic=%d, id=%d)", ic, id);
+		}	
+	}
+
 	static long binom2(long n) {
 		if (n < 2) { return 0; };
 		return n * (n - 1) / 2;
@@ -114,7 +126,7 @@ public class NewYearPresent {
 		}
 	}
 
-	static long solveA3BCD(int ia, Sticks[] S, Map<Integer, Integer> H) {
+	static long solveA3BCD(int ia, Sticks[] S, Map<Integer, Integer> H, Map<Integer, List<Pair>> P) {
 		long count = 0;
 		int a = S[ia].length;
 		for (int ib = ia - 1; ib >= 0; ib--) {
@@ -128,6 +140,17 @@ public class NewYearPresent {
 					count += binom2(S[ib].count) * S[ic].count;
 				}
 			}	
+			int cd = a - b;
+			List<Pair> lp = P.get(cd);
+			if (lp != null) {
+				for (Pair p : lp) {
+					if (ib < p.ic) {
+						count += S[ib].count * S[p.ic].count * S[p.id].count;
+					} else {
+						//break;
+					}
+				}
+			}
 		}
 		return count;
 	}
@@ -164,8 +187,20 @@ public class NewYearPresent {
 			H.put(e.getKey(), j);
 			j++;
 		}
+		Map<Integer, List<Pair>> P = new HashMap<>(); // c.length + d.length -> (ic, id)
+		for (int ic = 0; ic < S.length - 1; ic++) {
+			for (int id = ic + 1; id < S.length; id++) {
+				int cd = S[ic].length + S[id].length;
+				List<Pair> lp = P.get(cd);
+				if (lp == null) {
+					lp = new ArrayList<>();
+					P.put(cd, lp);
+				}
+				lp.add(new Pair(ic, id));
+			}
+		}
 		for (int ia = S.length - 1; ia >= 0; ia--) {
-			countA3 += binom3(S[ia].count) * solveA3BCD(ia, S, H);
+			countA3 += binom3(S[ia].count) * solveA3BCD(ia, S, H, P);
 			countA2 += binom2(S[ia].count) * solveA2BCDE(ia, S, H);
 		}
 		debug(countA3, countA2);
