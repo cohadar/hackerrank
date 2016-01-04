@@ -113,10 +113,12 @@ public class NewYearPresent {
 			H.put(e.getKey(), j);
 			j++;
 		}
+		int maxLength = S[S.length - 1].length;
 		Map<Integer, List<Integer>> P = new HashMap<>(); // c.length + d.length -> List(ic)
 		for (int ic = 0; ic < S.length - 1; ic++) {
 			for (int id = ic + 1; id < S.length; id++) {
 				int cd = S[ic].length + S[id].length;
+				if (cd > maxLength) { continue; };
 				List<Integer> lp = P.get(cd);
 				if (lp == null) {
 					lp = new ArrayList<>();
