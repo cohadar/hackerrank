@@ -115,7 +115,34 @@ public class NewYearPresent {
 	}
 
 	static long solveA3BCD(int ia, Sticks[] S, Map<Integer, Integer> H) {
-		return 0;
+		long count = 0;
+		int a = S[ia].length;
+		for (int ib = ia - 1; ib >= 0; ib--) {
+			int b = S[ib].length;
+			if (3 * b < a) {
+				break;
+			}
+			if (3 * b == a) {
+				count += binom3(S[ib].count);
+			}
+			for (int ic = ib - 1; ic >= 0; ic--) {
+				int c = S[ic].length;
+				if (b + c >= a) { continue; };
+				if (2 * b + c == a) {
+					count += binom2(S[ib].count) * S[ic].count;
+				}
+				if (b + 2 * c == a) {
+					count += S[ib].count * binom2(S[ic].count);
+				}
+				int d = a - (b + c);
+				if (c <= d) { break; };				
+				Integer id = H.get(d);
+				if (id != null) {
+					count += S[ib].count * S[ic].count * S[id].count;
+				}
+			}
+		}
+		return count;
 	}
 
 	static long solveA2BCDE(int ia, Sticks[] S, Map<Integer, Integer> H) {
