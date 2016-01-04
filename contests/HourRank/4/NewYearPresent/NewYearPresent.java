@@ -4,27 +4,16 @@ import java.io.*;
 /* Mighty Cohadar */
 public class NewYearPresent {
 
-	static Map<Integer, Integer> counts(int[] A) {
-		Map<Integer, Integer> C = new HashMap<>();
-		for (int i = 0; i < A.length; i++) {
-			Integer count = C.get(A[i]);
-			if (count == null) {
-				count = 0;
-			}
-			C.put(A[i], count + 1);
+	static class Sticks {
+		final int length;
+		final int count;
+		Sticks(int length, int count) {
+			this.length = length;
+			this.count = count;
 		}
-		return C;
-	}
-
-	static Map<Integer, Integer> doubles(int[] A) {
-		Map<Integer, Integer> D = counts(A);
-		for (Iterator<Map.Entry<Integer, Integer>> i = D.entrySet().iterator(); i.hasNext();) {
-			Map.Entry<Integer, Integer> entry = i.next();
-			if (entry.getValue() < 2) { 
-				i.remove();
-			}
-		}
-		return D;
+		public String toString() {
+			return String.format("(length=%d, count=%d)", length, count);
+		}	
 	}
 
 	static long binom2(long n) {
@@ -39,20 +28,103 @@ public class NewYearPresent {
 		return n * (n - 1) * (n - 2) * (n - 3) / (4 * 3 * 2);
 	}	
 
-	static long solve(int[] A, int r, int a) {
-		long count 
+	static long solveBCD(int[] A, int ia3, int a) {
+		long count = 0;
+		for (int ib = ia3 - 1; ib >= 2; ib--) {
+			for (int ic = ib - 1; ic >= 1; ic--) {
+				for (int id = ic - 1; id >= 0; id--) {
+					if (A[ib] + A[ic] + A[id] == a) {
+						count++;
+					}
+				}
+			}
+		}
+		return count;
+	}
+
+	static long solveA3(int[] A, int ia2, int a) {
+		long count = 0;
+		for (int ia3 = ia2 - 1; (ia3 >= 3) && (A[ia2] == A[ia3]); ia3--) {
+			count += solveBCD(A, ia3, a);
+		}
+		return count;
+	}
+
+	static boolean ok22(int a, int b, int c, int d, int e) {
+		return (b + c == a) && (d + e == a);
+	}
+
+	static boolean ok4(int a, int b, int c, int d, int e) {
+		if (ok22(a, b, c, d, e) || ok22(a, b, d, c, e) || ok22(a, b, e, d, c)) {
+			return true;
+		}
+		return false;
+	}
+
+	static long solveA2(int[] A, int ia2, int a) {
+		long count = 0;
+		for (int ib = ia2 - 1; ib >= 3; ib--) {
+			for (int ic = ib - 1; ic >= 2; ic--) {
+				for (int id = ic - 1; id >= 1; id--) {
+					for (int ie = id - 1; ie >= 0; ie--) {
+						if (ok4(a, A[ib], A[ic], A[id], A[ie])) {
+							count++;
+						}
+					}
+				}
+			}
+		}
 		return count;
 	}
 
 	static long solve(int[] A) {
-		long count = 0;
+		long countA3 = 0;
+		long countA2 = 0;
 		Arrays.sort(A);
 		for (int ia = A.length - 1; ia >= 5; ia--) {
-			if (A[ia] == A[ia - 1]) {
-				count += solve(A, ia - 2, A[ia]);
+			for (int ia2 = ia - 1; (ia2 >= 4) && (A[ia] == A[ia2]); ia2--) {
+				countA3 += solveA3(A, ia2, A[ia]);
+				countA2 += solveA2(A, ia2, A[ia]);
 			}
 		}
-		return count;
+		debug(countA3, countA2);
+		return countA3 + countA2;
+	}
+
+	static long solveA3BCD(int ia, Sticks[] S, Map<Integer, Integer> H) {
+		return 1;
+	}
+
+	static long solveA2BCDE(int ia, Sticks[] S, Map<Integer, Integer> H) {
+		return 1;
+	}	
+
+	static long solve2(int[] A) {
+		long countA3 = 0;
+		long countA2 = 0;
+		SortedMap<Integer, Integer> M = new TreeMap<Integer, Integer>();
+		for (int i = 0; i < A.length; i++) {
+			Integer v = M.get(A[i]);
+			if (v == null) { v = 0; };
+			M.put(A[i], v + 1);
+		}
+		Sticks[] S = new Sticks[M.size()];
+		Map<Integer, Integer> H = new HashMap<>();
+		int j = 0;
+		for (Map.Entry<Integer, Integer> e : M.entrySet()) {
+			S[j++] = new Sticks(e.getKey(), e.getValue());
+			H.put(e.getKey(), e.getValue());
+		}
+		for (int ia = S.length - 1; ia >= 0; ia--) {
+			if (S[ia].count >= 3) {
+				countA3 += binom3(S[ia].count) * solveA3BCD(ia, S, H);
+			}
+			if (S[ia].count >= 2) {
+				countA2 += binom2(S[ia].count) * solveA2BCDE(ia, S, H);
+			}
+		}
+		debug(countA3, countA2);
+		return countA3 + countA2;
 	}
 
 	public static void main(String[] args) {
@@ -61,6 +133,7 @@ public class NewYearPresent {
 		assert 6 <= n && n <= 3000 : "out of range, n: " + n;
 		int[] A = scanArray(scanner, n);
 		System.out.println(solve(A));
+		System.out.println(solve2(A));
 	}
 
 	static int[] scanArray(Scanner scanner, int n) {
