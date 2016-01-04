@@ -16,25 +16,6 @@ public class NewYearPresent {
 		}	
 	}
 
-	static class Pair implements Comparable<Pair> {
-		final int ic;
-		final int id;
-		Pair(int ic, int id) {
-			this.ic = ic;
-			this.id = id;
-		}
-		public int compareTo(Pair that) {
-			if (this.ic == that.ic) {
-				return -Integer.compare(this.id, that.id);
-			} else {
-				return -Integer.compare(this.ic, that.ic);
-			}
-		}
-		public String toString() {
-			return String.format("(ic=%d, id=%d)", ic, id);
-		}	
-	}
-
 	static long binom2(long n) {
 		if (n < 2) { return 0; };
 		return n * (n - 1) / 2;
@@ -70,28 +51,29 @@ public class NewYearPresent {
 		}
 	}
 
-	static long solveA3BCD(int ia, Sticks[] S, Map<Integer, Integer> H, Map<Integer, List<Pair>> P) {
+	static long solveA3BCD(int ia, Sticks[] S, Map<Integer, Integer> H, Map<Integer, List<Integer>> P) {
 		long count = 0;
 		int a = S[ia].length;
 		for (int ib = ia - 1; ib >= 0; ib--) {
 			int b = S[ib].length;
 			int c = a - 2 * b;
-			Integer ic = H.get(c);
-			if (ic != null) {
-				if (ib == ic) {
+			Integer ic1 = H.get(c);
+			if (ic1 != null) {
+				if (ib == ic1) {
 					count += binom3(S[ib].count);	
 				} else {
-					count += binom2(S[ib].count) * S[ic].count;
+					count += binom2(S[ib].count) * S[ic1].count;
 				}
 			}	
 			int cd = a - b;
-			List<Pair> lp = P.get(cd);
+			List<Integer> lp = P.get(cd);
 			if (lp != null) {
-				for (Pair p : lp) {
-					if (ib < p.ic) {
-						count += S[ib].count * S[p.ic].count * S[p.id].count;
+				for (int ic : lp) {
+					if (ib < ic) {
+						int id = H.get(cd - S[ic].length);
+						count += S[ib].count * S[ic].count * S[id].count;
 					} else {
-						break;
+						//break;
 					}
 				}
 			}
@@ -131,20 +113,24 @@ public class NewYearPresent {
 			H.put(e.getKey(), j);
 			j++;
 		}
-		Map<Integer, List<Pair>> P = new HashMap<>(); // c.length + d.length -> (ic, id)
+		Map<Integer, List<Integer>> P = new HashMap<>(); // c.length + d.length -> List(ic)
 		for (int ic = 0; ic < S.length - 1; ic++) {
 			for (int id = ic + 1; id < S.length; id++) {
 				int cd = S[ic].length + S[id].length;
-				List<Pair> lp = P.get(cd);
+				List<Integer> lp = P.get(cd);
 				if (lp == null) {
 					lp = new ArrayList<>();
 					P.put(cd, lp);
 				}
-				lp.add(new Pair(ic, id));
+				lp.add(ic);
 			}
-		}
-		for (List<Pair> lp : P.values()) {
-			Collections.sort(lp);
+		}		
+		for (List<Integer> lp : P.values()) {
+			Collections.sort(lp, new Comparator<Integer>() {
+				public int compare(Integer a, Integer b) {
+					return Integer.compare(b, a);
+				}
+			});
 		}
 		for (int ia = S.length - 1; ia >= 0; ia--) {
 			if (S[ia].count >= 3) {
