@@ -4,6 +4,8 @@ import java.io.*;
 /* Mighty Cohadar */
 public class NewYearPresent {
 
+	static final int INF = (int)1e9 + 7;
+
 	static class Sticks {
 		final int length;
 		final int count;
@@ -69,11 +71,11 @@ public class NewYearPresent {
 			List<Integer> lp = P.get(cd);
 			if (lp != null) {
 				for (int ic : lp) {
-					if (ib < ic) {
+					if (ib > ic) {
 						int id = H.get(cd - S[ic].length);
 						count += S[ib].count * S[ic].count * S[id].count;
 					} else {
-						//break;
+						break;
 					}
 				}
 			}
@@ -113,24 +115,33 @@ public class NewYearPresent {
 			H.put(e.getKey(), j);
 			j++;
 		}
-		int maxLength = S[S.length - 1].length;
+		int max3Length = -INF;
+		for (int i = S.length - 1; i >= 0; i--) {
+			if (S[i].count >= 3) {
+				max3Length = S[i].length;
+				break;
+			}
+		}
 		Map<Integer, List<Integer>> P = new HashMap<>(); // c.length + d.length -> List(ic)
-		for (int ic = 0; ic < S.length - 1; ic++) {
-			for (int id = ic + 1; id < S.length; id++) {
+		long cnt = 0;
+		for (int ic = S.length - 2; ic >= 0; ic--) {
+			for (int id = ic - 1; id >= 0; id--) {
 				int cd = S[ic].length + S[id].length;
-				if (cd > maxLength) { continue; };
+				if (S[ic + 1].length + cd > max3Length) { continue; };
 				List<Integer> lp = P.get(cd);
 				if (lp == null) {
 					lp = new ArrayList<>();
 					P.put(cd, lp);
 				}
 				lp.add(ic);
+				cnt++;
 			}
 		}		
+		debug("cnt", cnt);
 		for (List<Integer> lp : P.values()) {
 			Collections.sort(lp, new Comparator<Integer>() {
 				public int compare(Integer a, Integer b) {
-					return Integer.compare(b, a);
+					return Integer.compare(a, b);
 				}
 			});
 		}
