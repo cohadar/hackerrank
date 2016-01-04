@@ -17,14 +17,17 @@ public class NewYearPresent {
 	}
 
 	static long binom2(long n) {
+		if (n < 2) { return 0; };
 		return n * (n - 1) / 2;
 	}
 
 	static long binom3(long n) {
+		if (n < 3) { return 0; };
 		return n * (n - 1) * (n - 2) / (3 * 2);
 	}	
 
 	static long binom4(long n) {
+		if (n < 4) { return 0; };
 		return n * (n - 1) * (n - 2) * (n - 3) / (4 * 3 * 2);
 	}	
 
@@ -91,12 +94,43 @@ public class NewYearPresent {
 		return countA3 + countA2;
 	}
 
+	static long pick2(Sticks[] S, int ib, int ic) {
+		int b = S[ib].count;
+		int c = S[ic].count;
+		if (ib == ic) {
+			return binom2(b);
+		} else {
+			return b * c;
+		}
+	}
+
+	static long pick4(Sticks[] S, int ib, int ic) {
+		int b = S[ib].count;
+		int c = S[ic].count;
+		if (ib == ic) {
+			return binom4(b);
+		} else {
+			return binom2(b) * binom2(c);
+		}
+	}
+
 	static long solveA3BCD(int ia, Sticks[] S, Map<Integer, Integer> H) {
-		return 1;
+		return 0;
 	}
 
 	static long solveA2BCDE(int ia, Sticks[] S, Map<Integer, Integer> H) {
-		return 1;
+		long count = 0;
+		long prevSum = 0;
+		int a = S[ia].length;
+		for (int ib = 0; ib < ia && S[ib].length <= a / 2; ib++) {
+			Integer ic = H.get(a - S[ib].length);
+			if (ic == null) { continue; };
+			count += pick4(S, ib, ic);
+			long p2 = pick2(S, ib, ic);
+			count += prevSum * p2;
+			prevSum += p2;
+		}
+		return count;
 	}	
 
 	static long solve2(int[] A) {
@@ -109,19 +143,16 @@ public class NewYearPresent {
 			M.put(A[i], v + 1);
 		}
 		Sticks[] S = new Sticks[M.size()];
-		Map<Integer, Integer> H = new HashMap<>();
+		Map<Integer, Integer> H = new HashMap<>(); // length -> S index
 		int j = 0;
 		for (Map.Entry<Integer, Integer> e : M.entrySet()) {
-			S[j++] = new Sticks(e.getKey(), e.getValue());
-			H.put(e.getKey(), e.getValue());
+			S[j] = new Sticks(e.getKey(), e.getValue());
+			H.put(e.getKey(), j);
+			j++;
 		}
 		for (int ia = S.length - 1; ia >= 0; ia--) {
-			if (S[ia].count >= 3) {
-				countA3 += binom3(S[ia].count) * solveA3BCD(ia, S, H);
-			}
-			if (S[ia].count >= 2) {
-				countA2 += binom2(S[ia].count) * solveA2BCDE(ia, S, H);
-			}
+			countA3 += binom3(S[ia].count) * solveA3BCD(ia, S, H);
+			countA2 += binom2(S[ia].count) * solveA2BCDE(ia, S, H);
 		}
 		debug(countA3, countA2);
 		return countA3 + countA2;
