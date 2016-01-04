@@ -16,12 +16,19 @@ public class NewYearPresent {
 		}	
 	}
 
-	static class Pair {
+	static class Pair implements Comparable<Pair> {
 		final int ic;
 		final int id;
 		Pair(int ic, int id) {
 			this.ic = ic;
 			this.id = id;
+		}
+		public int compareTo(Pair that) {
+			if (this.ic == that.ic) {
+				return -Integer.compare(this.id, that.id);
+			} else {
+				return -Integer.compare(this.ic, that.ic);
+			}
 		}
 		public String toString() {
 			return String.format("(ic=%d, id=%d)", ic, id);
@@ -42,69 +49,6 @@ public class NewYearPresent {
 		if (n < 4) { return 0; };
 		return n * (n - 1) * (n - 2) * (n - 3) / (4 * 3 * 2);
 	}	
-
-	static long solveBCD(int[] A, int ia3, int a) {
-		long count = 0;
-		for (int ib = ia3 - 1; ib >= 2; ib--) {
-			for (int ic = ib - 1; ic >= 1; ic--) {
-				for (int id = ic - 1; id >= 0; id--) {
-					if (A[ib] + A[ic] + A[id] == a) {
-						count++;
-					}
-				}
-			}
-		}
-		return count;
-	}
-
-	static long solveA3(int[] A, int ia2, int a) {
-		long count = 0;
-		for (int ia3 = ia2 - 1; (ia3 >= 3) && (A[ia2] == A[ia3]); ia3--) {
-			count += solveBCD(A, ia3, a);
-		}
-		return count;
-	}
-
-	static boolean ok22(int a, int b, int c, int d, int e) {
-		return (b + c == a) && (d + e == a);
-	}
-
-	static boolean ok4(int a, int b, int c, int d, int e) {
-		if (ok22(a, b, c, d, e) || ok22(a, b, d, c, e) || ok22(a, b, e, d, c)) {
-			return true;
-		}
-		return false;
-	}
-
-	static long solveA2(int[] A, int ia2, int a) {
-		long count = 0;
-		for (int ib = ia2 - 1; ib >= 3; ib--) {
-			for (int ic = ib - 1; ic >= 2; ic--) {
-				for (int id = ic - 1; id >= 1; id--) {
-					for (int ie = id - 1; ie >= 0; ie--) {
-						if (ok4(a, A[ib], A[ic], A[id], A[ie])) {
-							count++;
-						}
-					}
-				}
-			}
-		}
-		return count;
-	}
-
-	static long solve(int[] A) {
-		long countA3 = 0;
-		long countA2 = 0;
-		Arrays.sort(A);
-		for (int ia = A.length - 1; ia >= 5; ia--) {
-			for (int ia2 = ia - 1; (ia2 >= 4) && (A[ia] == A[ia2]); ia2--) {
-				countA3 += solveA3(A, ia2, A[ia]);
-				countA2 += solveA2(A, ia2, A[ia]);
-			}
-		}
-		debug(countA3, countA2);
-		return countA3 + countA2;
-	}
 
 	static long pick2(Sticks[] S, int ib, int ic) {
 		int b = S[ib].count;
@@ -147,7 +91,7 @@ public class NewYearPresent {
 					if (ib < p.ic) {
 						count += S[ib].count * S[p.ic].count * S[p.id].count;
 					} else {
-						//break;
+						break;
 					}
 				}
 			}
@@ -170,7 +114,7 @@ public class NewYearPresent {
 		return count;
 	}	
 
-	static long solve2(int[] A) {
+	static long solve(int[] A) {
 		long countA3 = 0;
 		long countA2 = 0;
 		SortedMap<Integer, Integer> M = new TreeMap<Integer, Integer>();
@@ -199,9 +143,16 @@ public class NewYearPresent {
 				lp.add(new Pair(ic, id));
 			}
 		}
+		for (List<Pair> lp : P.values()) {
+			Collections.sort(lp);
+		}
 		for (int ia = S.length - 1; ia >= 0; ia--) {
-			countA3 += binom3(S[ia].count) * solveA3BCD(ia, S, H, P);
-			countA2 += binom2(S[ia].count) * solveA2BCDE(ia, S, H);
+			if (S[ia].count >= 3) {
+				countA3 += binom3(S[ia].count) * solveA3BCD(ia, S, H, P);
+			}
+			if (S[ia].count >= 2) {
+				countA2 += binom2(S[ia].count) * solveA2BCDE(ia, S, H);
+			}
 		}
 		debug(countA3, countA2);
 		return countA3 + countA2;
@@ -213,7 +164,6 @@ public class NewYearPresent {
 		assert 6 <= n && n <= 3000 : "out of range, n: " + n;
 		int[] A = scanArray(scanner, n);
 		System.out.println(solve(A));
-		System.out.println(solve2(A));
 	}
 
 	static int[] scanArray(Scanner scanner, int n) {
