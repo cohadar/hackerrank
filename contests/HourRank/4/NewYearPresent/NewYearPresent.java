@@ -119,28 +119,15 @@ public class NewYearPresent {
 		int a = S[ia].length;
 		for (int ib = ia - 1; ib >= 0; ib--) {
 			int b = S[ib].length;
-			if (3 * b < a) {
-				break;
-			}
-			if (3 * b == a) {
-				count += binom3(S[ib].count);
-			}
-			for (int ic = ib - 1; ic >= 0; ic--) {
-				int c = S[ic].length;
-				if (b + c >= a) { continue; };
-				if (2 * b + c == a) {
+			int c = a - 2 * b;
+			Integer ic = H.get(c);
+			if (ic != null) {
+				if (ib == ic) {
+					count += binom3(S[ib].count);	
+				} else {
 					count += binom2(S[ib].count) * S[ic].count;
 				}
-				if (b + 2 * c == a) {
-					count += S[ib].count * binom2(S[ic].count);
-				}
-				int d = a - (b + c);
-				if (c <= d) { break; };				
-				Integer id = H.get(d);
-				if (id != null) {
-					count += S[ib].count * S[ic].count * S[id].count;
-				}
-			}
+			}	
 		}
 		return count;
 	}
