@@ -49,5 +49,6 @@
 2015-12-31 | Rank: 89 | Points: 3346.95 | Level: 73
 2016-01-01 | Rank: 89 | Points: 3401.95 | Level: 73
 2016-01-03 | Rank: 87 | Points: 3461.95 | Level: 73
+2016-01-05 | Rank: 89 | Points: 3515.15 | Level: 73
 
 

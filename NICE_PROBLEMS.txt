@@ -4,3 +4,4 @@ https://www.hackerrank.com/challenges/xoring-ninja // bit slicing
 https://www.hackerrank.com/challenges/mr-k-marsh // nested for break optimization
 https://www.hackerrank.com/challenges/sansa-and-xor // useful formula
 https://www.hackerrank.com/challenges/manipulative-numbers // two-phase problem that needs a mental switch between phases
+https://www.hackerrank.com/challenges/matrix // disjoint set / union find

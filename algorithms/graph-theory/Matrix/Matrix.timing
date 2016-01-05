@@ -15,3 +15,5 @@ FIRST: (.java)
 	09:21 - 5/10, 5 timeout
 	09:24 - 8/10, 2 timeout
 	09:31 - out: 10, 3209, 3105329
+	10:44 - done
+	10:52 - hmm it seems this is a "Disjoint-Set" type problem. I must stop breaking things with heuristics :)

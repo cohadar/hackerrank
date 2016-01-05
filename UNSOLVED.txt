@@ -8,4 +8,4 @@
 2015-12-28 | https://www.hackerrank.com/challenges/angry-children-2
 2016-01-02 | https://www.hackerrank.com/challenges/stonegame
 2016-01-03 | https://www.hackerrank.com/contests/hourrank-4/challenges/newyear-present
-2016-01-05 | https://www.hackerrank.com/challenges/matrix
+
