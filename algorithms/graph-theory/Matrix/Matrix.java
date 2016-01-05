@@ -1,130 +1,115 @@
 import java.util.*;
 import java.io.*;
 
-/* Mighty Cohadar */
+/**
+  * @author Mighty Cohadar 
+  */
 public class Matrix {
 
 	static class Edge implements Comparable<Edge> {
+		final int a;
 		final int b;
-		final int z;
-		boolean destroyed = false;
-		Edge mirror;
-		Edge(int b, int z) {
+		int w;
+		Edge(int a, int b, int w) {
+			this.a = a;
 			this.b = b;
-			this.z = z;
+			this.w = w;
+		}
+		public int compareTo(Edge that) {
+			return Integer.compare(this.w, that.w);
 		}
 		public String toString() {
-			return String.format("(b=%d, z=%d)", b, z);
+			return String.format("(a=%d, b=%d, w=%d)", a, b, w);
 		}	
-		public int compareTo(Edge that) {
-			return Integer.compare(this.z, that.z);
-		}
 	}
 
-	private final List<List<Edge>> G;
-	private final int[] V;
-	
-	public Matrix(List<List<Edge>> G, int[] V) {
-		debug(G);
-		debug(V);
+	final List<List<Edge>> G;
+	final List<Edge> E;
+	final boolean[] K;
+
+	Matrix(List<List<Edge>> G, List<Edge> E, boolean[] K) {
 		this.G = G;
-		this.V = V;
-		markMultis();
+		this.E = E;
+		this.K = K;
 	}
 
-	void markMultis() {
-		for (int a = 0; a < V.length; a++) {
-			if (V[a] < 0) {
-				for (Edge e : G.get(a)) {
-					if (V[e.b] >= 0) {
-						V[e.b]++;
+	int countMachines(int start) {
+		int count = 0;
+		List<Edge> E2 = new ArrayList<Edge>();
+		Deque<Integer> D = new ArrayDeque<>();
+		boolean[] V = new boolean[G.size()];
+		V[start] = true;
+		D.add(start);
+		if (K[start]) {
+			count++;
+		}
+		while (!D.isEmpty()) {
+			int a = D.remove();
+			for (Edge e : G.get(a)) {
+				if (e.w == 0) { continue; };
+				E2.add(e);
+				int b = (e.a == a) ? e.b : e.a;
+				if (!V[b]) {
+					V[b] = true;
+					D.add(b);
+					if (K[b]) {
+						count++;
+						if (count > 1) {
+							return count;
+						}
 					}
 				}
+			}
+		}
+		if (count == 1) {
+			for (Edge e : E2) {
+				e.w = 0;
 			}
 		}		
-	}
-
-	long reduceMultis() {
-		long sum = 0;
-		PriorityQueue<Edge> Q = new PriorityQueue<>();
-		for (int a = 0; a < V.length; a++) {
-			if (V[a] > 1) {
-				for (Edge e : G.get(a)) {
-					if (V[e.b] < 0) {
-						Q.add(e);
-					}
-				}
-				while (Q.size() > 1) {
-					Edge e = Q.remove();
-					if (!e.destroyed) {
-						e.destroyed = true;
-						e.mirror.destroyed = true;
-						sum += e.z;
-						debug("reduceMultis", a, e.b, e.z);
-					}
-					V[a]--;
-				}
-				Q.clear();
-			} 
-		}
-		return sum;
-	}
-
-	Edge destroyMin(int a, int parent) {
-		for (Edge e : G.get(a)) {
-			if (e.destroyed == false && e.b != parent) {
-				if (V[e.b] < 0) {
-					return e;
-				}
-				Edge f = destroyMin(e.b, a); 
-				if (f != null) {
-					return (e.z < f.z) ? e : f;
-				}
-			}
-		}
-		return null;
-	}
-
-	long reduceSingles() {
-		long sum = 0;
-		for (int a = 0; a < V.length; a++) {
-			if (V[a] < 0) {
-				Edge min = destroyMin(a, -7);
-				if (min != null) {
-					min.destroyed = true;
-					min.mirror.destroyed = true;					
-					sum += min.z;
-					debug("reduceSingles", a, min.b, min.z);
-				}
-			}
-		}
-		return sum;
+		return count;
 	}
 
 	long solve() {
-		debug(V);
-		long time = reduceMultis();
-		debug(V);
-		time += reduceSingles();
-		return time;
+		long cost = 0;
+		Collections.sort(E);
+		debug(G);
+		debug(E);
+		debug(K);
+		for (Edge e : E) {
+			if (e.w != 0) {
+				int temp = e.w;
+				e.w = 0;
+				int ma = countMachines(e.a);
+				int mb = countMachines(e.b);
+				if (ma > 0 && mb > 0) {
+					cost += temp;
+				}
+			}
+		}
+		return cost;
 	}
+
+	static Matrix load(Scanner scanner) {
+		int n = scanner.nextInt();
+		assert 2 <= n && n <= 1e5 : "out of range, n: " + n;
+		int k = scanner.nextInt();
+		assert 2 <= k && k <= n : "out of range, k: " + k;
+		List<Edge> E = new ArrayList<>();
+		List<List<Edge>> G = scanGraph(scanner, n, n - 1, E);
+		boolean[] K = new boolean[n];
+		for (int i = 0; i < k; i++) {
+			K[scanner.nextInt()] = true;
+		}
+		return new Matrix(G, E, K);
+	}	
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		int n = scanner.nextInt();
-		int k = scanner.nextInt();
-		assert 2 <= n && n <= 1e5 : "out of range, n: " + n;
-		assert 2 <= k && k <= n : "out of range, k: " + k;
-		List<List<Edge>> G = scanGraph(scanner, n, n - 1);
-		int[] V = new int[n];
-		for (int i = 0; i < k; i++) {
-			V[scanner.nextInt()] = -1;
-		}
-		Matrix o = new Matrix(G, V);
+		Matrix o = Matrix.load(scanner);
 		System.out.println(o.solve());
 	}
 
-	static List<List<Edge>> scanGraph(Scanner scanner, int n, int m) {
+	static List<List<Edge>> scanGraph(Scanner scanner, int n, int m, List<Edge> E) {
 		List<List<Edge>> G = new ArrayList<>();
 		for (int i = 0; i < n; i++) {
 			G.add(new ArrayList<Edge>());
@@ -132,23 +117,20 @@ public class Matrix {
 		for (int i = 0; i < m; i++) {
 			int a = scanner.nextInt();
 			int b = scanner.nextInt();
-			int z = scanner.nextInt();
-			assert 1 <= z && z <= 1e6 : "out of range, z: " + z;
-			Edge eab = new Edge(b, z);
-			Edge eba = new Edge(a, z);
-			eab.mirror = eba;
-			eba.mirror = eab;
-			G.get(a).add(eab);
-			G.get(b).add(eba);
+			int w = scanner.nextInt();
+			Edge e = new Edge(a, b, w);
+			E.add(e);
+			G.get(a).add(e);
+			G.get(b).add(e);
 		}		
 		return G;
 	}
 
 	static boolean DEBUG = false;
-	
+		
 	static void debug(Object...os) {
 		if (!DEBUG) { return; }
 		System.err.printf("%.65536s\n", Arrays.deepToString(os));
-	}
-}
+	}	
 
+}

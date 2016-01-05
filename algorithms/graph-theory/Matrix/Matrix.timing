@@ -8,3 +8,10 @@ FIRST: (.java)
 	22:54 - found a counter-example for greedy edge strategy
 	23:29 - I think I have a paper solution
 	00:39 - 3 ok, 7 wrong
+
+	08:30 - restart
+	08:47 - done paper
+	08:59 - done input
+	09:21 - 5/10, 5 timeout
+	09:24 - 8/10, 2 timeout
+	09:31 - out: 10, 3209, 3105329
