@@ -11,16 +11,14 @@ public class TwosComplement {
 
 	static long positiveBitCount(int a) {
 		assert a >= 0;
-		long count = 0; 
-		int high = a >> SEGMENT_WIDTH;
-		for (int i = 0; i <= high; i++) {
-			count += SEGMENT_SIZE * Integer.bitCount(i);
-			count += BITS_PER_SEGMENT;
+		if (a == 0) { 
+			return 0; 
+		};
+		if (a % 2 == 0) {
+			return Integer.bitCount(a) + positiveBitCount(a - 1);
+		} else {
+			return 2 * positiveBitCount(a / 2) + (a + 1L) / 2;
 		}
-		for (int i = (high << SEGMENT_WIDTH) + SEGMENT_MASK; i > a; i--) {
-			count -= Integer.bitCount(i);
-		}
-		return count;
 	}
 
 	static long positiveBitCount(int a, int b) {
