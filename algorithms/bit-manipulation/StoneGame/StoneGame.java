@@ -1,58 +1,61 @@
 import java.util.*;
 import java.io.*;
 
-/* Mighty Cohadar */
+/**
+  * @author Mighty Cohadar 
+  */
 public class StoneGame {
 
 	static final int PRIME = (int)1e9 + 7;
 
-	static long countEm(int[] A, int mask) {
-		long n1 = 0;
+	private final int[] A;
+
+	long options(int nI) {
+		long p2 = 1;
+		for (int i = nI - 1; i > 0; i--) {
+			p2 *= 2;
+			p2 %= PRIME; 
+		}
+		return p2;
+	}
+
+	public StoneGame(int[] A) {
+		this.A = A;
+		debug(A.length, A);
+	}
+
+	int cutLegs(int[] A) {
+		int nI = 0;
 		for (int i = 0; i < A.length; i++) {
-			if ((A[i] & mask) != 0) {
-				n1 = (n1 + 1) % PRIME;
+			if ((A[i] & 1) != 0) {
+				nI++;
 			}
+			A[1] >>>= 1;
 		}
-		return n1 / 2 + 1;
+		return nI;
 	}
 
-	static long countEm(int[] A) {
-		long count = 1;
-		for (int k = 0; k < 32; k++) {
-			count = (count * countEm(A, 1 << k)) % PRIME;
+	long solve() {
+		long count = 0;
+		for (int i = 0; i < 32; i++) {
+			int nI = cutLegs(A);
+			count *= options(nI);
+			count %= PRIME;
 		}
 		return count;
 	}
 
-	static long countEmBrute(int[] A) {
-		long count = 1;
-		for (int k = 0; k < 32; k++) {
-			count = (count * countEm(A, 1 << k)) % PRIME;
-		}
-		return count;
+	static StoneGame load(Scanner scanner) {
+		int n = scanner.nextInt();
+		assert 3 <= n && n <= 100 : "out of range, n: " + n;
+		int[] A = scanArray(scanner, n);
+		return new StoneGame(A);
 	}	
-
-	static int[] dec(int[] A) {
-		int[] B = new int[A.length];
-		for (int i = 0; i < A.length; i++) {
-			B[i] = A[i] - 1;
-		}
-		return B;
-	}
-
-	static long solve(int[] P) {
-		long all = countEm(P);
-		long allChanged = countEmBrute(dec(P));
-		debug(all, allChanged);
-		return (all - allChanged + PRIME) % PRIME;
-	}
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		int n = scanner.nextInt();
-		assert 3 <= n && n <= 100 : "out of range, n: " + n;
-		int[] P = scanArray(scanner, n);
-		System.out.println(solve(P));
+		StoneGame o = StoneGame.load(scanner);
+		System.out.println(o.solve());
 	}
 
 	static int[] scanArray(Scanner scanner, int n) {
@@ -71,4 +74,3 @@ public class StoneGame {
 	}
 
 }
-

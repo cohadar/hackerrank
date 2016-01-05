@@ -1,4 +1,3 @@
-2015-11-01 | https://www.hackerrank.com/challenges/basic-algo-quiz-1
 2015-11-24 | https://www.hackerrank.com/challenges/kingdom-connectivity
 2015-12-17 | https://www.hackerrank.com/challenges/board-cutting
 2015-12-17 | https://www.hackerrank.com/challenges/bike-racers
@@ -6,6 +5,6 @@
 2015-12-21 | https://www.hackerrank.com/challenges/wet-shark-and-two-subsequences
 2015-12-21 | https://www.hackerrank.com/challenges/cuttree
 2015-12-28 | https://www.hackerrank.com/challenges/angry-children-2
-2016-01-02 | https://www.hackerrank.com/challenges/stonegame
 2016-01-03 | https://www.hackerrank.com/contests/hourrank-4/challenges/newyear-present
-
+2016-01-05 | https://www.hackerrank.com/challenges/basic-algo-quiz-1
+2016-01-05 | https://www.hackerrank.com/challenges/stonegame
