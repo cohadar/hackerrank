@@ -60,21 +60,26 @@ public class Matrix {
 					}
 				}
 			}
-		}
-		if (count == 1) {
+		}		
+		if (count <= 1) {
 			for (Edge e : E2) {
 				e.w = 0;
 			}
-		}		
+		}
 		return count;
 	}
 
 	long solve() {
 		long cost = 0;
 		Collections.sort(E);
-		debug(G);
-		debug(E);
-		debug(K);
+		// easy picks first
+		for (Edge e : E) {
+			if (K[e.a] && K[e.b]) {
+				cost += e.w;
+				e.w = 0;
+			}
+		}
+		// do the hard job
 		for (Edge e : E) {
 			if (e.w != 0) {
 				int temp = e.w;
@@ -125,12 +130,5 @@ public class Matrix {
 		}		
 		return G;
 	}
-
-	static boolean DEBUG = false;
-		
-	static void debug(Object...os) {
-		if (!DEBUG) { return; }
-		System.err.printf("%.65536s\n", Arrays.deepToString(os));
-	}	
 
 }
