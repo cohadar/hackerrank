@@ -39,30 +39,29 @@ public class BricksGame {
 	Ret value(Ret prev, int b, int k, int l) {
 		long sum = 0;
 		sum += sumA(k - l - 1, k - 1);
-		Ret second = rec(1 - b, k - l - 1);
+		Ret second = D[1 - b][k - l - 1];
 		int j = second.index;
-		if ((prev == null) || (sum + rec(b, j).sum > prev.sum)) {
-			return new Ret(sum + rec(b, j).sum, k - l - 1);
+		if ((prev == null) || (sum + D[b][j].sum > prev.sum)) {
+			return new Ret(sum + D[b][j].sum, k - l - 1);
 		}
 		return prev;
 	}
 
-	Ret rec(int b, int k) {
-		if (D[b][k] != null) {
-			return D[b][k];
-		}
-		if (k <= 3) {
-			D[b][k] = new Ret(sumA(0, k - 1), 0);
-			return D[b][k];
-		}
-		for (int l = 0; l < 3; l++) {
-			D[b][k] = value(D[b][k], b, k, l);
-		}
-		return D[b][k];
-	}
-
 	long solve() {
-		return rec(0, n).sum;
+		D[0][0] = new Ret(0, 0);
+		D[1][0] = new Ret(0, 0);
+		for (int k = 1; k <= 3; k++) {
+			D[0][k] = new Ret(sumA(0, k - 1), 0);
+			D[1][k] = new Ret(sumA(0, k - 1), 0);
+		}
+		for (int k = 4; k <= n; k++) {
+			for (int l = 0; l < 3; l++) {
+				for (int b = 0; b <= 1; b++) {
+					D[b][k] = value(D[b][k], b, k, l);
+				}
+			}
+		}
+		return D[0][n].sum;
 	}
 
 	static void swap(int[] A, int i, int j) {

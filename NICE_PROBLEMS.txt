@@ -6,3 +6,4 @@ https://www.hackerrank.com/challenges/sansa-and-xor           // useful formula
 https://www.hackerrank.com/challenges/manipulative-numbers    // two-phase problem that needs a mental switch between phases
 https://www.hackerrank.com/challenges/matrix                  // disjoint set / union find
 https://www.hackerrank.com/challenges/2s-complement           // nice recursive formula
+https://www.hackerrank.com/challenges/play-game               // smart DP for game theory
