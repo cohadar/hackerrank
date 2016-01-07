@@ -11,3 +11,4 @@
 2016-01-07 | https://www.hackerrank.com/challenges/vertical-sticks // solved with factorial, did not solve with dp.
 2016-01-07 | https://www.hackerrank.com/challenges/lego-blocks
 2016-01-07 | https://www.hackerrank.com/challenges/brick-tiling
+2016-01-07 | https://www.hackerrank.com/challenges/alien-languages

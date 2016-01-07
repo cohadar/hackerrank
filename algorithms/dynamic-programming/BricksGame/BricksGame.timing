@@ -1,0 +1,7 @@
+## BricksGame
+FIRST: (.java)
+	20:21 - started
+	20:43 - done paper
+	21:01 - bad examp
+	21:21 - FAILED
+	21:34 - done it with recursion. It seems my dp failed because I forgot that stack top is at index 0 in this challenge.
