@@ -36,21 +36,19 @@ public class VerticalSticks {
 		return n * fact(n - 1);
 	}
 
-	double solve(int aa, int lt, int ge) {
+	double solve(int lt, int ge) {
 		double res = 0.0;
 		for (int m = 0; m <= lt; m++) {
-			res += (m + 1) * fact(lt) / fact(lt - m) * fact(n - m - 1);
-			res += (m + 1) * fact(lt) / fact(lt - m) * ge * fact(n - m - 1);
+			res += (m + 1) * fact(n - 1 - m) / fact(lt - m);
 		}
-		debug(aa, lt, ge, res);
+		res *= fact(lt) * (ge + 1);
 		return res;
 	}
 
 	double solve() {
 		double res = 0.0;
 		for (int a = 0; a < A.length; a++) {
-			double resA = solve(A[a], LT[a], GE[a]);
-			res += resA;
+			res += solve(LT[a], GE[a]);
 		}
 		return res / fact(n);
 	}
@@ -79,12 +77,5 @@ public class VerticalSticks {
 		}
 		return A;
 	}	
-
-	static boolean DEBUG = false;
-	
-	static void debug(Object...os) {
-		if (!DEBUG) { return; }
-		System.err.printf("%.65536s\n", Arrays.deepToString(os));
-	}
 
 }
