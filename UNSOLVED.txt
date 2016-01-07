@@ -8,3 +8,5 @@
 2016-01-03 | https://www.hackerrank.com/contests/hourrank-4/challenges/newyear-present
 2016-01-05 | https://www.hackerrank.com/challenges/basic-algo-quiz-1
 2016-01-05 | https://www.hackerrank.com/challenges/stonegame
+2016-01-07 | https://www.hackerrank.com/challenges/vertical-sticks // solved with factorial, did not solve with dp.
+2016-01-07 | https://www.hackerrank.com/challenges/lego-blocks
