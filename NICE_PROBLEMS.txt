@@ -7,3 +7,4 @@ https://www.hackerrank.com/challenges/manipulative-numbers    // two-phase probl
 https://www.hackerrank.com/challenges/matrix                  // disjoint set / union find
 https://www.hackerrank.com/challenges/2s-complement           // nice recursive formula
 https://www.hackerrank.com/challenges/play-game               // smart DP for game theory
+https://www.hackerrank.com/challenges/superman-celebrates-diwali // dp with 2max memory

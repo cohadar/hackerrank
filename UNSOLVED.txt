@@ -12,3 +12,4 @@
 2016-01-07 | https://www.hackerrank.com/challenges/lego-blocks
 2016-01-07 | https://www.hackerrank.com/challenges/brick-tiling
 2016-01-07 | https://www.hackerrank.com/challenges/alien-languages
+2016-01-08 | https://www.hackerrank.com/challenges/superman-celebrates-diwali
