@@ -16,12 +16,19 @@ public class StockMaximize {
 		this.V = new long[2][n + 2];
 	}
 
+	long solve(int t, int s) {
+		int it = t % 2;
+		long ret = Math.max(-P[t] + V[1 - it][s + 1], V[1 - it][s]);
+		for (int a = 1; a <= s; a++) {
+			ret = Math.max(ret, a * P[t] + V[1 - it][s - a]);
+		}
+		return ret;
+	}
+
 	void solve(int t) {
 		int it = t % 2;
 		for (int s = 0; s <= t + 1; s++) {
-			for (int a = -1; a <= s; a++) {
-				V[it][s] = Math.max(V[it][s], a * P[t] + V[1 - it][s - a]);
-			}
+			V[it][s] = solve(t, s);
 		}
 	}
 
