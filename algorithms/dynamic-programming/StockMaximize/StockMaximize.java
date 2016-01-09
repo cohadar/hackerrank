@@ -6,61 +6,38 @@ import java.io.*;
   */
 public class StockMaximize {
 
-	static final int INF = Integer.MAX_VALUE / 2;
-
 	final int n;
-	final int[] A;
-	final long[][] P;
+	final int[] P;
+	final long[][] V;
 	
-	StockMaximize(int[] A) {
-		this.n = A.length;
-		this.A = A;
-		this.P = new long[2][n + 1];
-		for (int s = 0; s <= n; s++) {
-			P[0][s] = A[0] * s;
-		}
+	StockMaximize(int[] P) {
+		this.n = P.length;
+		this.P = P;
+		this.V = new long[2][n + 2];
 	}
 
-	long buyOrNone(int i, int s) {
-		int k = i % 2;
-		long ret = P[1 - k][s];
-		if (s < n) {
-			long temp = P[1 - k][s + 1] - A[i];
-			if (temp > ret) {
-				ret = temp;
+	void solve(int t) {
+		int it = t % 2;
+		for (int s = 0; s <= t + 1; s++) {
+			for (int a = -1; a <= s; a++) {
+				V[it][s] = Math.max(V[it][s], a * P[t] + V[1 - it][s - a]);
 			}
 		}
-		return ret;
-	}
-
-	long sell(long ret, int i, int s) {
-		int k = i % 2;
-		for (int a = 0; a <= Math.min(1, s); a++) {
-			long temp = P[1 - k][s - a] + a * A[i];
-			if (temp > ret) {
-				ret = temp;
-			}			
-		}
-		return ret;
 	}
 
 	long solve() {
-		for (int i = 1; i < n; i++) {
-			int k = i % 2;
-			for (int s = 0; s <= n; s++) {
-				P[k][s] = buyOrNone(i, s);
-				P[k][s] = sell(P[k][s], i, s);
-			}
+		for (int t = n - 1; t >= 0; t--) {
+			solve(t);
 		}
-		return P[(n - 1) % 2][0];
+		return V[0][0];
 	}
+	
 
 	static StockMaximize load(Scanner scanner) {
 		int n = scanner.nextInt();
 		assert 1 <= n && n <= 5e4 : "out of range, n: " + n;
-		int[] A = scanArray(scanner, n);
-		reverse(A);
-		return new StockMaximize(A);
+		int[] P = scanArray(scanner, n);
+		return new StockMaximize(P);
 	}	
 
 	public static void main(String[] args) {
@@ -80,17 +57,4 @@ public class StockMaximize {
 		}
 		return A;
 	}
-
-	static void swap(int[] A, int i, int j) {
-		int t = A[i];
-		A[i] = A[j];
-		A[j] = t;
-	}
-
-	static void reverse(int[] A) {
-		for (int i = 0; i < A.length / 2; i++) {
-			swap(A, i, A.length - i - 1);
-		}
-	}
-
 }
