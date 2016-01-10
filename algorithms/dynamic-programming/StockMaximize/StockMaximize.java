@@ -8,37 +8,39 @@ public class StockMaximize {
 
 	final int n;
 	final int[] P;
-	final long[][] V;
 	
 	StockMaximize(int[] P) {
 		this.n = P.length;
 		this.P = P;
-		this.V = new long[2][n + 2];
 	}
 
-	long solve(int t, int s) {
-		int it = t % 2;
-		long ret = Math.max(-P[t] + V[1 - it][s + 1], V[1 - it][s]);
-		for (int a = 1; a <= s; a++) {
-			ret = Math.max(ret, a * P[t] + V[1 - it][s - a]);
+	int max(int[] A, int start) {
+		int im = start;
+		for (int i = start + 1; i < A.length; i++) {
+			if (A[i] > A[im]) {
+				im = i;
+			}
 		}
-		return ret;
+		return im;
 	}
 
-	void solve(int t) {
-		int it = t % 2;
-		for (int s = 0; s <= t + 1; s++) {
-			V[it][s] = solve(t, s);
+	long profit(int start) {
+		if (start >= n) {
+			return 0;
 		}
+		int im = max(P, start);
+		long cost = 0;
+		int shares = 0;
+		for (int i = start; i < im; i++) {
+			cost += P[i];
+			shares++;
+		}
+		return -cost + (long)P[im] * (long)shares + profit(im + 1);
 	}
 
 	long solve() {
-		for (int t = n - 1; t >= 0; t--) {
-			solve(t);
-		}
-		return V[0][0];
+		return profit(0);
 	}
-	
 
 	static StockMaximize load(Scanner scanner) {
 		int n = scanner.nextInt();
