@@ -54,5 +54,5 @@
 2016-01-06 | Rank: 63 | Points: 3655.15 | Level: 80
 2016-01-07 | Rank: 62 | Points: 3810.15 | Level: 80
 2016-01-09 | Rank: 62 | Points: 3888.93 | Level: 80
-
+2016-01-10 | Rank: 62 | Points: 3958.93 | Level: 80
 
