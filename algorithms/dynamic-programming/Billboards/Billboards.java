@@ -76,6 +76,13 @@ public class Billboards {
 		Q.addLast(index);
     }
 
+    Integer monoGet(Deque<Integer> Q, int border) {
+    	while (!Q.isEmpty() && Q.peekFirst() < border) {
+    		Q.pollFirst();
+    	}
+    	return Q.peekFirst();
+    }
+
 	long solve() {
 		Deque<Integer> Q = new ArrayDeque<>();
 		for (int i = 0; i < k; i++) {
@@ -83,10 +90,7 @@ public class Billboards {
 		}
 		for (int i = k; i < n; i++) {
 			monoAppend(Q, i);
-			F[i + 1] = g(Q.peekFirst());
-			if (Q.peekFirst() == i - k) {
-				Q.pollFirst();
-			}
+			F[i + 1] = g(monoGet(Q, i - k));
 		}
         return sum(A) - F[n];		
 	}
