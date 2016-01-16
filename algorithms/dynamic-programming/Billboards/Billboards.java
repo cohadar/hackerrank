@@ -28,95 +28,41 @@ public class Billboards {
 	final int[] A;
 	final int k;
 	final int n;
-	final long[] P;
-	final long[] C;
-	final Rec[] R;
-	
+
 	Billboards(int[] A, int k) {
 		this.A = A;
 		this.n = A.length;
 		this.k = k;
-		this.P = new long[n];
-		this.C = new long[n];
-		this.R = new Rec[n];
-		initP();
-		initC();
-		initR();
 	}
 
-	void initR() {
-		for (int i = 0; i < A.length; i++) {
-			R[i] = new Rec(A[i], i);
-		}
-	}
-
-	void initP() {
-		Arrays.fill(P, -1);
-		long sum = 0;
-		int min = Integer.MAX_VALUE;
-		for (int i = 0; i < k; i++) {
-			if (n - 1 - i < 0) {
-				break;
+	long solve2() {
+		long[] F = new long[1 + n];
+		for (int i = k; i < A.length; i++) {
+			long min = A[i - k] + F[i - k];
+			for (int j = i - k + 1; j <= i; j++) {
+				min = Math.min(min, A[j] + F[j]);
 			}
-			sum += A[n - 1 - i];
-			P[n - 1 - i] = sum;
-			min = Math.min(min, A[n - 1 - i]);
+			F[i + 1] = min;
 		}
-		if (n - 1 - k >= 0) {
-			min = Math.min(min, A[n - 1 - k]);	
-			sum += A[n - 1 - k];
-			P[n - 1 - k] = sum - min;
-		}
-	}
-
-	void initC() {
-		long cumul = 0;
-		for (int i = 0; i < A.length; i++) {
-			cumul += A[i];
-			C[i] = cumul;
-		}
-	}
-
-	long sum(int l, int r) {
-		if (r < l) {
-			return 0;
-		}
-		if (l == 0) {
-			return C[r];
-		} else {
-			return C[r] - C[l - 1];
-		}
-	}
-
-	long rec(int i) {
-		if (i >= n) {
-			return 0;
-		}
-		if (P[i] >= 0) {
-			return P[i];
-		}
-		PriorityQueue<Rec> Q = new PriorityQueue<>();
-		for (int j = 0; j <= k; j++) {
-			Q.add(R[i + j]);
-		}
-		int imin = i - 1;
-		while (!Q.isEmpty()) {
-			Rec r = Q.poll();
-			if (imin < r.index) {
-				imin = r.index;
-				P[i] = Math.max(P[i], sum(i, r.index - 1) + rec(r.index + 1));
-			} 
-			if (imin == i + k) {
-				break;
-			}
-		}
-		return P[i];
+		return sum(A) - F[n];
 	}
 
 	long solve() {
-		return rec(0);
+		long[] F = new long[1 + n];
+		F[k + 1] = min(A, k + 1);
+		PriorityQueue<Long> Q = new PriorityQueue<>();
+		for (int i = 0; i <= k; i++) {
+			Q.add(A[i] + F[i]);
+		}
+		for (int i = k; i < A.length; i++) {
+			F[i + 1] = Q.peek();
+			if (i == A.length - 1) { break; }
+			Q.remove(A[i - k] + F[i - k]);
+			Q.add(A[i + 1] + F[i + 1]);
+		}
+		return sum(A) - F[n];
 	}
-	
+
 	static Billboards load(Scanner scanner) {
 		int n = scanner.nextInt();
 		int k = scanner.nextInt();
@@ -130,7 +76,6 @@ public class Billboards {
 		Scanner scanner = new Scanner(System.in);
 		Billboards o = Billboards.load(scanner);
 		System.out.println(o.solve());
-		debug(o.P);
 	}
 
 	static int[] scanArray(Scanner scanner, int n) {
@@ -142,7 +87,23 @@ public class Billboards {
 		return A;
 	}
 
-	static boolean DEBUG = false;
+	static int min(int[] A, int len) {
+		int m = Integer.MAX_VALUE;
+		for (int i = 0; i < len; i++) {
+			m = Math.min(m, A[i]);
+		}
+		return m;
+	}	
+
+	static long sum(int[] A) {
+		long s = 0;
+		for (int i = 0; i < A.length; i++) {
+			s += A[i];
+		}
+		return s;
+	}	
+
+	static boolean DEBUG = true;
 	
 	static void debug(Object...os) {
 		if (!DEBUG) { return; }
@@ -150,4 +111,3 @@ public class Billboards {
 	}
 
 }
-
