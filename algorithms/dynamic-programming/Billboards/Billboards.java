@@ -1,49 +1,139 @@
 import java.util.*;
 import java.io.*;
 
-/* Mighty Cohadar */
+/**
+  * @author Mighty Cohadar 
+  */
 public class Billboards {
 
-	static long solve(int[] A, int k) {
-		int n = A.length;
-		long[][] P = new long [2][1 + n];
-		for (int y = 0; y < n; y++) {
-			int iy = y % 2;
-			P[iy][0] = P[1 - iy][k];
-			for (int x = 1; x <= k; x++) {
-				P[iy][x] = P[1 - iy][k];
-				if (P[iy][x] < A[y] + P[1 - iy][x - 1]) {
-					P[iy][x] = A[y] + P[1 - iy][x - 1];
-				}
-			}
-			debug(P[iy]);
+	static class Rec implements Comparable<Rec> {
+		final int value;
+		final int index;
+		Rec(int value, int index) {
+			this.value = value;
+			this.index = index;
 		}
-		return P[(n - 1) % 2][k];
+		public int compareTo(Rec that) {
+			if (this.value == that.value) {
+				return -Integer.compare(this.index, that.index);
+			} else {
+				return Integer.compare(this.value, that.value);
+			}
+		}
+		public String toString() {
+			return String.format("(value=%d, index=%d)", value, index);
+		}	
 	}
 
-	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
+	final int[] A;
+	final int k;
+	final int n;
+	final long[] P;
+	final long[] C;
+	
+	Billboards(int[] A, int k) {
+		this.A = A;
+		this.n = A.length;
+		this.k = k;
+		this.P = new long[n];
+		this.C = new long[n];
+		initP();
+		initC();
+	}
+
+	void initP() {
+		Arrays.fill(P, -1);
+		long sum = 0;
+		int min = Integer.MAX_VALUE;
+		for (int i = 0; i < k; i++) {
+			if (n - 1 - i < 0) {
+				break;
+			}
+			sum += A[n - 1 - i];
+			P[n - 1 - i] = sum;
+			min = Math.min(min, A[n - 1 - i]);
+		}
+		if (n - 1 - k >= 0) {
+			min = Math.min(min, A[n - 1 - k]);	
+			sum += A[n - 1 - k];
+			P[n - 1 - k] = sum - min;
+		}
+	}
+
+	void initC() {
+		long cumul = 0;
+		for (int i = 0; i < A.length; i++) {
+			cumul += A[i];
+			C[i] = cumul;
+		}
+	}
+
+	long sum(int l, int r) {
+		if (r < l) {
+			return 0;
+		}
+		if (l == 0) {
+			return C[r];
+		} else {
+			return C[r] - C[l - 1];
+		}
+	}
+
+	long rec(int i) {
+		if (i >= n) {
+			return 0;
+		}
+		if (P[i] >= 0) {
+			return P[i];
+		}
+		long sum = 0;
+		PriorityQueue<Rec> Q = new PriorityQueue<>();
+		for (int j = 0; j <= k; j++) {
+			Q.add(new Rec(A[i + j], i + j));
+			sum += A[i + j];
+		}
+		while (!Q.isEmpty()) {
+			Rec r = Q.poll();
+			P[i] = Math.max(P[i], sum(i, r.index - 1) + rec(r.index + 1));
+		}
+		return P[i];
+	}
+
+	long solve() {
+		return rec(0);
+	}
+	
+	static Billboards load(Scanner scanner) {
 		int n = scanner.nextInt();
 		int k = scanner.nextInt();
 		assert 1 <= n && n <= 1e5 : "out of range, n: " + n;
 		assert 1 <= k && k <= n : "out of range, k: " + k;
 		int[] A = scanArray(scanner, n);
-		System.out.println(solve(A, k));
+		return new Billboards(A, k);
+	}	
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		Billboards o = Billboards.load(scanner);
+		System.out.println(o.solve());
+		debug(o.P);
 	}
 
 	static int[] scanArray(Scanner scanner, int n) {
 		int[] A = new int[n];
 		for (int i = 0; i < n; i++) {
 			A[i] = scanner.nextInt();
+			assert 0 <= A[i] && A[i] <= 2e9 : "out of range, A[i]: " + A[i];
 		}
 		return A;
-	}	
+	}
 
-	static boolean DEBUG = true;
+	static boolean DEBUG = false;
 	
 	static void debug(Object...os) {
 		if (!DEBUG) { return; }
 		System.err.printf("%.65536s\n", Arrays.deepToString(os));
 	}
+
 }
 
