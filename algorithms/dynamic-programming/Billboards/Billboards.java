@@ -28,11 +28,13 @@ public class Billboards {
 	final int[] A;
 	final int k;
 	final int n;
+	final long[] F;
 
 	Billboards(int[] A, int k) {
 		this.A = A;
 		this.n = A.length;
 		this.k = k;
+		this.F = new long[1 + n];		
 	}
 
 	long solve2() {
@@ -47,7 +49,7 @@ public class Billboards {
 		return sum(A) - F[n];
 	}
 
-	long solve() {
+	long solve3() {
 		long[] F = new long[1 + n];
 		F[k + 1] = min(A, k + 1);
 		PriorityQueue<Long> Q = new PriorityQueue<>();
@@ -61,6 +63,32 @@ public class Billboards {
 		}
 		F[n] = Q.peek();
 		return sum(A) - F[n];
+	}
+
+    long g(int i) {
+        return F[i] + A[i];
+    }	
+
+    void monoAppend(Deque<Integer> Q, int index) {
+		while (!Q.isEmpty() && g(index) <= g(Q.peekLast())) {
+			Q.pollLast();
+		}
+		Q.addLast(index);
+    }
+
+	long solve() {
+		Deque<Integer> Q = new ArrayDeque<>();
+		for (int i = 0; i < k; i++) {
+			monoAppend(Q, i);
+		}
+		for (int i = k; i < n; i++) {
+			monoAppend(Q, i);
+			F[i + 1] = g(Q.peekFirst());
+			if (Q.peekFirst() == i - k) {
+				Q.pollFirst();
+			}
+		}
+        return sum(A) - F[n];		
 	}
 
 	static Billboards load(Scanner scanner) {
