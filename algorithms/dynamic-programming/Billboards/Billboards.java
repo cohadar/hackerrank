@@ -54,12 +54,12 @@ public class Billboards {
 		for (int i = 0; i <= k; i++) {
 			Q.add(A[i] + F[i]);
 		}
-		for (int i = k; i < A.length; i++) {
+		for (int i = k; i < A.length - 1; i++) {
 			F[i + 1] = Q.peek();
-			if (i == A.length - 1) { break; }
 			Q.remove(A[i - k] + F[i - k]);
 			Q.add(A[i + 1] + F[i + 1]);
 		}
+		F[n] = Q.peek();
 		return sum(A) - F[n];
 	}
 
