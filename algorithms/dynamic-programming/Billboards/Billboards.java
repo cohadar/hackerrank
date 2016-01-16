@@ -30,6 +30,7 @@ public class Billboards {
 	final int n;
 	final long[] P;
 	final long[] C;
+	final Rec[] R;
 	
 	Billboards(int[] A, int k) {
 		this.A = A;
@@ -37,8 +38,16 @@ public class Billboards {
 		this.k = k;
 		this.P = new long[n];
 		this.C = new long[n];
+		this.R = new Rec[n];
 		initP();
 		initC();
+		initR();
+	}
+
+	void initR() {
+		for (int i = 0; i < A.length; i++) {
+			R[i] = new Rec(A[i], i);
+		}
 	}
 
 	void initP() {
@@ -86,15 +95,20 @@ public class Billboards {
 		if (P[i] >= 0) {
 			return P[i];
 		}
-		long sum = 0;
 		PriorityQueue<Rec> Q = new PriorityQueue<>();
 		for (int j = 0; j <= k; j++) {
-			Q.add(new Rec(A[i + j], i + j));
-			sum += A[i + j];
+			Q.add(R[i + j]);
 		}
+		int imin = i - 1;
 		while (!Q.isEmpty()) {
 			Rec r = Q.poll();
-			P[i] = Math.max(P[i], sum(i, r.index - 1) + rec(r.index + 1));
+			if (imin < r.index) {
+				imin = r.index;
+				P[i] = Math.max(P[i], sum(i, r.index - 1) + rec(r.index + 1));
+			} 
+			if (imin == i + k) {
+				break;
+			}
 		}
 		return P[i];
 	}
