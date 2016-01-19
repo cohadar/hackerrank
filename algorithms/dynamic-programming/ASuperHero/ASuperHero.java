@@ -6,6 +6,8 @@ import java.io.*;
   */
 public class ASuperHero {
 
+	static final int INF = Integer.MAX_VALUE / 2;
+
 	final int n;
 	final int m;
 	final int[][] P;
@@ -19,22 +21,26 @@ public class ASuperHero {
 	}
 
 	int solve() {
-		int[][] D = new int[n][m];
+		int[][] D = new int[n][1001];
+		for (int i = 0; i < n; i++) {
+			Arrays.fill(D[i], INF);
+		}
 		for (int j = 0; j < m; j++) {
-			D[0][j] = P[0][j];
+			int b = B[0][j];
+			D[0][b] = Math.min(D[0][b], P[0][j]);
 		}
 		for (int i = 1; i < n; i++) {
 			for (int j = 0; j < m; j++) {
-				D[i][j] = Integer.MAX_VALUE;
-				for (int k = 0; k < m; k++) {
-					int price = Math.max(P[i][j] - B[i - 1][k], 0);
-					D[i][j] = Math.min(D[i][j], D[i - 1][k] + price);
+				int b = B[i][j];
+				for (int k = 0; k <= 1000; k++) {
+					int price = Math.max(P[i][j] - k, 0);
+					D[i][b] = Math.min(D[i][b], D[i - 1][k] + price);
 				}
 			}
 		}
-		int min = Integer.MAX_VALUE;
-		for (int j = 0; j < m; j++) {
-			min = Math.min(min, D[n - 1][j]);
+		int min = INF;
+		for (int b = 0; b <= 1000 ; b++) {
+			min = Math.min(min, D[n - 1][b]);
 		}
 		return min;
 	}

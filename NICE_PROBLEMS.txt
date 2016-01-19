@@ -9,4 +9,5 @@ https://www.hackerrank.com/challenges/2s-complement           // nice recursive 
 https://www.hackerrank.com/challenges/play-game               // smart DP for game theory
 https://www.hackerrank.com/challenges/superman-celebrates-diwali // dp with 2max memory
 https://www.hackerrank.com/challenges/stockmax                // If you try DP you fail, it is greedy
-https://www.hackerrank.com/challenges/billboards/editorial    // monotone priority queue
+https://www.hackerrank.com/challenges/billboards              // monotone priority queue
+https://www.hackerrank.com/challenges/a-super-hero            // DP + sorting
