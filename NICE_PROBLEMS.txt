@@ -11,3 +11,4 @@ https://www.hackerrank.com/challenges/superman-celebrates-diwali // dp with 2max
 https://www.hackerrank.com/challenges/stockmax                // If you try DP you fail, it is greedy
 https://www.hackerrank.com/challenges/billboards              // monotone priority queue
 https://www.hackerrank.com/challenges/a-super-hero            // DP + sorting
+https://www.hackerrank.com/challenges/dorsey-thief            // classic knapsack + need fast scanner + sort + input reduction

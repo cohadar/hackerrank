@@ -19,39 +19,35 @@ public class DorseyThief {
 	}
 	
 	long solve() {
-		long[][] D = new long[2][1 + x];
-		Arrays.fill(D[0], -1);
-		Arrays.fill(D[1], -1);
-		D[0][0] = 0;
-		D[1][0] = 0;
+		long[] D = new long[1 + x];
+		long[] B = new long[1 + x];
+		Arrays.fill(D, -1);
+		D[0] = 0;
 		for (int k = 0; k < n; k++) {
-			int k2 = k % 2;
-			for (int i = 0; i <= x; i++) {
-				D[k2][i] = D[1 - k2][i];
-			}
+			B = Arrays.copyOf(D, x - A[k] + 1);
 			for (int i = A[k]; i <= x; i++) {
-				long max = D[1 - k2][i];
-				long temp = D[1 - k2][i - A[k]];
+				long temp = B[i - A[k]];
 				if (temp != -1) {
-					max = Math.max(max, temp + V[k]);
+					D[i] = Math.max(D[i], temp + V[k]);
 				}
-				D[k2][i] = max;
 			}
 		}
-		return D[(n - 1) % 2][x];
+		return D[x];
 	}
 
 	static DorseyThief load(Scanner scanner) {
-		int n = scanner.nextInt();
-		int x = scanner.nextInt();
+		String[] _nx = scanner.nextLine().split(" ");
+		int n = Integer.valueOf(_nx[0]);
+		int x = Integer.valueOf(_nx[1]);
 		assert 1 <= n && n <= 1e6 : "out of range, n: " + n;
 		assert 1 <= x && x <= 5000 : "out of range, x: " + x;
 		int[] A = new int[n];
 		int[] V = new int[n];
 		int j = 0;
 		for (int i = 0; i < n; i++) {
-			V[j] = scanner.nextInt();
-			A[j] = scanner.nextInt();
+			String[] _va = scanner.nextLine().split(" ");
+			V[j] = Integer.valueOf(_va[0]);
+			A[j] = Integer.valueOf(_va[1]);
 			if (A[j] <= x) {
 				j++;
 			}
