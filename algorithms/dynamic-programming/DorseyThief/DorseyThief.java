@@ -28,11 +28,14 @@ public class DorseyThief {
 			int k2 = k % 2;
 			for (int i = 0; i <= x; i++) {
 				D[k2][i] = D[1 - k2][i];
-				if (i >= A[k]) {
-					if (D[1 - k2][i - A[k]] != -1) {
-						D[k2][i] = Math.max(D[k2][i], D[1 - k2][i - A[k]] + V[k]);
-					}
-				}	
+			}
+			for (int i = A[k]; i <= x; i++) {
+				long max = D[1 - k2][i];
+				long temp = D[1 - k2][i - A[k]];
+				if (temp != -1) {
+					max = Math.max(max, temp + V[k]);
+				}
+				D[k2][i] = max;
 			}
 		}
 		return D[(n - 1) % 2][x];
@@ -45,11 +48,15 @@ public class DorseyThief {
 		assert 1 <= x && x <= 5000 : "out of range, x: " + x;
 		int[] A = new int[n];
 		int[] V = new int[n];
+		int j = 0;
 		for (int i = 0; i < n; i++) {
-			V[i] = scanner.nextInt();
-			A[i] = scanner.nextInt();
+			V[j] = scanner.nextInt();
+			A[j] = scanner.nextInt();
+			if (A[j] <= x) {
+				j++;
+			}
 		}
-		return new DorseyThief(A, V, x);
+		return new DorseyThief(Arrays.copyOf(A, j), Arrays.copyOf(V, j), x);
 	}	
 
 	public static void main(String[] args) {
