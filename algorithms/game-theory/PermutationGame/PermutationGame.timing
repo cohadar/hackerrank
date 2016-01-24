@@ -3,3 +3,6 @@ FIRST: (.java)
 	20:31 - started
 	21:03 - half-done paper 
 	21:16 - 1/10 for brute force :)
+	21:21 - 2/10 after one refinement
+	21:56 - done. Solved with stupid recursion + memoization technique
+	22:03 - after reading comments I see correct thinking was DP because n=15 fits into an integer bitmask.

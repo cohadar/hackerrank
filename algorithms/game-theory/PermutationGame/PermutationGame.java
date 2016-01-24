@@ -6,54 +6,44 @@ import java.io.*;
   */
 public class PermutationGame {
 
-	final int n;
-	final int[] A;
-	
-	PermutationGame(int[] A) {
-		this.n = A.length;
-		this.A = A;
-	}
-
-	boolean isIncreasing(int[] B) {
-		for (int i = 1; i < B.length; i++) {
-			if (B[i - 1] > B[i]) {
+	static boolean isIncreasing(String S) {
+		for (int i = 1; i < S.length(); i++) {
+			if (S.charAt(i - 1) > S.charAt(i)) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	static int[] remove(int[] B, int k) {
-		int[] R = new int[B.length - 1];
-		for (int i = 0, j = 0; i < B.length; i++) {
-			if (i != k) {
-				R[j++] = B[i];
-			}
-		}
-		return R;
-	}
+	static Map<String, Boolean> M = new HashMap<>();
 	
-	boolean solve(int[] B) {
-		if (isIncreasing(B)) {
-			return false;
+	static boolean solve(String S) {
+		Boolean c = M.get(S);
+		if (c != null) {
+			return c;
 		}
-		for (int i = 0; i < B.length; i++) {
-			if (solve(remove(B, i)) == false) {
-				return true;
+		boolean ret = false;
+		if (!isIncreasing(S)) {
+			for (int i = 0; i < S.length(); i++) {
+				if (solve(S.replace("" + S.charAt(i), "")) == false) {
+					ret = true;
+					break;
+				}
 			}
 		}
-		return false;
+		M.put(S, ret);
+		return ret;
 	}
 
-	boolean solve() {
-		return solve(A);
-	}
-
-	static PermutationGame load(Scanner scanner) {
+	static String load(Scanner scanner) {
 		int n = scanner.nextInt();
 		assert 2 <= n && n <= 15 : "out of range, n: " + n;
 		int[] A = scanArray(scanner, n);
-		return new PermutationGame(A);
+		String S = "";
+		for (int i = 0; i < A.length; i++) {
+			S += (char)('A' + A[i]);
+		}
+		return S;
 	}	
 
 	public static void main(String[] args) {
@@ -61,8 +51,7 @@ public class PermutationGame {
 		int t = scanner.nextInt();
 		assert 1 <= t && t <= 100 : "out of range, t: " + t;
 		while (t-->0) {
-			PermutationGame o = PermutationGame.load(scanner);
-			System.out.println((o.solve()) ? "Alice" : "Bob");
+			System.out.println((solve(load(scanner))) ? "Alice" : "Bob");
 		}
 	}
 
