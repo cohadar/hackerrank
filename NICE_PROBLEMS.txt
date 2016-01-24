@@ -12,3 +12,4 @@ https://www.hackerrank.com/challenges/stockmax                // If you try DP y
 https://www.hackerrank.com/challenges/billboards              // monotone priority queue
 https://www.hackerrank.com/challenges/a-super-hero            // DP + sorting
 https://www.hackerrank.com/challenges/dorsey-thief            // classic knapsack + need fast scanner + sort + input reduction
+https://www.hackerrank.com/challenges/permutation-game        // memoization, sometimes it is better to be stupid

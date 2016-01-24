@@ -6,3 +6,5 @@ FIRST: (.java)
 	21:21 - 2/10 after one refinement
 	21:56 - done. Solved with stupid recursion + memoization technique
 	22:03 - after reading comments I see correct thinking was DP because n=15 fits into an integer bitmask.
+			all in all I prefer my String HashMap solution over DP and bitmagic
+			in fact my solution will work better for bigger inputs than DP bitmask because intermediate results are shared between tests.
