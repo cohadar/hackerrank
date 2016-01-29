@@ -13,3 +13,5 @@
 * Nasty graph generator, using a simple random graph does not reveal algorithm weak points!
  
 * coursera game theory, day 3, nimbers
+
+* World Codesprint
