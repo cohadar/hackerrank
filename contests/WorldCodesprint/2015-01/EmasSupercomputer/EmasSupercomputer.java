@@ -21,11 +21,18 @@ public class EmasSupercomputer {
 	final int n;
 	final int m;
 	final boolean[][] G;
+	final Point[][] P;
 	
 	EmasSupercomputer(int n, int m, boolean[][] G) {
 		this.n = n;
 		this.m = m;
 		this.G = G;
+		this.P = new Point[n][m];
+		for (int y = 0; y < n; y++) {
+			for (int x = 0; x < m; x++) {
+				P[y][x] = new Point(y, x);
+			}
+		}
 	}
 	
 	int area(int length) {
@@ -42,26 +49,60 @@ public class EmasSupercomputer {
  		return G[y][x];
  	}
 
+ 	int solveB(int y, int x) {
+		List<Point> B = new ArrayList<>();
+		int max = 1;
+		G[y][x] = false;
+		B.add(P[y][x]);
+		for (int i = 1; i < 15; i++) {
+			if (g(y + i, x) && g(y - i, x) && g(y, x + i) && g(y, x - i)) {
+				G[y + i][x] = false;
+				B.add(P[y + i][x]);
+				G[y - i][x] = false;
+				B.add(P[y - i][x]);
+				G[y][x + i] = false;
+				B.add(P[y][x + i]);
+				G[y][x - i] = false;
+				B.add(P[y][x - i]);
+				max = Math.max(max, area(i + 1));	
+			} else {
+				break;
+			}
+		}
+		for (Point p : B) {
+			G[p.y][p.x] = true;
+		}
+		return max;
+ 	}
+
  	int solveB() {
- 		return 1;
+ 		int max = 0;
+ 		for (int y = 0; y < n; y++) {
+ 			for (int x = 0; x < m; x++) {
+ 				if (G[y][x]) {
+ 					max = Math.max(max, solveB(y, x));
+ 				}
+ 			}
+ 		}
+		return max;
  	}
 
 	int solveA(int y, int x) {
-		int max = 0;
 		List<Point> A = new ArrayList<>();
+		int max = 0;
 		G[y][x] = false;
-		A.add(new Point(y, x));
+		A.add(P[y][x]);
 		max = Math.max(max, 1 * solveB());
 		for (int i = 1; i < 15; i++) {
 			if (g(y + i, x) && g(y - i, x) && g(y, x + i) && g(y, x - i)) {
 				G[y + i][x] = false;
-				A.add(new Point(y + i, x));
+				A.add(P[y + i][x]);
 				G[y - i][x] = false;
-				A.add(new Point(y - i, x));
+				A.add(P[y - i][x]);
 				G[y][x + i] = false;
-				A.add(new Point(y, x + i));
+				A.add(P[y][x + i]);
 				G[y][x - i] = false;
-				A.add(new Point(y, x - i));
+				A.add(P[y][x - i]);
 				max = Math.max(max, area(i + 1) * solveB());	
 			} else {
 				break;
