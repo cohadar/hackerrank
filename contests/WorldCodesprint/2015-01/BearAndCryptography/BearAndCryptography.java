@@ -23,43 +23,55 @@ public class BearAndCryptography {
 		return true;
 	}
 
-	int numDivisors(long x) {
-		int count = 2;
-		for (int p : P) {
-			if (p > x) {
-				break;
-			}
-			if (x % p == 0) {
-				count++;
-				while (x % p == 0) {
-					x /= p;
+	long k2(long n) {
+		for (long i = n; i >= 2; i--) {
+			if (i < B.length) {
+				if (B[(int)i]) { return i; };
+			} else if (i % 2 != 0) {
+				if (isPrime(P, i)) {
+					return i;
 				}
 			}
 		}
-		return count;
+		return -1;
+	}
+
+	long kPrime(long n, int k) {
+		int root = (int)Math.pow(n, 1.0 / (k - 1));
+		for (int i = root; i >= 2; i--) {
+			if (B[root]) {
+				return (long)Math.pow(root, k - 1);
+			}			
+		}
+		return -1;
 	}
 
 	long solve(long n, int k) {
 		if (k == 1) { return 1; };
 		if (k == 2) {
-			for (long i = n; i >= 2; i--) {
-				if (i < B.length) {
-					if (B[(int)i]) { return i; };
-				} else if (i % 2 != 0) {
-					if (isPrime(P, i)) {
-						return i;
-					}
-				}
-			}
+			return k2(n);
 		}
 		if (B[k]) {
-			int root = (int)Math.pow(n, 1.0 / (k - 1));
-			return (B[root]) ? (long)Math.pow(root, k - 1) : -1;
+			return kPrime(n, k);
 		}
 		for (long i = n; i >= 2; i--) {
-			debug(i, numDivisors(i), k);
-			if (numDivisors(i) == k) {
-				return i;
+			for (int p : P) {
+				if (p * p > i) {
+					break;
+				}
+				if (i % p == 0) {
+					int a = 0;
+					long z = i;
+					while (z % p == 0) {
+						z /= p;
+						a++;
+					}
+					if (k % (1 + a) == 0) {
+						if (z == solve(z, k / (1 + a))) {
+							return i;
+						}
+					}
+				}
 			}
 		}
 		return -1;
