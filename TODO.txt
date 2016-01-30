@@ -15,3 +15,5 @@
 * coursera game theory, day 3, nimbers
 
 * World Codesprint
+
+* Sieve of Erathostenes snippet!
