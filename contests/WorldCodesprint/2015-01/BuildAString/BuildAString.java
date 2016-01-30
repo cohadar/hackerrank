@@ -24,7 +24,7 @@ public class BuildAString {
 	}
 
 	boolean exists(int p, int k) {
-		if (p < 1 || k + 1 < 2 * p || k == n) {
+		if (k == n) {
 			return false;
 		}
 		String l = s.substring(0, k - p + 1);
@@ -39,6 +39,8 @@ public class BuildAString {
 			for (int p = 1; p <= rp; p++) {
 				if (exists(p, k)) {
 					C[k] = Math.min(C[k], b + C[k - p]);
+				} else {
+					break;
 				}
 			}
 		}
