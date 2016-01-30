@@ -27,21 +27,29 @@ public class BuildAString {
 		if (k == n) {
 			return false;
 		}
-		String l = s.substring(0, k - p + 1);
-		String r = s.substring(k - p + 1, k + 1);
-		return l.contains(r);
+		int k2 = k % 2;
+		int l = k - p + 1;
+		String tl = s.substring(0, l);
+		String tr = s.substring(l, k + 1);
+		return tl.contains(tr);
+	}
+
+	int bs(int l, int r, int k) {
+		for (int p = l; p <= r; p++) {
+			if (!exists(p, k)) {
+				return p - 1;
+			}
+		}
+		return r;
 	}
 
 	int solve() {
 		for (int k = 1; k <= n; k++) {
 			C[k] = a + C[k - 1];
 			int rp = (k + 1) / 2;
+			rp = bs(1, rp, k);
 			for (int p = 1; p <= rp; p++) {
-				if (exists(p, k)) {
-					C[k] = Math.min(C[k], b + C[k - p]);
-				} else {
-					break;
-				}
+				C[k] = Math.min(C[k], b + C[k - p]);
 			}
 		}
 		return C[n];
