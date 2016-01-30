@@ -6,6 +6,8 @@ import java.io.*;
   */
 public class BuildAString {
 
+	static final int INF = Integer.MAX_VALUE / 2;
+
 	final int n;
 	final int a;
 	final int b;
@@ -18,7 +20,6 @@ public class BuildAString {
 		this.a = a;
 		this.b = b;
 		this.s = s;
-		debug(n, a, b, s);
 		this.S = s.toCharArray();
 		this.C = new int[1 + n];
 	}
@@ -34,23 +35,35 @@ public class BuildAString {
 		return tl.contains(tr);
 	}
 
-	int bs(int l, int r, int k) {
-		for (int p = l; p <= r; p++) {
-			if (!exists(p, k)) {
-				return p - 1;
+	public int upperBound(int left, int right, int k) {
+		right--;
+		while (left <= right) {
+			int mid = (left + right) >>> 1;
+			boolean midValue = exists(mid, k);
+			if (midValue == false) {
+				right = mid - 1;
+			} else {
+				left = mid + 1;
 			}
 		}
-		return r;
+		return left;
+	}
+
+	int minInRange(int l, int r) {
+		int min = INF;
+		for (int i = l; i <= r; i++) {
+			min = Math.min(min, C[i]);
+		}
+		return min;
 	}
 
 	int solve() {
 		for (int k = 1; k <= n; k++) {
 			C[k] = a + C[k - 1];
 			int rp = (k + 1) / 2;
-			rp = bs(1, rp, k);
-			for (int p = 1; p <= rp; p++) {
-				C[k] = Math.min(C[k], b + C[k - p]);
-			}
+			int ff = upperBound(1, rp + 1, k);
+			int min = Math.min(C[k] - b, minInRange(k - (ff - 1), k - 1));
+			C[k] = Math.min(C[k], b + min);
 		}
 		return C[n];
 	}
@@ -78,7 +91,7 @@ public class BuildAString {
 		}
 	}
 
-	static boolean DEBUG = false;
+	static boolean DEBUG = true;
 	
 	static void debug(Object...os) {
 		if (!DEBUG) { return; }
