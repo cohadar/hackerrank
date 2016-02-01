@@ -12,7 +12,7 @@
 
 * Nasty graph generator, using a simple random graph does not reveal algorithm weak points!
  
-* coursera game theory, day 4, star and up
+* coursera game theory, day 5, Simplicity and Numbers
 
 * World Codesprint
 
