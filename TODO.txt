@@ -11,9 +11,9 @@
 * Write fast nCr function
 
 * Nasty graph generator, using a simple random graph does not reveal algorithm weak points!
- 
-* coursera game theory, day 5, Simplicity and Numbers
 
 * World Codesprint
 
 * Sieve of Erathostenes snippet!
+
+* game theory, day 6, Cardinals and Ordinals
