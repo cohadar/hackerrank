@@ -16,4 +16,4 @@
 
 * Sieve of Erathostenes snippet!
 
-* game theory, day 6, Cardinals and Ordinals
+* game theory, day 7, Intro to nimbers
