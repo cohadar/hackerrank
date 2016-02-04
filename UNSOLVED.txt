@@ -19,3 +19,4 @@
 2015-11-21 | https://www.hackerrank.com/challenges/interval-selection
 2015-11-23 | https://www.hackerrank.com/challenges/benders-play
 2015-11-26 | https://www.hackerrank.com/challenges/stone-piles
+2016-02-04 | https://www.hackerrank.com/challenges/half
