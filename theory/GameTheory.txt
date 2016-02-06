@@ -1,0 +1,23 @@
+G = { L1, L2, L3,... | R1, R2, R3, ... }
+
+Basic Games
+ 0 = {   |   }
+ 1 = { 0 |   }
+-1 = {   | 0 }
+ * = { 0 | 0 }
+
+Outcome Classes
+	G = 0   second player wins
+	G > 0   left player wins
+	G < 0   right player wins
+	G # 0   first player wins
+
+Order of games
+	G = 0       { lose | lose }
+	G > 0        { win | lose }  
+	G < 0       { lose | win }
+	G # 0        { win | win }
+	G >= 0   { unknown | lose }
+	G <= 0      { lose | unknown }
+	G ># 0       { win | unknown }
+	G <# 0   { unknown | win }
