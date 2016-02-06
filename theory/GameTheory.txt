@@ -38,3 +38,60 @@ Order between games
 	G > H  ≡  G - H > 0
 	G < H  ≡  G - H < 0
 	G # H  ≡  G - H # 0
+
+Add order
+	G >= 0 and H >= 0 then G + H >= 0
+	G >= 0 and H #> 0 then G + H #> 0
+
+Zero neutrality
+	G = 0 then G + 0 = 0
+	G > 0 then G + 0 > 0
+	G < 0 then G + 0 < 0
+	G # 0 then G + 0 # 0
+
+Equal games are in the same outcome class
+Addition respects the order
+	G > H then G + K > H + K
+
+>= is a RAT relation (order)
+= is a RST relation (equivalence)
+
+equal games
+	if A == B then G + A = G + B
+	
+Removing dominated options does not change the value of a game
+	{ -5, -4, -3 | 2, 3, 4 } = { -3 | 4 } = 0
+	{ -1, 0, 1 | -1 0 1 } = { 1 | -1 } = *
+
+Bypassing a reversible option does not change a value of a game
+	K is a left option reversible by right
+	K = { ? | KR }, KR <= G
+	P is a right option reversible by left
+	P = { PL | ? }, PL >= G
+	G = { K, L | P, R } = { KR.left, GL | PL.right, GR }
+
+Normal form is when all dominated and reversible options have been removed
+
+Game is a number
+	G = { L | R } when L and R are numbers and L < R
+	Every number satisfies L < G < R
+	numbers are totally ordered, x > y or x < y or x = y
+	numbers are never fuzzy
+
+The ring of short numbers is isomorphic to ring of diadic [1/2] fractions
+
+Multiplication of numbers
+	x * y = { xl * y  +  x * yl  -(xl * yl),  xr * y  +  x * yr  -  (xr * yr) 
+	      |   xl * y  +  x * yr  -(xl * yr),  xr * y  +  x * yl  -  (xr * yl) }
+
+Field properties of numbers
+	0 * x ≡ 0
+	1 * x ≡ x
+	x * y ≡ y * x
+	-x * y ≡ x * -y ≡ -xy
+	(x + y)z = xz + yz
+	(xy)z = x(yz)
+
+Division of numbers
+	(don't care about formula, too complicated)
+	Note that 1/3 has infinite many left and right options because field is diadic (1/3 has infinitely many binary decimals)
