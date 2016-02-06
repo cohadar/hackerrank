@@ -21,3 +21,20 @@ Order of games
 	G <= 0      { lose | unknown }
 	G ># 0       { win | unknown }
 	G <# 0   { unknown | win }
+
+Sum and Negative Games
+	G + H = { GL + H, G + HL | GR + H, G + HR }
+	-G = { -R | -L }
+	G - H = G + (-H)
++ and 0 make a group over all games
+	G + 0 = G
+	G + H = H + G
+	G + (H + J) = (G + H) + J
+	--G = G
+	-(G + H) = (-G) + (-H)
+
+Order between games
+	G = H  ≡  G - H = 0
+	G > H  ≡  G - H > 0
+	G < H  ≡  G - H < 0
+	G # H  ≡  G - H # 0
