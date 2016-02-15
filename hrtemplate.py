@@ -109,8 +109,8 @@ def make_all(name):
 	else:
 		print "exists:", name
 	make_file(name, "." + ext, template[ext])
-	make_file(name, ".examp.in", "")
-	make_file(name, ".small.in", "")
+	# make_file(name, ".examp.in", "")
+	# make_file(name, ".small.in", "")
 	# make_file(name, ".large.in", "")
 	make_file(name, ".timing", template_timing.replace("lang", ext).replace("00:00", time.strftime("%H:%M")))
 
