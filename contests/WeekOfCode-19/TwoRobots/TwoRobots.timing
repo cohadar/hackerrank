@@ -5,3 +5,5 @@ FIRST: (.java)
 	45:29 - examp pass, unoptimal
 	52:43 - revert from bad k%2
 	1:00:17 - revert from bad k%2
+	--:--
+	I had a bad DP all along, the trick was to separate into two matrices L and D
