@@ -12,28 +12,38 @@ public class TwoRobots {
 	final int n;
 	final int[] A;
 	final int[] B;
-	final int[][][] D;
+	final int[][][] DD;
 	
 	public TwoRobots(int m, int n, int[] A, int[] B) {
 		this.m = m;
 		this.n = n;
 		this.A = A;
 		this.B = B;
-		this.D = new int[1 + n][m][m];
+		this.DD = new int[1 + n][m][m];
+	}
+
+	public int getD(int k, int l, int r) {
+		return DD[k][l][r];
+	}
+
+	public int setD(int k, int l, int r, int val) {
+		return DD[k][l][r] = val;
 	}
 
 	public void initD() {
 		for (int k = 0; k <= n; k++) {
 			for (int l = 0; l < m; l++) {
-				Arrays.fill(D[k][l], INF);
+				for (int r = 0; r < m; r++) {
+					setD(k, l, r, INF);
+				}
 			}
 		}
 		int k = 0;
 		int dist_ab = Math.abs(A[k] - B[k]);
 		for (int l = 0; l < m; l++) {
 			for (int r = 0; r < m; r++) {
-				D[1 + k][B[k]][r] = Math.min(D[1 + k][B[k]][r], Math.abs(l - A[k]) + dist_ab);
-				D[1 + k][l][B[k]] = Math.min(D[1 + k][l][B[k]], Math.abs(r - A[k]) + dist_ab);
+				setD(1 + k, B[k], r, Math.min(getD(1 + k, B[k], r), Math.abs(l - A[k]) + dist_ab));
+				setD(1 + k, l, B[k], Math.min(getD(1 + k, l, B[k]), Math.abs(r - A[k]) + dist_ab));
 			}
 		}
 	}
@@ -42,7 +52,7 @@ public class TwoRobots {
 		int min = INF;
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < m; j++) {
-				min = Math.min(min, D[n][i][j]);
+				min = Math.min(min, getD(n, i, j));
 			}
 		}
 		return min;
@@ -54,8 +64,8 @@ public class TwoRobots {
 			int dist_ab = Math.abs(A[k] - B[k]);
 			for (int l = 0; l < m; l++) {
 				for (int r = 0; r < m; r++) {
-					D[1 + k][B[k]][r] = Math.min(D[1 + k][B[k]][r], D[1+k-1][l][r] + Math.abs(l - A[k]) + dist_ab);
-					D[1 + k][l][B[k]] = Math.min(D[1 + k][l][B[k]], D[1+k-1][l][r] + Math.abs(r - A[k]) + dist_ab);
+					setD(1 + k, B[k], r, Math.min(getD(1 + k, B[k], r), getD(1+k-1, l, r) + Math.abs(l - A[k]) + dist_ab));
+					setD(1 + k, l, B[k], Math.min(getD(1 + k, l, B[k]), getD(1+k-1, l, r) + Math.abs(r - A[k]) + dist_ab));
 				}
 			}
 		}
