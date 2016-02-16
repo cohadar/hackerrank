@@ -1,7 +1,7 @@
 ## TwoRobots
 FIRST: (.java)
-	2 x 59:59 - FAIL
-	09:21 - non-mover robot insight
-	14:53 - better DP
-	35:03 - examp pass
-	46:57 - 6/9 
+	04:54 - done reading
+	23:32 - done paper
+	45:29 - examp pass, unoptimal
+	52:43 - revert from bad k%2
+	1:00:17 - revert from bad k%2
