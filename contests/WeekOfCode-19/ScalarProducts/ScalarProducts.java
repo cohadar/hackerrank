@@ -4,6 +4,7 @@ import java.io.*;
 /* Mighty Cohadar */
 public class ScalarProducts {
 
+	final int c;
 	final int m;
 	final int n;
 	int a1, a0;
@@ -14,6 +15,7 @@ public class ScalarProducts {
 		this.n = n;
 		this.a0 = 0;
 		this.a1 = c;
+		this.c = c;
 	}
 
 	public int nextA() {
@@ -34,20 +36,36 @@ public class ScalarProducts {
 		b1 = a1;
 		b0 = a0;
 	}
-	
-	public int solve() {
-		TreeSet<Integer> T = new TreeSet<>();
+
+	public void test() {
 		for (int i = 0; i < n; i++) {
 			int x1 = nextA();
 			int y1 = nextA();
-			a2b();
-			for (int j = i + 1; j < n; j++) {
-				int x2 = nextB();
-				int y2 = nextB();	
-				T.add((x1 * x2 + y1 * y2) % m);
+			debug(x1, y1);
+		}		
+	}
+	
+	public int solve() {
+		BitSet B = new BitSet();
+		int[] X = new int[n];
+		int[] Y = new int[n];
+		int nn = n;
+		for (int i = 0; i < n; i++) {
+			X[i] = nextA();
+			Y[i] = nextA();
+			if (Y[i] == c && X[i] == 0) {
+				nn = i;
+				break;
+			}
+		}			
+		debug(nn);
+		for (int i = 0; i < nn; i++) {
+			for (int j = i + 1; j < nn; j++) {
+				int residue = (int)(((long)X[i] * X[j] + (long)Y[i] * Y[j]) % m);
+				B.set(residue);
 			}
 		}
-		return T.size() % m;
+		return B.cardinality() % m;
 	}
 
 	public static void main(String[] args) {
@@ -60,6 +78,14 @@ public class ScalarProducts {
 		assert 1 <= n && n <= 3e5 : "out of range, n: " + n;
 		ScalarProducts o = new ScalarProducts(c, m, n);
 		System.out.println(o.solve());
+		// o.test();
+	}
+
+	static boolean DEBUG = true;
+	
+	static void debug(Object...os) {
+		if (!DEBUG) { return; }
+		System.err.printf("%.65536s\n", Arrays.deepToString(os));
 	}
 
 }
