@@ -35,18 +35,14 @@ public class ScalarProducts {
 			X[i] = nextA();
 			Y[i] = nextA();
 		}			
-		for (int i = 0; i < Math.min(5, nn); i++) {
-			for (int j = i + 1; j < nn; j++) {
-				int residue = (int)(((long)X[i] * X[j] + (long)Y[i] * Y[j]) % m);
-				B.set(residue);
-			}			
-		}
-		for (int i = nn - 1; i >= Math.max(0, nn-6); i--) {
-			for (int j = i - 1; j >= 0; j--) {
-				int residue = (int)(((long)X[i] * X[j] + (long)Y[i] * Y[j]) % m);
-				B.set(residue);
-			}			
-		}		
+		for (int j = 1; j < nn; j++) {
+			int residue = (int)(((long)X[0] * X[j] + (long)Y[0] * Y[j]) % m);
+			B.set(residue);
+		}			
+		for (int j = nn-2; j >= 0; j--) {
+			int residue = (int)(((long)X[nn-1] * X[j] + (long)Y[nn-1] * Y[j]) % m);
+			B.set(residue);
+		}			
 		return B.cardinality() % m;
 	}
 
