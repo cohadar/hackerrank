@@ -36,7 +36,7 @@ public class ScalarProducts {
 	}
 	
 	public int solve() {
-		BitSet B = new BitSet(m);
+		TreeSet<Integer> T = new TreeSet<>();
 		for (int i = 0; i < n; i++) {
 			int x1 = nextA();
 			int y1 = nextA();
@@ -44,10 +44,10 @@ public class ScalarProducts {
 			for (int j = i + 1; j < n; j++) {
 				int x2 = nextB();
 				int y2 = nextB();	
-				B.set((x1 * x2 + y1 * y2) % m);
+				T.add((x1 * x2 + y1 * y2) % m);
 			}
 		}
-		return B.cardinality() % m;
+		return T.size() % m;
 	}
 
 	public static void main(String[] args) {
