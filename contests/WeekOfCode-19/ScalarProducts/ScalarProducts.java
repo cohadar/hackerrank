@@ -8,7 +8,6 @@ public class ScalarProducts {
 	final int m;
 	final int n;
 	int a1, a0;
-	int b1, b0;
 	
 	public ScalarProducts(int c, int m, int n) {
 		this.m = m;
@@ -25,46 +24,29 @@ public class ScalarProducts {
 		return a2;
 	}
 
-	public int nextB() {
-		int b2 = (b1 + b0) % m;
-		b0 = b1;
-		b1 = b2;
-		return b2;
-	}
-
-	public void a2b() {
-		b1 = a1;
-		b0 = a0;
-	}
-
-	public void test() {
-		for (int i = 0; i < n; i++) {
-			int x1 = nextA();
-			int y1 = nextA();
-			debug(x1, y1);
-		}		
-	}
-	
 	public int solve() {
 		BitSet B = new BitSet();
 		int[] X = new int[n];
 		int[] Y = new int[n];
 		int nn = n;
-		for (int i = 0; i < n; i++) {
+		X[0] = nextA();
+		Y[0] = nextA();		
+		for (int i = 1; i < n; i++) {
 			X[i] = nextA();
 			Y[i] = nextA();
-			if (Y[i] == c && X[i] == 0) {
-				nn = i;
-				break;
-			}
 		}			
-		debug(nn);
-		for (int i = 0; i < nn; i++) {
+		for (int i = 0; i < Math.min(5, nn); i++) {
 			for (int j = i + 1; j < nn; j++) {
 				int residue = (int)(((long)X[i] * X[j] + (long)Y[i] * Y[j]) % m);
 				B.set(residue);
-			}
+			}			
 		}
+		for (int i = nn - 1; i >= Math.max(0, nn-6); i--) {
+			for (int j = i - 1; j >= 0; j--) {
+				int residue = (int)(((long)X[i] * X[j] + (long)Y[i] * Y[j]) % m);
+				B.set(residue);
+			}			
+		}		
 		return B.cardinality() % m;
 	}
 
@@ -78,14 +60,6 @@ public class ScalarProducts {
 		assert 1 <= n && n <= 3e5 : "out of range, n: " + n;
 		ScalarProducts o = new ScalarProducts(c, m, n);
 		System.out.println(o.solve());
-		// o.test();
-	}
-
-	static boolean DEBUG = true;
-	
-	static void debug(Object...os) {
-		if (!DEBUG) { return; }
-		System.err.printf("%.65536s\n", Arrays.deepToString(os));
 	}
 
 }

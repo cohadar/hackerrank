@@ -6,3 +6,5 @@ FIRST: (.java)
 		7 ok, 2 wrong, 4 error (error is due to out of memory bitset)
 	22:26 - pretests pass. (had int overflow lol)
 	40:29 - better speed, but still not good
+	07:51 - fibonacci insight! red herring!
+	48:13 - first and list reverse engineering :)
