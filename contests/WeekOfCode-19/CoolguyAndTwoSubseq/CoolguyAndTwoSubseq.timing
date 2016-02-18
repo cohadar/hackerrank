@@ -3,3 +3,6 @@ FIRST: (.java)
 	02:13 - done reading
 	16:30 - done brute force
 		first 5 work ok, rest timeout
+	25:49 - better range min calculation
+		first 5 work ok, rest timeout
+	39:40 - number of iterations = binom(n + 2, 4)
