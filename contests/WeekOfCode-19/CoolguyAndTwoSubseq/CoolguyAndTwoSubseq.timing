@@ -9,3 +9,5 @@ FIRST: (.java)
 	11:14 - extend array with INF-s ?
 	33:46 - can we sort the array and still get the same result? NO
 	54:56 - no new insights, lets learn RMQ algorithms
+
+	00:00 - unoptimal smart passed brute test

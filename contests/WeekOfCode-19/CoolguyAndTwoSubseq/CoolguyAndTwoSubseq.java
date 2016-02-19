@@ -33,25 +33,66 @@ public class CoolguyAndTwoSubseq {
 		return ans;		
 	}
 
+	public static void inc(Map<Integer, Integer> X, int key) {
+		Integer val = X.get(key);
+		if (val == null) {
+			val = 0;
+		}
+		X.put(key, val + 1);
+	}
+
 	public Map<Integer, Integer> left(int b) {
 		Map<Integer, Integer> L = new TreeMap<>();
+		int l = A[b];
+		for (int a = b; a >= 0; a--) {
+			l = Math.min(l, A[a]);
+			inc(L, l);
+		}
 		return L;
 	}
 
 	public Map<Integer, Integer> right(int b) {
 		Map<Integer, Integer> R = new TreeMap<>();
+		for (int c = b+1; c < n; c++) {
+			int r = A[c];
+			for (int d = c; d < n; d++) {
+				r = Math.min(r, A[d]);
+				inc(R, r);
+			}
+		}
 		return R;
 	}
 
+	public int mul(int key, int f1, int f2) {
+		return (int) (((long)key * (long)f1 * (long)f2) % PRIME);
+	}
+
+	public int mul(Map.Entry<Integer, Integer> el, Map.Entry<Integer, Integer> er) {
+		if (el.getKey() < er.getKey()) {
+			return mul(el.getKey(), el.getValue(), er.getValue());
+		} else {
+			return mul(er.getKey(), el.getValue(), er.getValue());
+		}
+	}
+
 	public int mul(Map<Integer, Integer> L, Map<Integer, Integer> R) {
-		return -1;
+		int ans = 0;
+		for (Map.Entry<Integer, Integer> el : L.entrySet()) {
+			for (Map.Entry<Integer, Integer> er : R.entrySet()) {
+				ans += mul(el, er);
+				ans %= PRIME;
+			}
+		}
+		return ans;
 	}
 
 	public int solve() {
 		int ans = 0;
-		for (int b = 0; b < n-2; b++) {
+		for (int b = 0; b < n-1; b++) {
 			Map<Integer, Integer> L = left(b);
 			Map<Integer, Integer> R = right(b);
+			debug('L', L);
+			debug('R', R);
 			ans += mul(L, R);
 			ans %= PRIME;
 		}
@@ -80,8 +121,9 @@ public class CoolguyAndTwoSubseq {
 			for (int i = 0; i < A.length; i++) {
 				A[i] = 1 + random.nextInt((int)1e9);
 			}
+			debug("####", 'n', n, 'A', A);
 			CoolguyAndTwoSubseq o = new CoolguyAndTwoSubseq(n, A);
-			assert o.solve() == o.solve2() : "o.solve()=" + o.solve() + ", o.solve2()=" + o.solve2();
+			assert o.solve() == o.solve2() : "o.solve()=" + o.solve() + ", o.solve2()=" + o.solve2() + ", n=" + o.n;
 		}
 	}
 
