@@ -8,10 +8,17 @@ public class CoolguyAndTwoSubseq {
 
 	final int n;
 	final int[] A;
+	final int[] RMIN;
 	
 	public CoolguyAndTwoSubseq(int n, int[] A) {
 		this.n = n;
 		this.A = A;
+		this.RMIN = new int[n];
+		int r = A[n-1];
+		for (int i = n - 1; i >= 0; i--) {
+			r = Math.min(r, A[i]);
+			RMIN[i] = r;
+		}
 	}
 	
 	public int solve2() {
@@ -41,18 +48,8 @@ public class CoolguyAndTwoSubseq {
 		X.put(key, val + 1);
 	}
 
-	public Map<Integer, Integer> left(int b) {
-		Map<Integer, Integer> L = new TreeMap<>();
-		int l = A[b];
-		for (int a = b; a >= 0; a--) {
-			l = Math.min(l, A[a]);
-			inc(L, l);
-		}
-		return L;
-	}
-
-	public Map<Integer, Integer> right(int b) {
-		Map<Integer, Integer> R = new TreeMap<>();
+	public TreeMap<Integer, Integer> right(int b) {
+		TreeMap<Integer, Integer> R = new TreeMap<>();
 		for (int c = b+1; c < n; c++) {
 			int r = A[c];
 			for (int d = c; d < n; d++) {
@@ -95,16 +92,21 @@ public class CoolguyAndTwoSubseq {
 		L.put(l, nl);
 	}
 
+	public void updateRight(TreeMap<Integer, Integer> R, int r) {
+		
+	}
+
 	// TODO: TreeMap<Integer, Integer>  or TreeMap<Integer, Long> !!! ???
 
 	public int solve() {
 		int ans = 0;
 		TreeMap<Integer, Integer> L = new TreeMap<>();
+		TreeMap<Integer, Integer> R = right(-1);
 		for (int b = 0; b < n-1; b++) {
 			updateLeft(L, A[b]);
-			// Map<Integer, Integer> L = left(b);
-			Map<Integer, Integer> R = right(b);
-			debug('L', L);
+			R = right(b);
+			// updateRight(R, A[b]);
+			// debug('L', L);
 			debug('R', R);
 			ans += mul(L, R);
 			ans %= PRIME;
