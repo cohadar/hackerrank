@@ -86,10 +86,23 @@ public class CoolguyAndTwoSubseq {
 		return ans;
 	}
 
+	public void updateLeft(TreeMap<Integer, Integer> L, int l) {
+		int nl = 1;
+		while (L.isEmpty() == false && L.lastKey() >= l) {
+			Map.Entry<Integer, Integer> e = L.pollLastEntry();
+			nl += e.getValue();
+		}
+		L.put(l, nl);
+	}
+
+	// TODO: TreeMap<Integer, Integer>  or TreeMap<Integer, Long> !!! ???
+
 	public int solve() {
 		int ans = 0;
+		TreeMap<Integer, Integer> L = new TreeMap<>();
 		for (int b = 0; b < n-1; b++) {
-			Map<Integer, Integer> L = left(b);
+			updateLeft(L, A[b]);
+			// Map<Integer, Integer> L = left(b);
 			Map<Integer, Integer> R = right(b);
 			debug('L', L);
 			debug('R', R);
