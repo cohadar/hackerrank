@@ -119,12 +119,13 @@ public class CoolguyAndTwoSubseq {
 		for (int n = 1; n < 10; n++) {
 			int[] A = new int[n];
 			for (int i = 0; i < A.length; i++) {
-				A[i] = 1 + random.nextInt((int)1e9);
+				A[i] = 1 + random.nextInt((int)1000);
 			}
 			debug("####", 'n', n, 'A', A);
 			CoolguyAndTwoSubseq o = new CoolguyAndTwoSubseq(n, A);
 			assert o.solve() == o.solve2() : "o.solve()=" + o.solve() + ", o.solve2()=" + o.solve2() + ", n=" + o.n;
 		}
+		debug("###########");
 	}
 
 	static int[] scanArray(Scanner scanner, int n) {
