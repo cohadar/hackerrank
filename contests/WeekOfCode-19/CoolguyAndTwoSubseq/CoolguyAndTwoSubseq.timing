@@ -6,3 +6,6 @@ FIRST: (.java)
 	25:49 - better range min calculation
 		first 5 work ok, rest timeout
 	39:40 - number of iterations = binom(n + 2, 4)
+	11:14 - extend array with INF-s ?
+	33:46 - can we sort the array and still get the same result? NO
+	54:56 - no new insights, lets learn RMQ algorithms

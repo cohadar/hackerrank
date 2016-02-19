@@ -6,14 +6,16 @@ public class CoolguyAndTwoSubseq {
 
 	static final int PRIME = (int)1e9 + 7;
 
-	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
-		int n = scanner.nextInt();
-		assert 1 <= n && n <= 2e5 : "out of range, n: " + n;
-		int[] A = scanArray(scanner, n);
-		
+	final int n;
+	final int[] A;
+	
+	public CoolguyAndTwoSubseq(int n, int[] A) {
+		this.n = n;
+		this.A = A;
+	}
+	
+	public int solve() {
 		int ans = 0;
-		int count = 0;
 		for (int a = 0; a < n; a++) {
 			int l = A[a];
 			for (int b = a; b < n; b++) {
@@ -24,15 +26,24 @@ public class CoolguyAndTwoSubseq {
 						r = Math.min(r, A[d]);
 						ans += Math.min(l, r);
 						ans %= PRIME;
-						debug(a, b, c, d);
-						count++;
 					}
 				}
 			}
 		}
+		return ans;		
+	}
 
-		System.out.println(ans);
-		debug(n, count);
+	public static CoolguyAndTwoSubseq load(Scanner scanner) {
+		int n = scanner.nextInt();
+		assert 1 <= n && n <= 2e5 : "out of range, n: " + n;
+		int[] A = scanArray(scanner, n);
+		return new CoolguyAndTwoSubseq(n, A);
+	}
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		CoolguyAndTwoSubseq o = CoolguyAndTwoSubseq.load(scanner);
+		System.out.println(o.solve());
 	}
 
 	static int[] scanArray(Scanner scanner, int n) {
