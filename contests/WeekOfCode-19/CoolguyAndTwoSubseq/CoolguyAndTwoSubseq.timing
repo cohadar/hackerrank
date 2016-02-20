@@ -19,3 +19,8 @@ FIRST: (.java)
 	
 	19:47 - working frequency segment tree O(n log n)
 	
+	18:23 - using segment tree gives bad examp
+
+	54:00 - doubting segment tree
+	59:38 - good guess, segment tree was bad
+	59:59 - rmq test

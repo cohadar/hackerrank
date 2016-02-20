@@ -51,7 +51,6 @@ public class SegmentTreeRMQ
 	public void calcFreq() {
 		final int th = (int) (Math.ceil(Math.log(n) / Math.log(2)));
 		final int shift = (1 << th) - 1;
-		debug("th", th, "shift", shift);
 		for (int i = 0; i < n; i++) {
 			final int c = i + shift;
 			int h = 1;
@@ -99,6 +98,10 @@ public class SegmentTreeRMQ
 		return rmq(0, n - 1, l, r, 0);
 	}
 
+	int size() {
+		return n;
+	}
+
 	static int min(int[] A, int l, int r) {
 		int m = Integer.MAX_VALUE;
 		for (int i = l; i <= r; i++) {
@@ -109,17 +112,35 @@ public class SegmentTreeRMQ
 
 	public static void main(String args[]) 
 	{
-		int A[] = { 3, 2, 7, 5, 4, 2, 3, 8 };
-		int n = A.length;
+		Random random = new Random();
+		// int n = 1 + random.nextInt(10);
+		int n = 8;
+		// int A[] = new int[n];
+		// for (int i = 0; i < n; i++) {
+		// 	A[i] = 1 + random.nextInt(1000_000_000);
+		// }		
+		int[] A = new int[] { 860437367, 382264818, 97862808, 511775535, 573080082, 697891811, 593731288, 813762475 };
 		SegmentTreeRMQ o = new SegmentTreeRMQ(A);
-		debug('A', o.A);
-		debug('F', o.F);
-		debug('T', o.T);
+		debug("o.T", o.T);
+		debug("o.A", o.A);
+		debug("o.F", o.F);
 
 		for (int l = 0; l < n; l++) {
 			for (int r = l; r < n; r++) {
 				assert A[o.rmq(l, r)] == min(A, l, r);
 			}
+		}
+
+		int[] F = new int[n];
+		for (int l = 0; l < n; l++) {
+			for (int r = l; r < n; r++) {
+				F[o.rmq(l, r)]++;
+			}
+		}
+
+		debug("  F", F);
+		for (int i = 0; i < n; i++) {
+			assert o.F[i] == F[i] : "o.F[i] == F[i]";
 		}
 	}
 
