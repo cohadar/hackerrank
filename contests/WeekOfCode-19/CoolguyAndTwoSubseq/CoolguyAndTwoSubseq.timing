@@ -24,3 +24,6 @@ FIRST: (.java)
 	54:00 - doubting segment tree
 	59:38 - good guess, segment tree was bad
 	59:59 - rmq test
+
+	00:00 - let's confirm freq calculation brutely
+	40:23 - debugging is maddening

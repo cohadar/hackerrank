@@ -51,12 +51,67 @@ public class CoolguyAndTwoSubseq {
 		return ans;
 	}
 
+	public static int imin(int[] A, int l, int r) {
+		int im = l;
+		for (int i = l; i <= r; i++) {
+			if (A[im] > A[i]) {
+				im = i;
+			}
+		}
+		return im;
+	}
+
+	public static int[] freq(int[] L) {
+		int[] LF = new int[L.length];
+		for (int i = 0; i < L.length; i++) {
+			int l = i;
+			while (l > 0 && L[l-1] > L[i]) { l--; }
+			int r = i;
+			while (r < L.length-1 && L[r+1] >= L[i]) { r++; }
+			LF[i] = (i - l + 1) * (r - i + 1);
+		}
+		return LF;
+	}
+
+	public static int[] rightFreq(int[] R) {
+		int[] RF = new int[R.length];
+		int c = 0;
+		int im = c;
+		for (int d = 0; d < R.length; d++) {
+			if (R[im] > R[d]) {
+				im = d;
+			}
+			RF[im]++;
+		}
+		return RF;
+	}
+
+	public long solve(int[] L, int[] R) {
+		long ans = 0;
+		int[] LF = freq(L);
+		int[] RF = rightFreq(R);
+		for (int l = 0; l < L.length; l++) {
+			for (int r = 0; r < R.length; r++) {
+				if (L[l] <= R[r]) {
+					ans += (long)L[l] * LF[l] * 1;
+				} else {
+					ans += (long)R[r] * RF[r] * LF[l];
+				}
+				ans %= PRIME;
+			}
+		}
+		debug(L, R, "ans=", ans);
+		debug(LF, RF);
+		return ans;
+	}
+
 	public long solve() {
 		long ans = 0;
 		for (int b = 0; b < n-1; b++) {
 			int[] L = Arrays.copyOfRange(A, 0, b + 1);
 			int[] R = Arrays.copyOfRange(A, b + 1, n);
-			ans += solve(new SegmentTreeRMQ(L), new SegmentTreeRMQ(R));
+			// ans += solve(new SegmentTreeRMQ(L), new SegmentTreeRMQ(R));
+			ans += solve(L, R);
 			ans %= PRIME;
 		}
 		return ans;
