@@ -43,18 +43,6 @@ public class FindThePermutation {
 		return join(P, " ");
 	}
 
-	static String join(int[] A, String delimiter) {
-		StringBuilder sb = new StringBuilder();
-		for (int a : A) {
-			sb.append(a);
-			sb.append(delimiter);
-		}
-		if (sb.length() >= delimiter.length()) {
-			sb.setLength(sb.length() - delimiter.length());
-		}			
-		return sb.toString();
-	}
-
 	public static int distance(int[] P) {
 		if (P.length == 1) {
 			return 0;
@@ -112,6 +100,40 @@ public class FindThePermutation {
 		return true;
 	}		
 
+	public int findMaxDistance() {
+		int[] P = firstPermutation(n);
+		int maxd = distance(P);
+		while (nextPermutation(P)) {
+			int d = distance(P);
+			maxd = Math.max(maxd, d);
+		}
+		return maxd;
+	}
+
+	public static void test() {
+		for (int n = 1; n < 100; n++) {
+			FindThePermutation o = new FindThePermutation(n, -1);
+			int maxd = n / 2;
+			long i = 1;
+			List<String> L = new ArrayList<>();
+			int[] P = o.firstPermutation(n);
+			if (maxd == distance(P)) {
+				L.add(join(P, " "));
+			}
+			while(o.nextPermutation(P)) {
+				i++;
+				if (maxd == distance(P)) {
+					L.add(join(P, " "));
+				}
+			}
+			print(n, L);
+		}
+	}
+
+	public static void print(int n, List<String> L) {
+		System.out.println(String.format("A[%d] = new String[] { %s };", n, join(L, ", ")));
+	}
+
 	public static FindThePermutation load(Scanner scanner) {
 		int n = scanner.nextInt();
 		assert 1 <= n && n <= 1e6 : "out of range, n: " + n;
@@ -121,6 +143,7 @@ public class FindThePermutation {
 	}	
 
 	public static void main(String[] args) {
+		test();
 		Scanner scanner = new Scanner(System.in);
 		int t = scanner.nextInt();
 		assert 1 <= t && t <= 10 : "out of range, t: " + t;
@@ -129,6 +152,32 @@ public class FindThePermutation {
 			System.out.println(o.solve());
 		}
 	}
+
+	static String join(int[] A, String delimiter) {
+		StringBuilder sb = new StringBuilder();
+		for (int a : A) {
+			sb.append(a);
+			sb.append(delimiter);
+		}
+		if (sb.length() >= delimiter.length()) {
+			sb.setLength(sb.length() - delimiter.length());
+		}			
+		return sb.toString();
+	}
+
+	static String join(List<String> A, String delimiter) {
+		StringBuilder sb = new StringBuilder();
+		for (String a : A) {
+			sb.append("\"");
+			sb.append(a);
+			sb.append("\"");
+			sb.append(delimiter);
+		}
+		if (sb.length() >= delimiter.length()) {
+			sb.setLength(sb.length() - delimiter.length());
+		}			
+		return sb.toString();
+	}		
 
 	static boolean DEBUG = true;
 	
