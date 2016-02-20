@@ -6,7 +6,7 @@ public class SegmentTreeRMQ
 {
 	int n;
 	int[] A;
-	int[] T; 
+	int[] T; // contains indexes of min elements
 
 	public SegmentTreeRMQ(int A[]) {
 		this.n = A.length;
@@ -19,13 +19,13 @@ public class SegmentTreeRMQ
 
 	int fill(int l, int r, int i) {
 		if (l == r) {
-			T[i] = A[l];
-			return A[l];
+			T[i] = l;
+			return l;
 		}
 		int m = (l + r) >>> 1;
-		int vl = fill(l, m, i * 2 + 1);
-		int vr = fill(m + 1, r, i * 2 + 2);
-		T[i] = Math.min(vl, vr);
+		int il = fill(l, m, i * 2 + 1);
+		int ir = fill(m + 1, r, i * 2 + 2);
+		T[i] = (A[il] <= A[ir]) ? il : ir;
 		return T[i];
 	}	
  
@@ -35,20 +35,30 @@ public class SegmentTreeRMQ
 			return T[index];
 		}
 		if (ar < l || al > r) {
-			return Integer.MAX_VALUE;
+			return -1;
 		}
 		int mid = (al + ar) >>> 1;
-		int vl = rmq(al, mid, l, r, 2 * index + 1);
-		int vr = rmq(mid + 1, ar, l, r, 2 * index + 2);
-		return Math.min(vl, vr);
+		int il = rmq(al, mid, l, r, 2 * index + 1);
+		int ir = rmq(mid + 1, ar, l, r, 2 * index + 2);
+		int vl = (il < 0) ? Integer.MAX_VALUE : A[il];
+		int vr = (ir < 0) ? Integer.MAX_VALUE : A[ir];
+		return (vl <= vr) ? il : ir;
 	}
  
-	int rmq(int n, int l, int r)
+	int rmq(int l, int r)
 	{
 		assert l >= 0 : "l >= 0";
 		assert r < n : "r < n";
 		assert l <= r : "l <= r";
 		return rmq(0, n - 1, l, r, 0);
+	}
+
+	static int min(int[] A, int l, int r) {
+		int m = Integer.MAX_VALUE;
+		for (int i = l; i <= r; i++) {
+			m = Math.min(m, A[i]);
+		}
+		return m;
 	}
 
 	public static void main(String args[]) 
@@ -58,6 +68,12 @@ public class SegmentTreeRMQ
 		SegmentTreeRMQ o = new SegmentTreeRMQ(A);
 		debug(o.A);
 		debug(o.T);
+
+		for (int l = 0; l < n; l++) {
+			for (int r = l; r < n; r++) {
+				assert A[o.rmq(l, r)] == min(A, l, r);
+			}
+		}
 	}
 
 	static boolean DEBUG = true;
