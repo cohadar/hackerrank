@@ -32,45 +32,33 @@ public class SegmentTreeRMQ
 		return T[i];
 	}	
 
-	public static int left(int h, int p) {
-		while (h > 0) {
+	public static int left(int p, int shift) {
+		while (p < shift) {
 			p = p * 2 + 1;
-			h--;
 		}
 		return p;
 	}
 
-	public static int right(int h, int p) {
-		while (h > 0) {
+	public static int right(int p, int shift) {
+		while (p < shift) {
 			p = p * 2 + 2;
-			h--;
 		}
 		return p;
 	}	
+
+	public void calcFreq(int shift, int i) {
+		int l = i;
+		int r = i;
+		while (l > 0 && A[l-1] > A[i]) { l--; };
+		while (r < n-1 && A[r+1] >= A[i]) { r++; };
+		F[i] = (i - l + 1) * (r - i + 1);
+	}
 
 	public void calcFreq() {
 		final int th = (int) (Math.ceil(Math.log(n) / Math.log(2)));
 		final int shift = (1 << th) - 1;
 		for (int i = 0; i < n; i++) {
-			final int c = i + shift;
-			int h = 1;
-			int prev = c;
-			int p = (c - 1) / 2;
-			F[i] = 1;
-			while (prev != 0) {
-				if (T[c] != T[p]) { break; }
-				int a = 1 << (h - 1);
-				int b = 1;
-				if (prev % 2 == 0) {
-					b = c - right(h, p) + 1;
-				} else {
-					b = c - left(h, p) + 1;
-				}
-				F[i] += a * b;
-				prev = p;
-				p = (p - 1) / 2;
-				h++;
-			}
+			calcFreq(shift, i);
 		}
 	}
  
@@ -102,12 +90,14 @@ public class SegmentTreeRMQ
 		return n;
 	}
 
-	static int min(int[] A, int l, int r) {
-		int m = Integer.MAX_VALUE;
+	public static int imin(int[] A, int l, int r) {
+		int im = l;
 		for (int i = l; i <= r; i++) {
-			m = Math.min(m, A[i]);
+			if (A[im] > A[i]) {
+				im = i;
+			}
 		}
-		return m;
+		return im;
 	}
 
 	public static void main(String args[]) 
@@ -119,7 +109,7 @@ public class SegmentTreeRMQ
 		// for (int i = 0; i < n; i++) {
 		// 	A[i] = 1 + random.nextInt(1000_000_000);
 		// }		
-		int[] A = new int[] { 860437367, 382264818, 97862808, 511775535, 573080082, 697891811, 593731288, 813762475 };
+		int[] A = new int[] { 86, 38, 97, 51, 57, 69, 59, 81 };
 		SegmentTreeRMQ o = new SegmentTreeRMQ(A);
 		debug("o.T", o.T);
 		debug("o.A", o.A);
@@ -127,7 +117,7 @@ public class SegmentTreeRMQ
 
 		for (int l = 0; l < n; l++) {
 			for (int r = l; r < n; r++) {
-				assert A[o.rmq(l, r)] == min(A, l, r);
+				assert A[o.rmq(l, r)] == A[imin(A, l, r)];
 			}
 		}
 

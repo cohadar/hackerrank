@@ -81,8 +81,9 @@ public class CoolguyAndTwoSubseq {
 		for (int b = 0; b < n-1; b++) {
 			int[] L = Arrays.copyOfRange(A, 0, b + 1);
 			int[] R = Arrays.copyOfRange(A, b + 1, n);
-			ans += solve(new SegmentTreeRMQ(L), new SegmentTreeRMQ(R));
+			// ans += solve(new SegmentTreeRMQ(L), new SegmentTreeRMQ(R));
 			debug("solve(b)", solve(b));
+			ans += solve(b);
 			ans %= PRIME;
 		}
 		return ans;

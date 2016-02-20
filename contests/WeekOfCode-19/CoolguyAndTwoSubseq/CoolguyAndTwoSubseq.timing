@@ -28,3 +28,4 @@ FIRST: (.java)
 	00:00 - let's confirm freq calculation brutely
 	40:23 - debugging is maddening
 	55:26 - concentrate on segment tree ffs
+	36:13 - correct but unoptimal freq
