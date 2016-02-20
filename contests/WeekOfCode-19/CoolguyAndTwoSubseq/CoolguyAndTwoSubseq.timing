@@ -17,3 +17,5 @@ FIRST: (.java)
 
 	08:11 - reverted to clean brute
 	
+	19:47 - working frequency segment tree O(n log n)
+	

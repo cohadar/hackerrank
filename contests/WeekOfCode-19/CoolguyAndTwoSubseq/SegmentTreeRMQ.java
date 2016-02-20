@@ -7,14 +7,17 @@ public class SegmentTreeRMQ
 	int n;
 	int[] A;
 	int[] T; // contains indexes of min elements
+	int[] F; // contains frequencies of min elements
 
 	public SegmentTreeRMQ(int A[]) {
 		this.n = A.length;
 		this.A = A;
+		this.F = new int[n];
 		int h = (int) (Math.ceil(Math.log(n) / Math.log(2)));
 		int max_size = 2 * (int) Math.pow(2, h) - 1;
 		this.T = new int[max_size];
 		this.fill(0, n - 1, 0);
+		this.calcFreq();
 	}
 
 	int fill(int l, int r, int i) {
@@ -28,6 +31,49 @@ public class SegmentTreeRMQ
 		T[i] = (A[il] <= A[ir]) ? il : ir;
 		return T[i];
 	}	
+
+	public static int left(int h, int p) {
+		while (h > 0) {
+			p = p * 2 + 1;
+			h--;
+		}
+		return p;
+	}
+
+	public static int right(int h, int p) {
+		while (h > 0) {
+			p = p * 2 + 2;
+			h--;
+		}
+		return p;
+	}	
+
+	public void calcFreq() {
+		final int th = (int) (Math.ceil(Math.log(n) / Math.log(2)));
+		final int shift = (1 << th) - 1;
+		debug("th", th, "shift", shift);
+		for (int i = 0; i < n; i++) {
+			final int c = i + shift;
+			int h = 1;
+			int prev = c;
+			int p = (c - 1) / 2;
+			F[i] = 1;
+			while (prev != 0) {
+				if (T[c] != T[p]) { break; }
+				int a = 1 << (h - 1);
+				int b = 1;
+				if (prev % 2 == 0) {
+					b = c - right(h, p) + 1;
+				} else {
+					b = c - left(h, p) + 1;
+				}
+				F[i] += a * b;
+				prev = p;
+				p = (p - 1) / 2;
+				h++;
+			}
+		}
+	}
  
  	int rmq(int al, int ar, int l, int r, int index)
 	{
@@ -66,8 +112,9 @@ public class SegmentTreeRMQ
 		int A[] = { 3, 2, 7, 5, 4, 2, 3, 8 };
 		int n = A.length;
 		SegmentTreeRMQ o = new SegmentTreeRMQ(A);
-		debug(o.A);
-		debug(o.T);
+		debug('A', o.A);
+		debug('F', o.F);
+		debug('T', o.T);
 
 		for (int l = 0; l < n; l++) {
 			for (int r = l; r < n; r++) {
