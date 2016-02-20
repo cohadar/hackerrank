@@ -38,16 +38,16 @@ public class CoolguyAndTwoSubseq {
 	public long solve(SegmentTreeRMQ L, SegmentTreeRMQ R) {
 		long ans = 0;
 		for (int l = 0; l < L.size(); l++) {
-			for (int d = 0; d < R.size(); d++) {
-				int r = R.rmq(0, d);
+			for (int r = 0; r < R.size(); r++) {
 				if (L.A[l] <= R.A[r]) {
-					ans += (long)L.F[l] * (long)L.A[l];
+					ans += (long)L.F[l] * (long)R.F[r] * (long)L.A[l];
 				} else {
-					ans += (long)R.F[r] * (long)R.A[r];
+					ans += (long)L.F[l] * (long)R.F[r] * (long)R.A[r];
 				}
 				ans %= PRIME;
 			}	
 		}
+		debug("solveFFF", ans);
 		return ans;
 	}
 
@@ -61,47 +61,18 @@ public class CoolguyAndTwoSubseq {
 		return im;
 	}
 
-	public static int[] freq(int[] L) {
-		int[] LF = new int[L.length];
-		for (int i = 0; i < L.length; i++) {
-			int l = i;
-			while (l > 0 && L[l-1] > L[i]) { l--; }
-			int r = i;
-			while (r < L.length-1 && L[r+1] >= L[i]) { r++; }
-			LF[i] = (i - l + 1) * (r - i + 1);
-		}
-		return LF;
-	}
-
-	public static int[] rightFreq(int[] R) {
-		int[] RF = new int[R.length];
-		int c = 0;
-		int im = c;
-		for (int d = 0; d < R.length; d++) {
-			if (R[im] > R[d]) {
-				im = d;
-			}
-			RF[im]++;
-		}
-		return RF;
-	}
-
-	public long solve(int[] L, int[] R) {
+	public long solve(int b) {
 		long ans = 0;
-		int[] LF = freq(L);
-		int[] RF = rightFreq(R);
-		for (int l = 0; l < L.length; l++) {
-			for (int r = 0; r < R.length; r++) {
-				if (L[l] <= R[r]) {
-					ans += (long)L[l] * LF[l] * 1;
-				} else {
-					ans += (long)R[r] * RF[r] * LF[l];
+		for (int a = 0; a <= b; a++) {
+			for (int c = b + 1; c < A.length; c++) {
+				for (int d = c; d < A.length; d++) {
+					int il = imin(A, a, b);
+					int ir = imin(A, c, d);
+					ans += Math.min(A[il], A[ir]);
+					ans %= PRIME;
 				}
-				ans %= PRIME;
 			}
 		}
-		debug(L, R, "ans=", ans);
-		debug(LF, RF);
 		return ans;
 	}
 
@@ -110,8 +81,8 @@ public class CoolguyAndTwoSubseq {
 		for (int b = 0; b < n-1; b++) {
 			int[] L = Arrays.copyOfRange(A, 0, b + 1);
 			int[] R = Arrays.copyOfRange(A, b + 1, n);
-			// ans += solve(new SegmentTreeRMQ(L), new SegmentTreeRMQ(R));
-			ans += solve(L, R);
+			ans += solve(new SegmentTreeRMQ(L), new SegmentTreeRMQ(R));
+			debug("solve(b)", solve(b));
 			ans %= PRIME;
 		}
 		return ans;

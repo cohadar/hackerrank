@@ -1,0 +1,3 @@
+2016-02-20 | Week of Code 19 |
+	for longer competitions and harder challenges use junit, you can afford it.
+	
