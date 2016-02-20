@@ -35,20 +35,8 @@ public class CoolguyAndTwoSubseq {
 		return ans;
 	}
 
-	public long solve(SegmentTreeRMQ L, SegmentTreeRMQ R) {
-		long ans = 0;
-		for (int l = 0; l < L.size(); l++) {
-			for (int r = 0; r < R.size(); r++) {
-				if (L.A[l] <= R.A[r]) {
-					ans += (long)L.F[l] * (long)R.F[r] * (long)L.A[l];
-				} else {
-					ans += (long)L.F[l] * (long)R.F[r] * (long)R.A[r];
-				}
-				ans %= PRIME;
-			}	
-		}
-		debug("solveFFF", ans);
-		return ans;
+	public static long njak2(long x) {
+		return x * (x + 1) / 2;
 	}
 
 	public static int imin(int[] A, int l, int r) {
@@ -61,7 +49,7 @@ public class CoolguyAndTwoSubseq {
 		return im;
 	}
 
-	public long solve(int b) {
+	public long brute(int b) {
 		long ans = 0;
 		for (int a = 0; a <= b; a++) {
 			for (int c = b + 1; c < A.length; c++) {
@@ -69,21 +57,22 @@ public class CoolguyAndTwoSubseq {
 					int il = imin(A, a, b);
 					int ir = imin(A, c, d);
 					ans += Math.min(A[il], A[ir]);
+					debug("+", Math.min(A[il], A[ir]));
 					ans %= PRIME;
 				}
 			}
 		}
+		debug("brute(b)", ans);
 		return ans;
 	}
 
 	public long solve() {
 		long ans = 0;
 		for (int b = 0; b < n-1; b++) {
-			int[] L = Arrays.copyOfRange(A, 0, b + 1);
-			int[] R = Arrays.copyOfRange(A, b + 1, n);
+			// int[] L = Arrays.copyOfRange(A, 0, b + 1);
+			// int[] R = Arrays.copyOfRange(A, b + 1, n);
 			// ans += solve(new SegmentTreeRMQ(L), new SegmentTreeRMQ(R));
-			debug("solve(b)", solve(b));
-			ans += solve(b);
+			ans += brute(b);
 			ans %= PRIME;
 		}
 		return ans;
