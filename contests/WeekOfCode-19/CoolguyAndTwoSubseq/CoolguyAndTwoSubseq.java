@@ -81,7 +81,6 @@ public class CoolguyAndTwoSubseq {
 	}
 
 	public long solve(int b, Deque<Interval> L, Deque<Interval> R) {
-		debug(L, R);
 		long ans = 0;
 		for (Interval l : L) {
 			for (Interval r : R) {
@@ -103,7 +102,7 @@ public class CoolguyAndTwoSubseq {
 			for (Interval i : R) {
 				if (i.start == c + 1) {
 					H.add(i);
-				} // break;
+				} // break?
 			}
 			Interval r = new Interval(c, c, 1);
 			for (Interval i : H) {
@@ -124,7 +123,7 @@ public class CoolguyAndTwoSubseq {
 			Interval i = R.pollFirst();
 			if (i.start != b) {
 				H.add(i);
-			} // break;
+			};
 		}
 		return H;
 	}
@@ -152,7 +151,7 @@ public class CoolguyAndTwoSubseq {
 			L = incLeftIntervals(L, b);
 			long temp = solve(b, L, R);
 			R = removeRightIntervals(R, b + 1);
-			debug("b", b, "temp", temp);
+			// debug("b", b, "temp", temp);
 			ans += temp;
 			ans %= PRIME;
 		}
@@ -180,7 +179,7 @@ public class CoolguyAndTwoSubseq {
 		return A;
 	}
 
-	static boolean DEBUG = true;
+	static boolean DEBUG = false;
 	
 	static void debug(Object...os) {
 		if (!DEBUG) { return; }
