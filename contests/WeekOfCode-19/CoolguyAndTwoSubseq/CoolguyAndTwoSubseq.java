@@ -120,14 +120,14 @@ public class CoolguyAndTwoSubseq {
 	}
 
 	public Deque<Interval> removeRightIntervals(Deque<Interval> R, int b) {
-		Deque<Interval> H = new ArrayDeque<>();
 		while (!R.isEmpty()) {
 			Interval i = R.pollFirst();
 			if (i.start != b) {
-				H.add(i);
+				R.addFirst(i);
+				break;
 			};
 		}
-		return H;
+		return R;
 	}
 
 	public Deque<Interval> incLeftIntervals(Deque<Interval> L, int b) {
@@ -181,7 +181,7 @@ public class CoolguyAndTwoSubseq {
 		return A;
 	}
 
-	static boolean DEBUG = false;
+	static boolean DEBUG = true;
 	
 	static void debug(Object...os) {
 		if (!DEBUG) { return; }
