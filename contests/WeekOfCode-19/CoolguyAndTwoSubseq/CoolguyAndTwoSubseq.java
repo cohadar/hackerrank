@@ -6,6 +6,20 @@ import java.io.*;
   */
 public class CoolguyAndTwoSubseq {
 
+	static class Interval {
+		int start;
+		final int imin;
+		int count;
+		Interval(int start, int imin, int count) {
+			this.start = start;
+			this.imin = imin;
+			this.count = count;
+		}
+		public String toString() {
+			return String.format("(s%d, m%d, %d)", start, imin, count);
+		}	
+	}
+
 	static final int PRIME = (int)1e9 + 7;
 
 	final int n;
@@ -66,13 +80,80 @@ public class CoolguyAndTwoSubseq {
 		return ans;
 	}
 
+	public long solve(int b, Deque<Interval> L, Deque<Interval> R) {
+		debug(L, R);
+		long ans = 0;
+		for (Interval l : L) {
+			for (Interval r : R) {
+				long temp = (long)l.count * (long)r.count;
+				temp *= Math.min(A[l.imin], A[r.imin]);
+				ans += temp;
+				ans %= PRIME;
+			}
+		}
+		return ans;
+	}
+
+	public Deque<Interval> rightIntervals() {
+		Deque<Interval> R = new ArrayDeque<>();
+		Deque<Interval> H = new ArrayDeque<>();
+		R.add(new Interval(n-1, n-1, 1));
+		for (int c = n - 2; c > 0; c--) {
+			H.clear();
+			for (Interval i : R) {
+				if (i.start == c + 1) {
+					H.add(i);
+				} // break;
+			}
+			Interval r = new Interval(c, c, 1);
+			for (Interval i : H) {
+				if (A[r.imin] <= A[i.imin]) {
+					r.count += i.count;
+				} else {
+					R.add(new Interval(c, i.imin, i.count));
+				}
+			}
+			R.add(r);
+		}
+		return R;
+	}
+
+	public Deque<Interval> removeRightIntervals(Deque<Interval> R, int b) {
+		Deque<Interval> H = new ArrayDeque<>();
+		while (!R.isEmpty()) {
+			Interval i = R.pollFirst();
+			if (i.start != b) {
+				H.add(i);
+			} // break;
+		}
+		return H;
+	}
+
+	public Deque<Interval> incLeftIntervals(Deque<Interval> L, int b) {
+		Deque<Interval> H = new ArrayDeque<>();
+		Interval l = new Interval(b, b, 1);
+		for (Interval i : L) {
+			i.start = b;
+			if (A[l.imin] < A[i.imin]) {
+				l.count += i.count;
+			} else {
+				H.add(i);
+			}
+		}
+		H.add(l);
+		return H;
+	}
+
 	public long solve() {
+		Deque<Interval> L = new ArrayDeque<>();
+		Deque<Interval> R = rightIntervals();
 		long ans = 0;
 		for (int b = 0; b < n-1; b++) {
-			// int[] L = Arrays.copyOfRange(A, 0, b + 1);
-			// int[] R = Arrays.copyOfRange(A, b + 1, n);
-			// ans += solve(new SegmentTreeRMQ(L), new SegmentTreeRMQ(R));
-			ans += brute(b);
+			L = incLeftIntervals(L, b);
+			long temp = solve(b, L, R);
+			R = removeRightIntervals(R, b + 1);
+			debug("b", b, "temp", temp);
+			ans += temp;
 			ans %= PRIME;
 		}
 		return ans;
