@@ -96,23 +96,25 @@ public class CoolguyAndTwoSubseq {
 	public Deque<Interval> rightIntervals() {
 		Deque<Interval> R = new ArrayDeque<>();
 		Deque<Interval> H = new ArrayDeque<>();
-		R.add(new Interval(n-1, n-1, 1));
+		R.addFirst(new Interval(n-1, n-1, 1));
 		for (int c = n - 2; c > 0; c--) {
 			H.clear();
 			for (Interval i : R) {
 				if (i.start == c + 1) {
-					H.add(i);
-				} // break?
+					H.addFirst(i);
+				} else {
+					break;
+				}
 			}
 			Interval r = new Interval(c, c, 1);
 			for (Interval i : H) {
 				if (A[r.imin] <= A[i.imin]) {
 					r.count += i.count;
 				} else {
-					R.add(new Interval(c, i.imin, i.count));
+					R.addFirst(new Interval(c, i.imin, i.count));
 				}
 			}
-			R.add(r);
+			R.addFirst(r);
 		}
 		return R;
 	}
