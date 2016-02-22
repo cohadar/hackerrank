@@ -62,17 +62,17 @@ public class SegmentTreeRMQ
 		}
 	}
  
- 	int rmq(int al, int ar, int l, int r, int index)
+ 	int rmq(int al, int ar, int l, int r, int p)
 	{
 		if (l <= al && r >= ar) {
-			return T[index];
+			return T[p];
 		}
 		if (ar < l || al > r) {
 			return -1;
 		}
 		int mid = (al + ar) >>> 1;
-		int il = rmq(al, mid, l, r, 2 * index + 1);
-		int ir = rmq(mid + 1, ar, l, r, 2 * index + 2);
+		int il = rmq(al, mid, l, r, 2 * p + 1);
+		int ir = rmq(mid + 1, ar, l, r, 2 * p + 2);
 		int vl = (il < 0) ? Integer.MAX_VALUE : A[il];
 		int vr = (ir < 0) ? Integer.MAX_VALUE : A[ir];
 		return (vl <= vr) ? il : ir;
