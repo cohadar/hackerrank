@@ -2,3 +2,4 @@
 FIRST: (.java)
 	00:00 - need to create the whole build process for .sh as I have for .java first
 		hr script & GCJ build/run script than slowly add some templates
+	10:51 - all set up :)
