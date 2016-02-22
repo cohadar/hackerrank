@@ -80,11 +80,16 @@ public class TemplateName {
 template_go = """
 """
 
+template_sh = """
+#!/bin/sh
+"""
+
 template = {
 	"c" : template_c,
 	"go" : template_go,
 	"py" : template_py,
 	"java" : template_java,
+	"sh" : template_sh,
 }
 
 template_timing = """## TemplateName
@@ -100,6 +105,9 @@ def make_file(name, ext, template):
 			f.write(template.replace("TemplateName", name))
 	else:
 		print "exists:", filename
+	if ext == ".sh":
+		print "chmod: +x", filename 
+		os.system("chmod 754 " + filename)
 
 def make_all(name):
 	name, ext = name.split(".")
@@ -118,4 +126,4 @@ if __name__ == '__main__':
 	if len(sys.argv) == 2:
 		make_all(sys.argv[1])
 	else:
-		print "usage: hrtemplate.py [ TemplateName.java | TemplateName.c | TemplateName.py | TemplateName.go ]"
+		print "usage: hrtemplate.py [ TemplateName.java | TemplateName.c | TemplateName.py | TemplateName.go | TemplateName.sh ]"
