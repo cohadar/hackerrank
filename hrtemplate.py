@@ -80,8 +80,7 @@ public class TemplateName {
 template_go = """
 """
 
-template_sh = """
-#!/bin/sh
+template_sh = """#!/bin/sh
 """
 
 template = {
