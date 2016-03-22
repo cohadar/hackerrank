@@ -73,6 +73,10 @@ public class TemplateName {
 
 	}
 
+	static void debug(Object...os) {
+		System.err.printf("%.65536s\\n", Arrays.deepToString(os));
+	}
+	
 }
 
 """
@@ -93,7 +97,7 @@ template = {
 
 template_timing = """## TemplateName
 FIRST: (.lang)
-	00:00 - started
+	00:00 - done reading
 """
 
 def make_file(name, ext, template):
@@ -119,7 +123,7 @@ def make_all(name):
 	# make_file(name, ".examp.in", "")
 	# make_file(name, ".small.in", "")
 	# make_file(name, ".large.in", "")
-	make_file(name, ".timing", template_timing.replace("lang", ext).replace("00:00", time.strftime("%H:%M")))
+	make_file(name, ".timing", template_timing.replace("lang", ext))
 
 if __name__ == '__main__':
 	if len(sys.argv) == 2:
