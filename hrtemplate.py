@@ -97,8 +97,7 @@ template = {
 
 template_timing = """## TemplateName
 FIRST: (.lang)
-	00:00 - started
-	00:00 - done reading
+	0m - done reading
 """
 
 def make_file(name, ext, template):
